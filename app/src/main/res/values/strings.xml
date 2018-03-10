@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">DDRXFront</string>
+    <string name="discover_name">发现</string>
+    <string name="warehouse_name">仓库</string>
+    <string name="training_name">训练</string>
 </resources>
