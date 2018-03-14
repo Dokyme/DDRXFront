@@ -3,4 +3,11 @@
     <string name="discover_name">发现</string>
     <string name="warehouse_name">仓库</string>
     <string name="training_name">训练</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_warehouse">WarehouseActivity</string>
+    <string name="bottom_sheet_peek">bottom_sheet_peek</string>
+    <string name="bottom_sheet_content">bottom_sheet_content</string>
 </resources>
