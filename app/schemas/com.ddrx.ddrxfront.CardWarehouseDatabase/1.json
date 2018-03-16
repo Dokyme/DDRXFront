@@ -1,0 +1,99 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "486c1a64d424aa997f6e96d80e0fdbff",
+    "entities": [
+      {
+        "tableName": "CardWarehouse",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`warehouse_id` INTEGER NOT NULL, `warehouse_name` TEXT, `warehouse_creator` TEXT, `cover_url` INTEGER NOT NULL, `create_time` TEXT, `orthorize` INTEGER NOT NULL, `card_number` INTEGER NOT NULL, `card_directory_url` TEXT, `model_id` INTEGER NOT NULL, `intro` TEXT, `description` TEXT, `price` REAL NOT NULL, PRIMARY KEY(`warehouse_id`))",
+        "fields": [
+          {
+            "fieldPath": "warehouse_id",
+            "columnName": "warehouse_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "warehouse_name",
+            "columnName": "warehouse_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "warehouse_creator",
+            "columnName": "warehouse_creator",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cover_url",
+            "columnName": "cover_url",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "create_time",
+            "columnName": "create_time",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "orthorize",
+            "columnName": "orthorize",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "card_number",
+            "columnName": "card_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "card_directory_url",
+            "columnName": "card_directory_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "model_id",
+            "columnName": "model_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "intro",
+            "columnName": "intro",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "warehouse_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"486c1a64d424aa997f6e96d80e0fdbff\")"
+    ]
+  }
+}

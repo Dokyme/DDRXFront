@@ -1,12 +1,12 @@
 package com.ddrx.ddrxfront;
 
-
 /**
  * Created by vincentshaw on 2018/3/13.
  */
 
 public class CardWarehouseIntro {
     private int image_id;
+
     private String warehouse_name;
     private String introduction;
     private String save_date;
