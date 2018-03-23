@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ddrx.ddrxfront.Model.CardWarehouseIntro;
+
 import java.util.List;
 
 /**

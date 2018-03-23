@@ -1,4 +1,4 @@
-package com.ddrx.ddrxfront;
+package com.ddrx.ddrxfront.Model;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Dao
 public interface CardWarehouseDAO {
-    @Query("Select cover_url as image_id, warehouse_name, intro as introduction, create_time as save_date From CardWarehouse")
+    @Query("Select CW_cover_url as image_id, CW_name as warehouse_name, CW_abstract as introduction, UCW_time as save_date From CardWarehouse")
     List<CardWarehouseIntro> queryAllCardWarehouseIntro();
 
     @Query("Select * From CardWarehouse")

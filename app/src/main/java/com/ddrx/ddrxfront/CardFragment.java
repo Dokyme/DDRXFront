@@ -1,7 +1,5 @@
 package com.ddrx.ddrxfront;
 
-
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,10 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.util.Log;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
+import com.ddrx.ddrxfront.Model.CardWarehouseIntro;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,6 +38,7 @@ public class CardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        card_warehouses = new ArrayList<CardWarehouseIntro>();
     }
 
     @Override
@@ -51,6 +56,8 @@ public class CardFragment extends Fragment {
         return view;
     }
 
+    
+
     class LoadCardWarehouseDBTask extends AsyncTask<Context, Integer, Long> {
         private List<CardWarehouseIntro> list;
         private Context context;
@@ -60,18 +67,16 @@ public class CardFragment extends Fragment {
         }
         @Override
         protected Long doInBackground(Context... contexts){
+            /*
             context = contexts[0];
             CardWarehouseDatabase db = CardWarehouseDatabase.getInstance(contexts[0]);
             updateDatabase(db);
-            CardWarehouse new_record = new CardWarehouse(1, "唐诗三百首", "肖君彦", R.drawable.r01, "2018-3-15", 0, 300, "", 0, "不学诗，无以言。", "这是著名的唐诗三百首", 0);
-            db.getCardWarehouseDAO().insertSingleCardWarehouse(new_record);
-            List<CardWarehouse> t_list = db.getCardWarehouseDAO().queryAllCardWarehouse();
-            Log.d("w_name", String.valueOf(t_list.get(0).getCover_url()));
+//            CardWarehouse new_record = new CardWarehouse(1, "唐诗三百首", "肖君彦", R.drawable.r01, "2018-3-15", 0, 300, "", 0, "不学诗，无以言。", "这是著名的唐诗三百首", 0);
+//            db.getCardWarehouseDAO().insertSingleCardWarehouse(new_record);
             List<CardWarehouseIntro> temp_list = db.getCardWarehouseDAO().queryAllCardWarehouseIntro();
             db.close();
-
-            if (!temp_list.isEmpty())
-                list.addAll(temp_list);
+            card_warehouses.addAll(temp_list);
+            */
             return Long.valueOf(2);
         }
 
@@ -84,6 +89,7 @@ public class CardFragment extends Fragment {
         private void updateDatabase(CardWarehouseDatabase db){
 
         }
+
     }
 
 }
