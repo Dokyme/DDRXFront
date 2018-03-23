@@ -1,6 +1,5 @@
 package com.ddrx.ddrxfront.Utilities
 
-import android.app.Activity
 import android.content.Context
 import com.ddrx.ddrxfront.Model.UserInfo
 import com.ddrx.ddrxfront.Preference
