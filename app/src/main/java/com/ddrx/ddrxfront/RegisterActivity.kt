@@ -28,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         fun check(): Boolean {
-
+            return true
         }
 
         fun post() {

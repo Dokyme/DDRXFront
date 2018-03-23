@@ -20,7 +20,7 @@ class UserInfo(var id: Long?,
                var cookies: String?,
                var mac: String?) {
 
-    constructor() : this(null, null, null, null, null, null, null, null, null, null, null, null, null)
+    constructor() : this(null, null, null, null, null, null, null, null, null, null, null, null, null,null)
 
     fun checkValidity(): Boolean {
         return true
