@@ -23,14 +23,17 @@ class RegisterActivity : AppCompatActivity() {
 
     inner class BackOnClickListener : View.OnClickListener {
         override fun onClick(v: View?) {
+            if (check())
+                post()
+        }
+
+        fun check(): Boolean {
 
         }
 
-        fun check():Boolean{
+        fun post() {
 
         }
-
-        fun
     }
 
     inner class ConfirmOnClickListener : View.OnClickListener {
