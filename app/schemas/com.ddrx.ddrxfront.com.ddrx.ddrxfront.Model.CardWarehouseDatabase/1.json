@@ -1,0 +1,93 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2a749d9bf8a82fcb4fbed8cf85b47b0c",
+    "entities": [
+      {
+        "tableName": "CardWarehouse",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`warehouse_id` INTEGER NOT NULL, `warehouse_name` TEXT, `creator_id` INTEGER NOT NULL, `creator_name` TEXT, `cover_url` INTEGER NOT NULL, `add_time` TEXT, `privilege` INTEGER NOT NULL, `card_number` INTEGER NOT NULL, `_abstract` TEXT, `detail` TEXT, `price` REAL NOT NULL, PRIMARY KEY(`warehouse_id`))",
+        "fields": [
+          {
+            "fieldPath": "warehouse_id",
+            "columnName": "warehouse_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "warehouse_name",
+            "columnName": "warehouse_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "creator_id",
+            "columnName": "creator_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creator_name",
+            "columnName": "creator_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cover_url",
+            "columnName": "cover_url",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "add_time",
+            "columnName": "add_time",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "privilege",
+            "columnName": "privilege",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "card_number",
+            "columnName": "card_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "_abstract",
+            "columnName": "_abstract",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "detail",
+            "columnName": "detail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "warehouse_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2a749d9bf8a82fcb4fbed8cf85b47b0c\")"
+    ]
+  }
+}

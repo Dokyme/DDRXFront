@@ -1,4 +1,4 @@
-package com.ddrx.ddrxfront;
+package com.ddrx.ddrxfront.Model;
 
 /**
  * Created by vincentshaw on 2018/3/13.

@@ -10,4 +10,7 @@
     <string name="title_activity_warehouse">WarehouseActivity</string>
     <string name="bottom_sheet_peek">bottom_sheet_peek</string>
     <string name="bottom_sheet_content">bottom_sheet_content</string>
+
+    <string name="card_warehouse_search_hint">输入您所拥有的仓库名称</string>
+    <string name="card_model_search_hint">输入您所拥有的卡片模型名称</string>
 </resources>

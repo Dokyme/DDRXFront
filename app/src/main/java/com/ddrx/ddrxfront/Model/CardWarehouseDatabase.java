@@ -1,4 +1,4 @@
-package com.ddrx.ddrxfront;
+package com.ddrx.ddrxfront.Model;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -24,5 +24,6 @@ public abstract class CardWarehouseDatabase extends RoomDatabase {
     private static CardWarehouseDatabase create(final Context context){
         return Room.databaseBuilder(context, CardWarehouseDatabase.class, DB_NAME).build();
     }
+
     public abstract CardWarehouseDAO getCardWarehouseDAO();
 }
