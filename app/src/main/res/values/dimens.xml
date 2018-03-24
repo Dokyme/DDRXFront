@@ -7,4 +7,6 @@
     <dimen name="dimenActivityUserTriLabelsPadding">5dp</dimen>
     <dimen name="dimenActivityUserTimelineDate">10dp</dimen>
     <dimen name="dimenActivityUserTimelineMessage">20dp</dimen>
+    <dimen name="dimenActivityUserDetailLabel">20dp</dimen>
+    <dimen name="dimenActivityUserDetailValue">18dp</dimen>
 </resources>

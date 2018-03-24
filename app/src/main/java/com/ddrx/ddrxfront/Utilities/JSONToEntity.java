@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class JSONToEntity {
         String birthday = (String) object.get("U_birth_day");
         String city = (String) object.get("U_city");
         String brief = (String) object.get("U_brief");
-        UserInfo userInfo = new UserInfoPerference(context).getUserInfo();
+        UserInfo userInfo = new UserInfoPreference(context).getUserInfo();
         userInfo.setId(id);
         userInfo.setAccount(account);
         userInfo.setNickname(nickname);

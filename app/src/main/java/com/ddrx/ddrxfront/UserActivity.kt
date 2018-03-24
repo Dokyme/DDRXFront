@@ -1,9 +1,11 @@
 package com.ddrx.ddrxfront
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.ddrx.ddrxfront.Model.TimeLineModel
 import kotlinx.android.synthetic.main.activity_user.*
 
@@ -32,6 +34,7 @@ class UserActivity : AppCompatActivity() {
         mRecyclerView = view_recycle
         mRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         mRecyclerView.setHasFixedSize(true)
+        user_image.setOnClickListener({ view: View? -> startActivity(Intent(this, UserDetailActivity::class.java)) })
         initView()
     }
 

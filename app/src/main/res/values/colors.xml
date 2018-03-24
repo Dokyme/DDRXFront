@@ -7,4 +7,6 @@
     <color name="colorActivityUserLabel">#26A69A</color>
     <color name="colorActivityUserValue">#ef5350</color>
     <color name="colorActivityUserTriLabelsDivider">#ECEFF1</color>
+    <color name="colorActivityUserDetailLabel">#000000</color>
+    <color name="colorActivityUserDetailValue">#424242</color>
 </resources>

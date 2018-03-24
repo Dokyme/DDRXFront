@@ -7,7 +7,7 @@ import com.ddrx.ddrxfront.Model.UserInfo
 import com.ddrx.ddrxfront.Utilities.CookiesPreference
 import com.ddrx.ddrxfront.Utilities.MacAddressUtil
 import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper
-import com.ddrx.ddrxfront.Utilities.UserInfoPerference
+import com.ddrx.ddrxfront.Utilities.UserInfoPreference
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -27,7 +27,7 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
-        userInfo = UserInfoPerference(this).userInfo
+        userInfo = UserInfoPreference(this).userInfo
         task = object : TimerTask() {
             override fun run() {
                 timeUp = true

@@ -12,7 +12,7 @@ class TimeLineModel() : Parcelable {
     var date: String? = null
 
     companion object {
-        var CREATOR: Parcelable.Creator<TimeLineModel> = object : Parcelable.Creator<TimeLineModel> {
+        var CREATOR = object : Parcelable.Creator<TimeLineModel> {
             override fun createFromParcel(source: Parcel?): TimeLineModel {
                 return TimeLineModel(source)
             }

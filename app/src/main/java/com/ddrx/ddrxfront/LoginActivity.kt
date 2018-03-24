@@ -14,7 +14,7 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt;
-import com.ddrx.ddrxfront.Utilities.UserInfoPerference
+import com.ddrx.ddrxfront.Utilities.UserInfoPreference
 
 /**
  * Created by dokym on 2018/3/15.
@@ -30,14 +30,14 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        userInfo=UserInfoPerference(this).userInfo
+        userInfo = UserInfoPreference(this).userInfo
         initEvent()
     }
 
     private fun initEvent() {
         btn_login?.setOnClickListener(LoginOnClickListener())
         btn_register?.setOnClickListener(RegisterOnClickListener())
-        //测试专用
+        //测试专用快捷按钮
         btn_test_main_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, MainActivity::class.java)) })
         btn_test_user_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, UserActivity::class.java)) })
         btn_test_page?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, TestActivity::class.java)) })
@@ -104,8 +104,7 @@ class LoginActivity : AppCompatActivity() {
 
     inner class RegisterOnClickListener : View.OnClickListener {
         override fun onClick(p0: View?) {
-            Toast.makeText(this@LoginActivity, "注册", Toast.LENGTH_SHORT).show()
-            //跳转到注册页面
+            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
         }
     }
 }

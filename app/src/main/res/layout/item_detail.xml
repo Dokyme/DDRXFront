@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/text_detail_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="键"
+        android:textColor="@color/colorActivityUserDetailLabel"
+        android:textSize="@dimen/dimenActivityUserDetailLabel" />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:id="@+id/text_detail_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="值"
+        android:textColor="@color/colorActivityUserDetailValue"
+        android:textSize="@dimen/dimenActivityUserDetailValue" />
+
+    <View
+        android:layout_below="@id/text_detail_value"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorActivityUserTriLabelsDivider" />
+</RelativeLayout>
