@@ -1,0 +1,117 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "651820d4da7c7c84ac9bc758f4698dbe",
+    "entities": [
+      {
+        "tableName": "CardWarehouse",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_nick` TEXT, `UCW_time` TEXT, `CW_name` TEXT, `CW_privilege` INTEGER NOT NULL, `CW_card_num` INTEGER NOT NULL, `CW_abstract` TEXT, `CW_detail` TEXT, `CW_per_day` INTEGER NOT NULL, `CW_per_month` INTEGER NOT NULL, `CW_cover_url` INTEGER NOT NULL, `CW_content` TEXT, PRIMARY KEY(`CW_id`))",
+        "fields": [
+          {
+            "fieldPath": "CW_id",
+            "columnName": "CW_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CT_id",
+            "columnName": "CT_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CT_name",
+            "columnName": "CT_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "U_id",
+            "columnName": "U_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "U_nick",
+            "columnName": "U_nick",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "UCW_time",
+            "columnName": "UCW_time",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_name",
+            "columnName": "CW_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_privilege",
+            "columnName": "CW_privilege",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_card_num",
+            "columnName": "CW_card_num",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_abstract",
+            "columnName": "CW_abstract",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_detail",
+            "columnName": "CW_detail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_per_day",
+            "columnName": "CW_per_day",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_per_month",
+            "columnName": "CW_per_month",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_cover_url",
+            "columnName": "CW_cover_url",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_content",
+            "columnName": "CW_content",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "CW_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"651820d4da7c7c84ac9bc758f4698dbe\")"
+    ]
+  }
+}

@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Created by vincentshaw on 2018/3/15.
  */
-@Entity
+@Entity(tableName = "CardWarehouse")
 public class CardWarehouse {
     @PrimaryKey
     private long CW_id;

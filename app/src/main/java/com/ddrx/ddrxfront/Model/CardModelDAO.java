@@ -14,18 +14,15 @@ import java.util.List;
 
 @Dao
 public interface CardModelDAO {
-    @Query("Select cover_url as image_id, warehouse_name, _abstract as introduction, add_time as save_date From CardWarehouse")
-    List<CardWarehouseIntro> queryAllCardModelIntro();
-
     @Insert
     void insertSingleCardModel(CardModel cardModel);
 
     @Insert
-    void insertMultipleCardModel(List<CardWarehouse> mul_cardWarehouse);
+    void insertMultipleCardModel(List<CardModel> mul_cardModel);
 
     @Update
-    void updateCardWarehouse(CardWarehouse... cardWarehouses);
+    void updateCardModels(CardModel... cardModels);
 
     @Delete
-    void deleteCardWarehouse(CardWarehouse... cardWarehouses);
+    void deleteCardModel(CardModel... cardModels);
 }

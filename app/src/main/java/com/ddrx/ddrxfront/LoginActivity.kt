@@ -1,5 +1,6 @@
 package com.ddrx.ddrxfront
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -18,16 +19,21 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
         if (!usernamePref.isEmpty()) {
             //直接跳转到home界面
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
         }
         initEvent()
     }
 
     private fun initEvent() {
-        btn_login.setOnClickListener(LoginOnClickListener())
-        btn_register.setOnClickListener(RegisterOnClickListener())
+        btn_login?.setOnClickListener(LoginOnClickListener())
+        btn_register?.setOnClickListener(RegisterOnClickListener())
+        //测试专用
+        btn_test_main_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, MainActivity::class.java)) })
+        btn_test_user_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, UserActivity::class.java)) })
     }
 
     private fun loginFromRemote(username: String, password: String): Boolean {
