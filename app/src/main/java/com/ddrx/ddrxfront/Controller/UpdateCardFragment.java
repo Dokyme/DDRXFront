@@ -23,7 +23,7 @@ public class UpdateCardFragment {
 
     public UpdateCardFragment(Handler handler){
         this.handler = handler;
-        client = OKHttpClientWrapper.getInstance();
+
     }
 
     public void updateData(){

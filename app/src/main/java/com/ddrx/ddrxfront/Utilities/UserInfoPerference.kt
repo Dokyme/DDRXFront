@@ -8,9 +8,14 @@ import com.ddrx.ddrxfront.Preference
  * Created by dokym on 2018/3/23.
  */
 class UserInfoPerference(var context: Context) {
-    var prefUserInfo: UserInfo by Preference(context, "userInfo", UserInfo())
 
-    fun getUserInfo(): UserInfo {
-        return prefUserInfo;
-    }
+    private var prefUserInfo: UserInfo by Preference(context, "userInfo", UserInfo())
+
+    var userInfo: UserInfo
+        get() {
+            return prefUserInfo
+        }
+        set(value) {
+            prefUserInfo = value
+        }
 }

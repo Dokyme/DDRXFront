@@ -1,5 +1,6 @@
 package com.ddrx.ddrxfront.Model
 
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -14,13 +15,11 @@ class UserInfo(var id: Long?,
                var birthday: Date?,
                var city: String?,
                var brief: String?,
-               var experience: Int?,
+               var experience: Long?,
                var balance: Float?,
-               var cardLimit: Int?,
-               var cookies: String?,
-               var mac: String?) {
+               var cardLimit: Int?) : Serializable {
 
-    constructor() : this(null, null, null, null, null, null, null, null, null, null, null, null, null,null)
+    constructor() : this(null, null, null, null, null, null, null, null, null, null, null, null)
 
     fun checkValidity(): Boolean {
         return true

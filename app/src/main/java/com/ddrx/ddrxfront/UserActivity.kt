@@ -23,7 +23,6 @@ class UserActivity : AppCompatActivity() {
         mDataList.add(TimeLineModel("复习了：TCP/IP-Cubic算法", "2018-3-27"))
         mDataList.add(TimeLineModel("复习了：TCP/IP-Reno算法", "2018-3-27"))
         mDataList.sortByDescending { e -> e.date }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
