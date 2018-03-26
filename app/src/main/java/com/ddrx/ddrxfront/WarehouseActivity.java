@@ -15,9 +15,12 @@ import java.util.List;
 
 public class WarehouseActivity extends AppCompatActivity {
 
+    public final static int UPDATE_FRAGMENT = 1;
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,7 @@ public class WarehouseActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.warehouse_actionbar, menu);
         return true;
     }
+
 
     private void setupViewPager(ViewPager viewPager){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

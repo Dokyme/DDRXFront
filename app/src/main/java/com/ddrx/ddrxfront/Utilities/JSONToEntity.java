@@ -9,21 +9,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by vincentshaw on 2018/3/22.
  */
 
 public class JSONToEntity {
-    public static List<CardWarehouse> getCardWarehouseList(String jsonData){
-        JSONArray jsonArray;
-        try {
-            jsonArray = new JSONArray(jsonData);
-        } catch(JSONException exception){
-            Log.e("JSONArray_parsing_error", "getCardWarehouseList");
-            return null;
-        }
+
+    public static List<CardWarehouse> getCardWarehouseList(JSONArray jsonArray){
 
         long CW_id, CT_id, U_id;
         String CT_name, U_nick, CW_name, CW_abstract, UCW_time, CW_detail;
@@ -52,6 +48,15 @@ public class JSONToEntity {
             }
             result.add(new CardWarehouse(CW_id, CT_id, CT_name, U_id, U_nick, UCW_time, CW_name, CW_privilege, CW_card_num
                                         , CW_abstract, CW_detail, CW_per_day, CW_per_month));
+        }
+        return result;
+    }
+
+    public static Map<Long, Integer> getTimestamps(JSONArray jsonArray) throws JSONException{
+        Map<Long, Integer> result = new HashMap<>();
+        for(int i = 0; i < jsonArray.length(); i++){
+            JSONObject obj = jsonArray.getJSONObject(i);
+            result.put(obj.getLong("CW_id"), obj.getInt("timestamp"));
         }
         return result;
     }
