@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Created by vincentshaw on 2018/3/15.
  */
-@Entity(tableName = "CardWarehouse")
+@Entity
 public class CardWarehouse {
     @PrimaryKey
     private long CW_id;
@@ -23,7 +23,7 @@ public class CardWarehouse {
     private String CW_detail;
     private int CW_per_day;
     private int CW_per_month;
-    private int CW_cover_url;
+    private String CW_cover_url;
 
     public CardWarehouse(){}
 
@@ -45,11 +45,11 @@ public class CardWarehouse {
 
     private String CW_content;
 
-    public int getCW_cover_url() {
+    public String getCW_cover_url() {
         return CW_cover_url;
     }
 
-    public void setCW_cover_url(int CW_cover_url) {
+    public void setCW_cover_url(String CW_cover_url) {
         this.CW_cover_url = CW_cover_url;
     }
 
