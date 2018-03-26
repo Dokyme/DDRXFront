@@ -25,6 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -61,4 +64,8 @@ dependencies {
     testImplementation "android.arch.persistence.room:testing:1.0.0"
 
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+
+    compile 'com.github.vipulasri:timelineview:1.0.6'
+    compile 'com.applandeo:material-calendar-view:1.4.0'
+    compile 'com.makeramen:roundedimageview:2.3.0'
 }

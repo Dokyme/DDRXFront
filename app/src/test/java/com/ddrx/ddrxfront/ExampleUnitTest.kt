@@ -1,5 +1,8 @@
 package com.ddrx.ddrxfront
 
+import android.content.Context
+import android.test.mock.MockContext
+import com.ddrx.ddrxfront.Utilities.MacAddressUtil
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -10,6 +13,8 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+    var context: Context? = null
+
     @Test
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)

@@ -2,4 +2,11 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="layout_register_text_width">64dp</dimen>
     <dimen name="layout_reigster_edit_lmargin">16dp</dimen>
+    <dimen name="dimenActivityUserLabel">12dp</dimen>
+    <dimen name="dimenActivityUserValue">24dp</dimen>
+    <dimen name="dimenActivityUserTriLabelsPadding">5dp</dimen>
+    <dimen name="dimenActivityUserTimelineDate">10dp</dimen>
+    <dimen name="dimenActivityUserTimelineMessage">20dp</dimen>
+    <dimen name="dimenActivityUserDetailLabel">20dp</dimen>
+    <dimen name="dimenActivityUserDetailValue">18dp</dimen>
 </resources>
