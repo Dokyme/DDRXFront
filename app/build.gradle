@@ -65,7 +65,19 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 
+    //时间线
     compile 'com.github.vipulasri:timelineview:1.0.6'
+
+    //日历控件
     compile 'com.applandeo:material-calendar-view:1.4.0'
+
+    //圆形头像控件
     compile 'com.makeramen:roundedimageview:2.3.0'
+
+    //图片选择库:zhihu:matisse
+    compile 'com.zhihu.android:matisse:0.4.3'
+
+    //图片选择库
+    compile 'cn.finalteam:galleryfinal:1.4.8.7'
+    compile 'com.android.support:support-v4:23.1.1'
 }

@@ -1,7 +1,7 @@
 package com.ddrx.ddrxfront.Model
 
 import android.content.Context
-import com.ddrx.ddrxfront.Preference
+import com.ddrx.ddrxfront.Utilities.Preference
 import java.io.Serializable
 import java.util.*
 

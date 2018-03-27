@@ -1,7 +1,6 @@
 package com.ddrx.ddrxfront.Utilities
 
 import android.content.Context
-import com.ddrx.ddrxfront.Preference
 import okhttp3.Cookie
 
 /**

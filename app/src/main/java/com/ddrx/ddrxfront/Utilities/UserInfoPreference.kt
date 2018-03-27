@@ -2,7 +2,6 @@ package com.ddrx.ddrxfront.Utilities
 
 import android.content.Context
 import com.ddrx.ddrxfront.Model.UserInfo
-import com.ddrx.ddrxfront.Preference
 
 /**
  * Created by dokym on 2018/3/23.

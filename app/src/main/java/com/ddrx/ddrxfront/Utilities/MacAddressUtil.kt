@@ -1,10 +1,8 @@
 package com.ddrx.ddrxfront.Utilities
 
 import android.content.Context
-import com.ddrx.ddrxfront.Preference
 import java.net.InetAddress
 import java.net.NetworkInterface
-import java.net.SocketException
 
 
 /**

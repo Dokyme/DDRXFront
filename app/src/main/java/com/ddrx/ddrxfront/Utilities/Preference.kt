@@ -1,4 +1,4 @@
-package com.ddrx.ddrxfront
+package com.ddrx.ddrxfront.Utilities
 
 import android.content.Context
 import java.io.*
