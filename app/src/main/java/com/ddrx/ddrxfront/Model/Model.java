@@ -20,4 +20,10 @@ public class Model {
     public static final int TRAINING_NONE = 1;
     public static final int TRAINING_HINT = 2;
     public static final int TRAINING_ALL = 3;
+
+    public static final int FONT_SIZE_DEFAULT = 0;
+    public static final int FONT_SIZE_BIG = 22;
+    public static final int FONT_SIZE_MID = 16;
+    public static final int FONT_SIZE_SMALL = 12;
+
 }

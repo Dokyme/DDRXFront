@@ -1,16 +1,11 @@
 package com.ddrx.ddrxfront.Model;
 
-import android.arch.persistence.room.Entity;
-
-
 /**
  * Created by vincentshaw on 2018/3/27.
  */
 
-@Entity(primaryKeys={"CW_id", "U_id", "training_time"})
-public class TrainingRecord {
+public class UserTrainingRecord {
     private long CW_id;
-    private long U_id;
     private String training_time;
 
     public long getCW_id() {
@@ -21,14 +16,6 @@ public class TrainingRecord {
         this.CW_id = CW_id;
     }
 
-    public long getU_id() {
-        return U_id;
-    }
-
-    public void setU_id(long u_id) {
-        U_id = u_id;
-    }
-
     public String getTraining_time() {
         return training_time;
     }
@@ -37,10 +24,9 @@ public class TrainingRecord {
         this.training_time = training_time;
     }
 
-    public TrainingRecord(long CW_id, long u_id, String training_time) {
+    public UserTrainingRecord(long CW_id, String training_time) {
 
         this.CW_id = CW_id;
-        U_id = u_id;
         this.training_time = training_time;
     }
 }

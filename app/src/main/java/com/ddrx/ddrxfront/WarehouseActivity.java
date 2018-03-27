@@ -38,6 +38,7 @@ public class WarehouseActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_FRAGMENT:
+
                     break;
             }
         }

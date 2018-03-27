@@ -9,6 +9,9 @@ import com.ddrx.ddrxfront.CardFragment;
 import com.ddrx.ddrxfront.CardWarehouseDetailActivity;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
+import com.ddrx.ddrxfront.Model.TrainingRecord;
+import com.ddrx.ddrxfront.Model.TrainingRecordDatabase;
+import com.ddrx.ddrxfront.Utilities.GenericPair;
 import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
 import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
@@ -44,43 +47,21 @@ public class CardWarehouseDetailController {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CardWarehouseDatabase db = CardWarehouseDatabase.getInstance(context);
-                CardWarehouse warehouse = db.getCardWarehouseDAO().queryCardWarehouseById(CW_id);
-                String last_training_time = getLastTrainingTime();
+                UserInfoPreference preference = new UserInfoPreference(context);
+                long U_id = preference.getUserInfo().getId();
+                CardWarehouseDatabase w_db = CardWarehouseDatabase.getInstance(context);
+                CardWarehouse warehouse = w_db.getCardWarehouseDAO().queryCardWarehouseById(CW_id);
+
+                TrainingRecordDatabase t_db = TrainingRecordDatabase.getInstance(context);
+                String latest_time = t_db.getTrainingRecordDAO().queryLatestTrainingTime(CW_id, U_id);
+
+                Message message = new Message();
+                message.what = CardWarehouseDetailActivity.UPDATE_DATA;
+                GenericPair<String, CardWarehouse> send_obj = new GenericPair<>();
+                send_obj.setFirst(latest_time);
+                send_obj.setSecond(warehouse);
+                message.obj = send_obj;
             }
-        })
-    }
-
-    private String getLastTrainingTime(){
-        RequestBody formBody = new FormBody.Builder()
-                .add("CW_id", String.valueOf(CW_id)).build();
-        Request request = new Request.Builder()
-                .url(GET_LAST_TRAINING_TIME_URL)
-                .post(formBody)
-                .build();
-        Response response = null;
-        try{
-            response = okHttpClient.newCall(request).execute();
-        } catch(IOException e){
-            Log.e("Network Error", "getLastTrainingTime@CardWarehouseDetailController");
-            sendMessageToUI(CardWarehouseDetailActivity.NETWORK_ERROR);
-            return null;
-        }
-        ParseBackDataPack parser = new ParseBackDataPack(response.body().string());
-        int return_code = parser.getCode();
-        if(return_code == 0){
-
-        }
-        else{
-            Log.e("Network Error", "getLastTrainingTime@CardWarehouseDetailController");
-            sendMessageToUI(CardWarehouseDetailActivity.NETWORK_ERROR);
-            return null;
-        }
-    }
-
-    private void sendMessageToUI(int message_type){
-        Message message = new Message();
-        message.what = message_type;
-        handler.sendMessage(message);
+        }).start();
     }
 }

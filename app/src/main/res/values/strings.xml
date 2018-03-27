@@ -13,4 +13,7 @@
 
     <string name="card_warehouse_search_hint">输入您所拥有的仓库名称</string>
     <string name="card_model_search_hint">输入您所拥有的卡片模型名称</string>
+
+    <!-- activity_card_warehouse_detail -->
+    <string name="edit_warehouse_title">编辑</string>
 </resources>

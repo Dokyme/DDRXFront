@@ -7,6 +7,14 @@
     android:background="#DEDEDE"
     tools:context="com.ddrx.ddrxfront.CardWarehouseDetailActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/CWDetail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        />
+
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="30dp"
@@ -220,7 +228,7 @@
             app:srcCompat="@mipmap/finish_training" />
 
         <TextView
-            android:id="@+id/last_training_time"
+            android:id="@+id/CWDetail_last_training_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"

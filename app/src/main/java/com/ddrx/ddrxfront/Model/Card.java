@@ -68,7 +68,7 @@ public class Card {
                 int now_level = levels.get(levels.size() - 1);
                 try{
                     if(top_obj.getInt("type") == Model.COMPLEX_TYPE){
-                        items.add(new CardFieldDisplayItem(top_obj.getString("name"), top_obj.getInt("type"), "", top_obj.getBoolean("name_visible"), now_level, top_obj.getInt("align")));
+                        items.add(new CardFieldDisplayItem(top_obj.getString("name"), top_obj.getInt("type"), "", top_obj.getBoolean("name_visible"), now_level, top_obj.getInt("align"), top_obj.getInt("text_size")));
                         stack.remove(top_obj);
                         levels.remove(levels.size() - 1);
                         JSONArray array = top_obj.getJSONArray("data");
@@ -78,7 +78,7 @@ public class Card {
                         }
                     }
                     else{
-                        items.add(new CardFieldDisplayItem(obj.getString("name"), obj.getInt("type"), obj.getString("data"), obj.getBoolean("name_visible"), now_level, top_obj.getInt("align")));
+                        items.add(new CardFieldDisplayItem(obj.getString("name"), obj.getInt("type"), obj.getString("data"), obj.getBoolean("name_visible"), now_level, top_obj.getInt("align"), top_obj.getInt("text_size")));
                         stack.remove(top_obj);
                         levels.remove(levels.size() - 1);
                     }

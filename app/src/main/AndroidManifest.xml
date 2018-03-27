@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".WarehouseActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".UserActivity" />
@@ -34,7 +34,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".CardWarehouseDetailActivity"></activity>
+        <activity android:name=".CardWarehouseDetailActivity" />
+        <activity android:name=".ShowCardActivity"></activity>
     </application>
 
 </manifest>
