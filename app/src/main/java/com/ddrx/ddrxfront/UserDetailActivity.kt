@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.MotionEvent
 import android.view.View
 import android.widget.DatePicker
 import android.widget.EditText
@@ -45,15 +44,22 @@ class UserDetailActivity : AppCompatActivity() {
                     0 -> showNickNameDialog()
                     1 -> showSexDialog()
                     2 -> showBirthdayDialog()
+                    3 -> showCityDialog()
                 }
             }
         }
         mRecycleView.adapter = mUserDetailAdapter
         userInfoPreference = UserInfoPreference(this)
+        mDataList.add(UserDetailModel("昵称", userInfoPreference.userInfo.nickname))
+        mDataList.add(UserDetailModel("性别", userInfoPreference.userInfo.sex))
+        mDataList.add(UserDetailModel("生日", SimpleDateFormat("yyyy-MM-dd").format(userInfoPreference.userInfo.birthday)))
+        mDataList.add(UserDetailModel("所在城市", userInfoPreference.userInfo.city))
+        mDataList.add(UserDetailModel("个性签名", userInfoPreference.userInfo.brief))
     }
 
     fun showNickNameDialog() {
         val editText = EditText(this)
+        editText.setText(userInfoPreference.userInfo.nickname)
         AlertDialog.Builder(this)
                 .setTitle("修改昵称")
                 .setView(editText)
@@ -63,6 +69,31 @@ class UserDetailActivity : AppCompatActivity() {
                     else {
                         prompt(this@UserDetailActivity, "修改成功")
                         userInfoPreference.userInfo.nickname = editText.text.trim().toString()
+                        mDataList[0].value = userInfoPreference.userInfo.nickname
+                        mUserDetailAdapter.notifyItemChanged(0)
+                    }
+                })
+                .setNegativeButton("取消", { dialog, which ->
+                    dialog.dismiss()
+                })
+                .show()
+
+    }
+
+    fun showCityDialog() {
+        val editText = EditText(this)
+        editText.setText(userInfoPreference.userInfo.city)
+        AlertDialog.Builder(this)
+                .setTitle("修改城市")
+                .setView(editText)
+                .setPositiveButton("确定", { dialog: DialogInterface?, which: Int ->
+                    if (editText.text.isEmpty())
+                        prompt(this@UserDetailActivity, "城市不能为空！")
+                    else {
+                        prompt(this@UserDetailActivity, "修改成功")
+                        userInfoPreference.userInfo.city = editText.text.trim().toString()
+                        mDataList[3].value = userInfoPreference.userInfo.city
+                        mUserDetailAdapter.notifyItemChanged(3)
                     }
                 })
                 .setNegativeButton("取消", { dialog, which ->
@@ -88,6 +119,8 @@ class UserDetailActivity : AppCompatActivity() {
                         1 -> userInfoPreference.userInfo.sex = "女"
                     }
                     prompt(this@UserDetailActivity, "修改成功")
+                    mDataList[1].value = userInfoPreference.userInfo.sex
+                    mUserDetailAdapter.notifyItemChanged(1)
                 })
                 .setNegativeButton("取消", { dialog, which ->
                     dialog.dismiss()
@@ -96,30 +129,25 @@ class UserDetailActivity : AppCompatActivity() {
     }
 
     fun showBirthdayDialog() {
-
+        DatePickerDialog(this, SetDateDialog(), 2000, 1, 1).show()
+        mUserDetailAdapter.notifyDataSetChanged()
     }
 
     inner class SetDateDialog : DialogFragment(), DatePickerDialog.OnDateSetListener {
         override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-            var calendar = Calendar.getInstance()
+            val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
             userInfoPreference.userInfo.birthday = calendar.time
+            mDataList[2].value = SimpleDateFormat("yyyy-MM-dd").format(calendar.time)
+            mUserDetailAdapter.notifyItemChanged(2)
         }
 
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
             val calendar = Calendar.getInstance()
-            var year = calendar.get(Calendar.YEAR)
-            var month = calendar.get(Calendar.MONTH)
-            var day = calendar.get(Calendar.DAY_OF_MONTH)
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
             return DatePickerDialog(activity, this, year, month, day)
         }
-    }
-
-    init {
-        mDataList.add(UserDetailModel("昵称", "邹小凯"))
-        mDataList.add(UserDetailModel("性别", "男"))
-        mDataList.add(UserDetailModel("生日", "1997-05-14"))
-        mDataList.add(UserDetailModel("所在城市", "南京"))
-        mDataList.add(UserDetailModel("个性签名", "我就是我"))
     }
 }

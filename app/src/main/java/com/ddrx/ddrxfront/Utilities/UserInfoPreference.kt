@@ -9,7 +9,7 @@ import com.ddrx.ddrxfront.Preference
  */
 class UserInfoPreference(var context: Context) {
 
-    private var prefUserInfo: UserInfo by Preference(context, "userInfo", UserInfo())
+    private var prefUserInfo = UserInfo(context)
 
     var userInfo: UserInfo
         get() {

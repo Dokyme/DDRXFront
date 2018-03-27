@@ -2,7 +2,6 @@ package com.ddrx.ddrxfront
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,12 +27,7 @@ class UserDetailAdapter(var feedList: List<UserDetailModel>?) : RecyclerView.Ada
         mContext = parent.context
         mLayoutInflater = LayoutInflater.from(mContext)
         val view: View = mLayoutInflater.inflate(R.layout.item_detail, parent, false)
-        return UserDetailViewHolder(view, object : OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int?) {
-                mOnItemClickListener?.onItemClick(view, position)
-                Log.d("dokyme", "${position}")
-            }
-        })
+        return UserDetailViewHolder(view)
     }
 
     override fun getItemCount(): Int {
@@ -47,5 +41,6 @@ class UserDetailAdapter(var feedList: List<UserDetailModel>?) : RecyclerView.Ada
         val model = feedList?.get(position)
         holder.mLabel.text = model?.label
         holder.mValue.text = model?.value
+        holder.itemView.setOnClickListener({ v -> mOnItemClickListener?.onItemClick(v, position) })
     }
 }

@@ -27,7 +27,7 @@ class UserDetailModel() : Parcelable {
         this.value = ip?.readString()
     }
 
-    constructor(label: String, value: String) : this() {
+    constructor(label: String, value: String?) : this() {
         this.label = label
         this.value = value
     }

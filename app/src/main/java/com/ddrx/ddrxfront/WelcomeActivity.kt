@@ -43,7 +43,7 @@ class WelcomeActivity : AppCompatActivity() {
         }
         check()
         timer = Timer()
-        timer.schedule(task, 3000)
+        timer.schedule(task, 1000)
     }
 
     private fun check() {
