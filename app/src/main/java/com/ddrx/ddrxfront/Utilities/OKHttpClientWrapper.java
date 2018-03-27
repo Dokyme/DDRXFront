@@ -21,7 +21,7 @@ public class OKHttpClientWrapper {
 
     private static Context context;
 
-    private static OkHttpClient getInstance() {
+    public static OkHttpClient getInstance() {
         if (client == null) {
             File cache = new File("OKHttpCache");
 

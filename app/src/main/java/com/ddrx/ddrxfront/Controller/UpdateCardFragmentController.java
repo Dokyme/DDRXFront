@@ -14,7 +14,7 @@ import com.ddrx.ddrxfront.Utilities.JSONToEntity;
 import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
 import com.ddrx.ddrxfront.Utilities.SaveBitmapFromNetwork;
-import com.ddrx.ddrxfront.Utilities.UserInfoPerference;
+import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
 
 import org.json.JSONException;
 
@@ -111,7 +111,7 @@ public class UpdateCardFragmentController {
                 handler.sendMessage(message);
             }
             }
-        });
+        }).start();
     }
 
     private void updateDatabase(List<CardWarehouse> warehouseList){
@@ -131,7 +131,7 @@ public class UpdateCardFragmentController {
     }
 
     private Response getResponse(String url){
-        UserInfoPerference preference = new UserInfoPerference(context);
+        UserInfoPreference preference = new UserInfoPreference(context);
         RequestBody formBody = new FormBody.Builder()
                 .add("U_id", String.valueOf(preference.getUserInfo().getId())).build();
         Request request = new Request.Builder()

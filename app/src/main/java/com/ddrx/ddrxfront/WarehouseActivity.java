@@ -1,5 +1,7 @@
 package com.ddrx.ddrxfront;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.TabLayout;
@@ -10,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,24 @@ public class WarehouseActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private MyHandler handler;
 
+    private static class MyHandler extends Handler {
+
+        private final WeakReference<WarehouseActivity> mActivity;
+
+        public MyHandler(WarehouseActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_FRAGMENT:
+                    break;
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +58,8 @@ public class WarehouseActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.warehouse_tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        handler = new MyHandler(this);
     }
 
     @Override
@@ -45,6 +68,9 @@ public class WarehouseActivity extends AppCompatActivity {
         return true;
     }
 
+    public Handler getHandler(){
+        return handler;
+    }
 
     private void setupViewPager(ViewPager viewPager){
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

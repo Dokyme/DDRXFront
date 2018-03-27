@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "651820d4da7c7c84ac9bc758f4698dbe",
+    "identityHash": "6fbfd58a5707de46bae39004c56ed164",
     "entities": [
       {
         "tableName": "CardWarehouse",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_nick` TEXT, `UCW_time` TEXT, `CW_name` TEXT, `CW_privilege` INTEGER NOT NULL, `CW_card_num` INTEGER NOT NULL, `CW_abstract` TEXT, `CW_detail` TEXT, `CW_per_day` INTEGER NOT NULL, `CW_per_month` INTEGER NOT NULL, `CW_cover_url` INTEGER NOT NULL, `CW_content` TEXT, PRIMARY KEY(`CW_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_nick` TEXT, `UCW_time` TEXT, `CW_name` TEXT, `CW_privilege` INTEGER NOT NULL, `CW_card_num` INTEGER NOT NULL, `CW_abstract` TEXT, `CW_detail` TEXT, `CW_per_day` INTEGER NOT NULL, `CW_per_month` INTEGER NOT NULL, `CW_cover_url` TEXT, `CW_content` TEXT, PRIMARY KEY(`CW_id`))",
         "fields": [
           {
             "fieldPath": "CW_id",
@@ -89,8 +89,8 @@
           {
             "fieldPath": "CW_cover_url",
             "columnName": "CW_cover_url",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "CW_content",
@@ -111,7 +111,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"651820d4da7c7c84ac9bc758f4698dbe\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6fbfd58a5707de46bae39004c56ed164\")"
     ]
   }
 }

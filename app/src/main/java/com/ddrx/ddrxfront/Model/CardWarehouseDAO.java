@@ -17,7 +17,7 @@ public interface CardWarehouseDAO {
     List<CardWarehouseIntro> queryAllCardWarehouseIntro();
 
     @Query("Select * From CardWarehouse Where CW_id = (:CW_id)")
-    List<CardWarehouse> queryCardWarehouseById(Long CW_id);
+    CardWarehouse queryCardWarehouseById(Long CW_id);
 
     @Query("Select CW_id From CardWarehouse")
     List<Long> queryAllCW_ID();
@@ -29,7 +29,7 @@ public interface CardWarehouseDAO {
     void updateCoverUrl(long id, String cover_url);
 
     @Query("Delete From CardWarehouse Where CW_id in (:CW_IDs)")
-    void deleteCardWarehouseById(List<Long> CW_IDs);
+    void deleteCardWarehouseById(Long... CW_IDs);
 
     @Insert
     void insertSingleCardWarehouse(CardWarehouse cardWarehouse);

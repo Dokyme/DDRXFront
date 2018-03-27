@@ -1,13 +1,16 @@
 package com.ddrx.ddrxfront.Utilities;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.ddrx.ddrxfront.Model.CardWarehouse;
+import com.ddrx.ddrxfront.Model.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,5 +62,31 @@ public class JSONToEntity {
             result.put(obj.getLong("CW_id"), obj.getInt("timestamp"));
         }
         return result;
+    }
+
+    public static UserInfo getUserInfo(Context context, JSONObject responseObject) throws Exception {
+        JSONObject object = responseObject.getJSONObject("data");
+        long id = (Long) object.get("U_id");
+        String account = (String) object.get("U_account");
+        String nickname = (String) object.get("U_nick");
+        long experience = (long) object.get("U_exp");
+        float balance = (float) object.get("U_balance");
+        int cardLimit = (int) object.get("U_card_limit");
+        String sex = (String) object.get("U_sex");
+        String birthday = (String) object.get("U_birth_day");
+        String city = (String) object.get("U_city");
+        String brief = (String) object.get("U_brief");
+        UserInfo userInfo = new UserInfoPreference(context).getUserInfo();
+        userInfo.setId(id);
+        userInfo.setAccount(account);
+        userInfo.setNickname(nickname);
+        userInfo.setExperience(experience);
+        userInfo.setBalance(balance);
+        userInfo.setCardLimit(cardLimit);
+        userInfo.setSex(sex);
+        userInfo.setBirthday(new SimpleDateFormat("yyyy-MM-dd").parse(birthday));
+        userInfo.setCity(city);
+        userInfo.setBrief(brief);
+        return userInfo;
     }
 }

@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +37,7 @@ public class CardFragment extends Fragment {
     private List<CardWarehouseIntro> card_warehouses;
     private ProgressBar progressBar;
     private UpdateCardFragmentController controller;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private TextView hint;
 
     public static final int NETWORK_ERROR = 1;
@@ -61,14 +64,16 @@ public class CardFragment extends Fragment {
                 }
                 case EMPTY_LIST:{
                     mFragment.get().hint.setText("空空如也的卡片仓库！");
+                    Log.d("Show", "Empty_list");
+                    mFragment.get().card_list_recycler_view.clearAnimation();
                     mFragment.get().card_list_recycler_view.setVisibility(View.GONE);
                     mFragment.get().hint.setVisibility(View.VISIBLE);
                     break;
                 }
                 case UPDATE_UI:{
                     mFragment.get().card_warehouses = (List<CardWarehouseIntro>)msg.obj;
-                    RecyclerView.Adapter mAdapter = new CardListAdapter(mFragment.get().card_warehouses, mFragment.get().getActivity().getHandler());
-                    mFragment.get().card_list_recycler_view.setAdapter(mAdapter);
+                    //RecyclerView.Adapter mAdapter = new CardListAdapter(mFragment.get().card_warehouses, (WarehouseActivity)(mFragment.get().getActivity()).getHandler());
+                    //mFragment.get().card_list_recycler_view.setAdapter(mAdapter);
                     mFragment.get().card_list_recycler_view.setVisibility(View.VISIBLE);
                     mFragment.get().progressBar.setVisibility(View.GONE);
                     mFragment.get().hint.setVisibility(View.GONE);
@@ -97,9 +102,11 @@ public class CardFragment extends Fragment {
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isAvailable()){
-            controller.getDataListFromNetwork();
+            //controller.getDataListFromNetwork();
+            controller.getDataListFromDB();
         }
         else{
+            Log.e("Here","aa");
             controller.getDataListFromDB();
         }
     }
@@ -110,6 +117,7 @@ public class CardFragment extends Fragment {
         card_list_recycler_view = view.findViewById(R.id.card_list);
         progressBar = view.findViewById(R.id.card_fragment_processBar);
         hint = view.findViewById(R.id.card_fragment_hint);
+        swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
         hint.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
         card_list_recycler_view.setHasFixedSize(true);
