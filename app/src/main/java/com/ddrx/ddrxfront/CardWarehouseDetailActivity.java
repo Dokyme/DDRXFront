@@ -12,6 +12,7 @@ public class CardWarehouseDetailActivity extends AppCompatActivity {
 
     private int CW_id;
     public static final int UPDATE_DATA = 1;
+    public static final int NETWORK_ERROR = 2;
     private CardWarehouseDetailActivity.MyHandler handler;
 
 

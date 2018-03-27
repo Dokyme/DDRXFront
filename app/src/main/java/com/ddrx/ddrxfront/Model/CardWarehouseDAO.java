@@ -29,7 +29,7 @@ public interface CardWarehouseDAO {
     void updateCoverUrl(long id, String cover_url);
 
     @Query("Delete From CardWarehouse Where CW_id in (:CW_IDs)")
-    void deleteCardWarehouseById(Long... CW_IDs);
+    void deleteCardWarehouseById(List<Long> CW_IDs);
 
     @Insert
     void insertSingleCardWarehouse(CardWarehouse cardWarehouse);
