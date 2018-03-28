@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.ddrx.ddrxfront.Model.CardWarehouseDatabase
 import com.ddrx.ddrxfront.Model.TimeLineModel
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import com.yanzhenjie.album.Action
@@ -19,6 +20,10 @@ import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
 import com.yanzhenjie.durban.Durban
 import kotlinx.android.synthetic.main.activity_user.*
+
+import com.ddrx.ddrxfront.Model.TrainingRecordDatabase
+import com.ddrx.ddrxfront.Model.UserTrainingRecord
+import com.ddrx.ddrxfront.Utilities.UserInfoPreference
 
 /**
  * Created by dokym on 2018/3/23.
@@ -28,25 +33,28 @@ class UserActivity : AppCompatActivity() {
     lateinit var mTimeLineAdapter: TimeLineAdapter
     var mDataList: MutableList<TimeLineModel> = ArrayList()
 
+    lateinit var userInfoPreference: UserInfoPreference
+
     companion object {
         val CROP_IMAGE = 1
         val PERMISSION_READ_STORAGE = 2
         val PERMISSION_WRITE_STORAGE = 3
     }
 
-    init {
-        mDataList.add(TimeLineModel("复习了：二叉树", "2018-3-24"))
-        mDataList.add(TimeLineModel("复习了：KMP算法", "2018-3-25"))
-        mDataList.add(TimeLineModel("复习了：快速排序算法", "2018-3-26"))
-        mDataList.add(TimeLineModel("复习了：《楚辞-离骚》", "2018-3-27"))
-        mDataList.add(TimeLineModel("复习了：TCP/IP-Cubic算法", "2018-3-27"))
-        mDataList.add(TimeLineModel("复习了：TCP/IP-Reno算法", "2018-3-27"))
-        mDataList.sortByDescending { e -> e.date }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
+
+        userInfoPreference = UserInfoPreference(this)
+
+        if (userInfoPreference.userInfo.id != -1L) {
+            val records: List<UserTrainingRecord> = TrainingRecordDatabase.getInstance(this).trainingRecordDAO.queryUserTrainingRecord(userInfoPreference.userInfo.id!!)
+            for (record in records) {
+                val cw = CardWarehouseDatabase.getInstance(this).cardWarehouseDAO.queryCardWarehouseById(record.cW_id)
+                mDataList.add(TimeLineModel("复习了${cw.cW_name}", record.training_time))
+            }
+            mDataList.sortByDescending { e -> e.date }
+        }
 
         mRecyclerView = view_recycle
         mRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
