@@ -59,7 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="登陆" />
 
@@ -67,19 +67,11 @@
             android:id="@+id/btn_register"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:text="注册" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_revise_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="修改密码" />
 
     <Button
         android:id="@+id/btn_test_user_activity"

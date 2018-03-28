@@ -24,10 +24,16 @@
         <activity
             android:name=".WarehouseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".UserActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".UserActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".UserDetailActivity" />
+        <activity
+            android:name=".UserDetailActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".RevisePasswordActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".RegisterActivity" />

@@ -19,7 +19,7 @@ import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 
 class Request {
 
-    private lateinit var builder: okhttp3.Request.Builder
+    private var builder: okhttp3.Request.Builder = okhttp3.Request.Builder()
     private lateinit var callback: Callback
 
     interface Callback {

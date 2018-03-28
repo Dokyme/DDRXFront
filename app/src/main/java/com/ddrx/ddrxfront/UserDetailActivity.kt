@@ -3,7 +3,9 @@ package com.ddrx.ddrxfront
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.DialogFragment
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -19,10 +21,8 @@ import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import java.text.SimpleDateFormat
 import java.util.*
 import com.ddrx.ddrxfront.Utilities.URLHelper.*
-import okhttp3.*
-import okhttp3.Request
+import okhttp3.FormBody
 import org.json.JSONObject
-import java.io.IOException
 
 /**
  * Created by dokym on 2018/3/24.
@@ -62,6 +62,7 @@ class UserDetailActivity : AppCompatActivity() {
         mDataList.add(UserDetailModel("个性签名", userInfoPreference.userInfo.brief))
 
         btn_detail_save.setOnClickListener(OnConfirmBtnClickedListener())
+        btn_revise_password?.setOnClickListener({ v -> startActivity(Intent(this, RevisePasswordActivity::class.java)) })
     }
 
     fun showNickNameDialog() {
@@ -159,7 +160,6 @@ class UserDetailActivity : AppCompatActivity() {
 
     inner class OnConfirmBtnClickedListener : View.OnClickListener {
         override fun onClick(v: View?) {
-            val client = OKHttpClientWrapper.getInstance(this@UserDetailActivity)
             val formBody = FormBody.Builder()
                     .add(MAC, MacAddressUtil(this@UserDetailActivity).macAddress)
                     .add(USER_ID, "${userInfoPreference.userInfo.id}")
@@ -169,36 +169,22 @@ class UserDetailActivity : AppCompatActivity() {
                     .add(CITY, userInfoPreference.userInfo.city)
                     .add(BRIEF, userInfoPreference.userInfo.brief)
                     .build()
-            val request = Request.Builder()
-                    .url(URLHelper("/user/social_alter").build())
+            com.ddrx.ddrxfront.Utilities.Request.Builder()
                     .post(formBody)
+                    .url("/user/social_alter")
                     .build()
-            client.newCall(request)
-                    .enqueue(object : Callback {
-                        override fun onFailure(call: Call?, e: IOException?) {
-                            prompt(this@UserDetailActivity, "网络环境错误，请重试")
-                        }
-
-                        override fun onResponse(call: Call?, response: Response?) {
-                            val obj = JSONObject(response?.body().toString())
-                            when (obj.get("code") as Int) {
-                                600 -> ToastUtil.prompt(this@UserDetailActivity, "用户不存在！")
-                                601 -> ToastUtil.prompt(this@UserDetailActivity, "密码错误！")
-                                1000 -> ToastUtil.prompt(this@UserDetailActivity, "服务器错误。")
-                                1003 -> ToastUtil.prompt(this@UserDetailActivity, "无效的Cookies。")
-                                1004 -> ToastUtil.prompt(this@UserDetailActivity, "MAC地址错误。")
-                                0 -> {
-                                    prompt(this@UserDetailActivity, "修改成功")
-                                    try {
-                                        JSONToEntity.getUserDetailInfo(this@UserDetailActivity, obj)
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                        prompt(this@UserDetailActivity, "修改失败")
-                                    }
-                                }
+                    .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.DefaultCallback(this@UserDetailActivity) {
+                        override fun onSuccess(context: Context, data: JSONObject, message: String) {
+                            prompt(this@UserDetailActivity, "修改成功")
+                            try {
+                                JSONToEntity.getUserDetailInfo(this@UserDetailActivity, data)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                prompt(this@UserDetailActivity, "修改失败")
                             }
                         }
                     })
+                    .execute(this@UserDetailActivity)
         }
     }
 }

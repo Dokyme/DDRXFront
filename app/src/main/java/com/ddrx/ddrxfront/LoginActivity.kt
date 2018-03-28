@@ -34,7 +34,6 @@ class LoginActivity : AppCompatActivity() {
     private fun initEvent() {
         btn_login?.setOnClickListener(LoginOnClickListener())
         btn_register?.setOnClickListener(RegisterOnClickListener())
-        btn_revise_password?.setOnClickListener({ v -> startActivity(Intent(this, RevisePasswordActivity::class.java)) })
         //测试专用快捷按钮
         btn_test_main_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, MainActivity::class.java)) })
         btn_test_user_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, UserActivity::class.java)) })
@@ -76,6 +75,8 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "密码不能为空", Toast.LENGTH_SHORT).show()
             else if (username.length > 32)
                 Toast.makeText(this@LoginActivity, "用户名过长", Toast.LENGTH_SHORT).show()
+            else if (password.length < 8)
+                prompt(this@LoginActivity, "密码过短")
             else if (password.length > 32)
                 Toast.makeText(this@LoginActivity, "密码过长", Toast.LENGTH_SHORT).show()
             else {
