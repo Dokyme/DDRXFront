@@ -21,6 +21,33 @@ import java.util.Map;
  */
 
 public class JSONToEntity {
+    public static UserInfo getUserInfo(Context context, JSONObject data) throws Exception {
+        long id = (Long) data.get("U_id");
+        UserInfo userInfo = getUserDetailInfo(context, data);
+        userInfo.setId(id);
+        return userInfo;
+    }
+
+    public static UserInfo getUserDetailInfo(Context context, JSONObject data) throws Exception {
+        String nickname = (String) data.get("U_nick");
+        long experience = (long) data.get("U_exp");
+        float balance = (float) data.get("U_balance");
+        int cardLimit = (int) data.get("U_card_limit");
+        String sex = (String) data.get("U_sex");
+        String birthday = (String) data.get("U_birth_day");
+        String city = (String) data.get("U_city");
+        String brief = (String) data.get("U_brief");
+        UserInfo userInfo = new UserInfoPreference(context).getUserInfo();
+        userInfo.setNickname(nickname);
+        userInfo.setExperience(experience);
+        userInfo.setBalance(balance);
+        userInfo.setCardLimit(cardLimit);
+        userInfo.setSex(sex);
+        userInfo.setBirthday(new SimpleDateFormat("yyyy-MM-dd").parse(birthday));
+        userInfo.setCity(city);
+        userInfo.setBrief(brief);
+        return userInfo;
+    }
 
     public static List<CardWarehouse> getCardWarehouseList(JSONArray jsonArray){
 
