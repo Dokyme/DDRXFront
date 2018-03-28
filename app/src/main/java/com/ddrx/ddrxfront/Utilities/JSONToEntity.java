@@ -19,24 +19,22 @@ import java.util.List;
  */
 
 public class JSONToEntity {
-    public static UserInfo getUserInfo(Context context, JSONObject responseObject) throws Exception {
-        JSONObject object = responseObject.getJSONObject("data");
-        long id = (Long) object.get("U_id");
-        UserInfo userInfo = getUserDetailInfo(context, responseObject);
+    public static UserInfo getUserInfo(Context context, JSONObject data) throws Exception {
+        long id = (Long) data.get("U_id");
+        UserInfo userInfo = getUserDetailInfo(context, data);
         userInfo.setId(id);
         return userInfo;
     }
 
-    public static UserInfo getUserDetailInfo(Context context, JSONObject responseObject) throws Exception {
-        JSONObject object = responseObject.getJSONObject("data");
-        String nickname = (String) object.get("U_nick");
-        long experience = (long) object.get("U_exp");
-        float balance = (float) object.get("U_balance");
-        int cardLimit = (int) object.get("U_card_limit");
-        String sex = (String) object.get("U_sex");
-        String birthday = (String) object.get("U_birth_day");
-        String city = (String) object.get("U_city");
-        String brief = (String) object.get("U_brief");
+    public static UserInfo getUserDetailInfo(Context context, JSONObject data) throws Exception {
+        String nickname = (String) data.get("U_nick");
+        long experience = (long) data.get("U_exp");
+        float balance = (float) data.get("U_balance");
+        int cardLimit = (int) data.get("U_card_limit");
+        String sex = (String) data.get("U_sex");
+        String birthday = (String) data.get("U_birth_day");
+        String city = (String) data.get("U_city");
+        String brief = (String) data.get("U_brief");
         UserInfo userInfo = new UserInfoPreference(context).getUserInfo();
         userInfo.setNickname(nickname);
         userInfo.setExperience(experience);
