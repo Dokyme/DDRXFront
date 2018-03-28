@@ -29,7 +29,7 @@ public class NeedTrainingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_need_training, container, false);
-
+        return view;
     }
 
 }

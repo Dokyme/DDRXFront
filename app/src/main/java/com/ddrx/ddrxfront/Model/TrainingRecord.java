@@ -1,6 +1,7 @@
 package com.ddrx.ddrxfront.Model;
 
 import android.arch.persistence.room.Entity;
+import android.support.annotation.NonNull;
 
 
 /**
@@ -11,6 +12,7 @@ import android.arch.persistence.room.Entity;
 public class TrainingRecord {
     private long CW_id;
     private long U_id;
+    @NonNull
     private String training_time;
 
     public long getCW_id() {
@@ -37,10 +39,10 @@ public class TrainingRecord {
         this.training_time = training_time;
     }
 
-    public TrainingRecord(long CW_id, long u_id, String training_time) {
+    public TrainingRecord(long CW_id, long U_id, String training_time) {
 
         this.CW_id = CW_id;
-        U_id = u_id;
+        U_id = U_id;
         this.training_time = training_time;
     }
 }

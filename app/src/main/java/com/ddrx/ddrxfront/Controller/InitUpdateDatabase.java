@@ -177,7 +177,7 @@ public class InitUpdateDatabase {
                             if (memoryCardList == null) {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             }else {
-                                updateTRDatabase(context, memoryCardList);
+                                updateMCDatabase(context, memoryCardList);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -293,13 +293,13 @@ public class InitUpdateDatabase {
     }
 
     private static void updateTRDatabase(final Context context, List<TrainingRecord> trainingRecordList){
-        TrainingRecordDatabase db = TrainingRecordDatabase.getInstance();
+        TrainingRecordDatabase db = TrainingRecordDatabase.getInstance(context);
         db.getTrainingRecordDAO().deleteAllTrainingRecord();
         db.getTrainingRecordDAO().insertIntoTrainingRecord(trainingRecordList);
     }
 
     private static void updateMCDatabase(final Context context, List<MemoryCard> memoryCardList){
-        MemoryCardDatabase db = MemoryCardDatabase.getInstance();
+        MemoryCardDatabase db = MemoryCardDatabase.getInstance(context);
         db.getCardWarehouseDAO().deleteAllMemoryCard();
         db.getCardWarehouseDAO().insetIntoMemoryCard(memoryCardList);
     }

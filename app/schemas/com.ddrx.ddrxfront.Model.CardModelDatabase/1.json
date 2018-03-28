@@ -2,58 +2,58 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "20d1c054194f002032a5f7ee6c62930f",
+    "identityHash": "2e9663cf6d8e2539c47b6b4c4be3bb4f",
     "entities": [
       {
         "tableName": "CardModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`model_id` INTEGER NOT NULL, `model_name` TEXT, `creator_name` TEXT, `intro` TEXT, `privilege` INTEGER NOT NULL, `price` REAL NOT NULL, `storage` TEXT, PRIMARY KEY(`model_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_name` TEXT, `CT_brief` TEXT, `CT_type` INTEGER NOT NULL, `CT_privilege` INTEGER NOT NULL, `CT_context` TEXT, PRIMARY KEY(`CT_id`))",
         "fields": [
           {
-            "fieldPath": "model_id",
-            "columnName": "model_id",
+            "fieldPath": "CT_id",
+            "columnName": "CT_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "model_name",
-            "columnName": "model_name",
+            "fieldPath": "CT_name",
+            "columnName": "CT_name",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "creator_name",
-            "columnName": "creator_name",
+            "fieldPath": "U_name",
+            "columnName": "U_name",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "intro",
-            "columnName": "intro",
+            "fieldPath": "CT_brief",
+            "columnName": "CT_brief",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "privilege",
-            "columnName": "privilege",
+            "fieldPath": "CT_type",
+            "columnName": "CT_type",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "price",
-            "columnName": "price",
-            "affinity": "REAL",
+            "fieldPath": "CT_privilege",
+            "columnName": "CT_privilege",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "storage",
-            "columnName": "storage",
+            "fieldPath": "CT_context",
+            "columnName": "CT_context",
             "affinity": "TEXT",
             "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "model_id"
+            "CT_id"
           ],
           "autoGenerate": false
         },
@@ -63,7 +63,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"20d1c054194f002032a5f7ee6c62930f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2e9663cf6d8e2539c47b6b4c4be3bb4f\")"
     ]
   }
 }

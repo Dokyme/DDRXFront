@@ -1,6 +1,7 @@
 package com.ddrx.ddrxfront.Model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 /**
  * Created by vincentshaw on 2018/3/28.
@@ -8,7 +9,9 @@ import android.arch.persistence.room.Entity;
 
 @Entity
 public class MemoryCard {
+    @PrimaryKey
     private long CC_id;
+
     private long CW_id;
     private String CC_content;
 

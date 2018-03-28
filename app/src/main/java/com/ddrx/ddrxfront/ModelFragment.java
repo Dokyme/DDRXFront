@@ -94,7 +94,6 @@ public class ModelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         models = new ArrayList<>();
         ModelFragment.MyHandler handler = new ModelFragment.MyHandler(this);
-        controller = new UpdateModelFragmentController(handler, getContext());
     }
 
     @Override

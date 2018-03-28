@@ -19,10 +19,10 @@ public class CardModel {
     private int CT_privilege;
     private String CT_context;
 
-    public CardModel(long CT_id, String CT_name, String u_name, String CT_brief, int CT_type, int CT_privilege, String CT_context) {
+    public CardModel(long CT_id, String CT_name, String U_name, String CT_brief, int CT_type, int CT_privilege, String CT_context) {
         this.CT_id = CT_id;
         this.CT_name = CT_name;
-        U_name = u_name;
+        U_name = U_name;
         this.CT_brief = CT_brief;
         this.CT_type = CT_type;
         this.CT_privilege = CT_privilege;
