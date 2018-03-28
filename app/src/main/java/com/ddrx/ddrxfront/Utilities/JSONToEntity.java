@@ -22,7 +22,13 @@ public class JSONToEntity {
     public static UserInfo getUserInfo(Context context, JSONObject responseObject) throws Exception {
         JSONObject object = responseObject.getJSONObject("data");
         long id = (Long) object.get("U_id");
-        String account = (String) object.get("U_account");
+        UserInfo userInfo = getUserDetailInfo(context, responseObject);
+        userInfo.setId(id);
+        return userInfo;
+    }
+
+    public static UserInfo getUserDetailInfo(Context context, JSONObject responseObject) throws Exception {
+        JSONObject object = responseObject.getJSONObject("data");
         String nickname = (String) object.get("U_nick");
         long experience = (long) object.get("U_exp");
         float balance = (float) object.get("U_balance");
@@ -32,8 +38,6 @@ public class JSONToEntity {
         String city = (String) object.get("U_city");
         String brief = (String) object.get("U_brief");
         UserInfo userInfo = new UserInfoPreference(context).getUserInfo();
-        userInfo.setId(id);
-        userInfo.setAccount(account);
         userInfo.setNickname(nickname);
         userInfo.setExperience(experience);
         userInfo.setBalance(balance);

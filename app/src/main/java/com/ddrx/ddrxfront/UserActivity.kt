@@ -12,16 +12,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import cn.finalteam.galleryfinal.FunctionConfig
-import cn.finalteam.galleryfinal.ImageLoader
-import cn.finalteam.galleryfinal.ThemeConfig
 import com.ddrx.ddrxfront.Model.TimeLineModel
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
-import com.zhihu.matisse.Matisse
-import com.zhihu.matisse.MimeType
-import com.zhihu.matisse.engine.impl.GlideEngine
+import com.yanzhenjie.album.Action
+import com.yanzhenjie.album.Album
+import com.yanzhenjie.album.AlbumFile
+import com.yanzhenjie.durban.Durban
 import kotlinx.android.synthetic.main.activity_user.*
-import java.util.jar.Manifest
 
 /**
  * Created by dokym on 2018/3/23.
@@ -32,7 +29,7 @@ class UserActivity : AppCompatActivity() {
     var mDataList: MutableList<TimeLineModel> = ArrayList()
 
     companion object {
-        val CHOOSE_IMAGE = 1
+        val CROP_IMAGE = 1
         val PERMISSION_READ_STORAGE = 2
         val PERMISSION_WRITE_STORAGE = 3
     }
@@ -62,19 +59,8 @@ class UserActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), PERMISSION_WRITE_STORAGE)
             return
         }
-        user_image.setOnClickListener({ view: View? ->
-            kotlin.run {
-                val themeConfig=ThemeConfig.Builder().build()
-                val functionConfig=FunctionConfig.Builder()
-                        .setEnableCamera(true)
-                        .setEnableEdit(true)
-                        .setEnableCrop(true)
-                        .setCropSquare(true)
-                        .setEnablePreview(true)
-                        .build()
-                val imageLoader=UILImage
-            }
-        })
+
+        initEvent()
         initView()
     }
 
@@ -90,9 +76,13 @@ class UserActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CHOOSE_IMAGE && resultCode == Activity.RESULT_OK) {
-            val selections = Matisse.obtainResult(data)
-            prompt(this, selections[0].toString())
+        when (requestCode) {
+            CROP_IMAGE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val images = Durban.parseResult(data!!)
+                    prompt(this, images[0])
+                }
+            }
         }
     }
 
@@ -109,6 +99,31 @@ class UserActivity : AppCompatActivity() {
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    fun initEvent() {
+        user_image.setOnClickListener({ view: View? ->
+            kotlin.run {
+                Album.album(this)
+                        .singleChoice()
+                        .onResult(object : Action<ArrayList<AlbumFile>> {
+                            override fun onAction(requestCode: Int, result: ArrayList<AlbumFile>) {
+                                var list = arrayListOf<String>(result[0].path)
+                                Durban.with(this@UserActivity)
+                                        .title("裁剪")
+                                        .inputImagePaths(list)
+                                        .outputDirectory("/sdcard/")
+                                        .maxWidthHeight(256, 256)
+                                        .compressFormat(Durban.COMPRESS_JPEG)
+                                        .compressQuality(90)
+                                        .gesture(Durban.GESTURE_SCALE)
+                                        .requestCode(CROP_IMAGE)
+                                        .start()
+                            }
+                        })
+                        .start()
+            }
+        })
     }
 
     fun initView() {

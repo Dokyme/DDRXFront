@@ -1,5 +1,6 @@
 package com.ddrx.ddrxfront
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -37,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initEvent() {
         btn_login?.setOnClickListener(LoginOnClickListener())
         btn_register?.setOnClickListener(RegisterOnClickListener())
+        btn_revise_password?.setOnClickListener({ v -> startActivity(Intent(this, RevisePasswordActivity::class.java)) })
         //测试专用快捷按钮
         btn_test_main_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, MainActivity::class.java)) })
         btn_test_user_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, UserActivity::class.java)) })
@@ -44,6 +46,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginFromRemote(username: String, password: String): Boolean {
+        val request=com.ddrx.ddrxfront.Utilities.Request.Builder()
+                .post()
+                .build().enqueue(object :com.ddrx.ddrxfront.Utilities.Request.DefaultCallback{
+                    override fun onSuccess(context: Context?, data: JSONObject?, message: String?) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+                })
         val body = FormBody.Builder()
                 .add("_MAC", MacAddressUtil(this).macAddress)
                 .add("_USER_NAME", username)
@@ -57,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
                 .newCall(request)
                 .enqueue(object : Callback {
                     override fun onFailure(call: Call?, e: IOException?) {
-                        Toast.makeText(this@LoginActivity, "网络环境错误，请重试", Toast.LENGTH_SHORT).show()
+                        prompt(this@LoginActivity, "网络环境错误，请重试")
                     }
 
                     override fun onResponse(call: Call?, response: Response?) {
@@ -75,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
                                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                                 } catch (e: Exception) {
                                     e.printStackTrace()
-                                    prompt(this@LoginActivity, "失败")
+                                    prompt(this@LoginActivity, "登陆失败")
                                 }
                             }
                         }

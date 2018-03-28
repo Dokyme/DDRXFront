@@ -4,23 +4,25 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.DialogFragment
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
 import android.widget.EditText
 import com.ddrx.ddrxfront.Model.UserDetailModel
-import com.ddrx.ddrxfront.Utilities.UserInfoPreference
+import com.ddrx.ddrxfront.Utilities.*
 import kotlinx.android.synthetic.main.activity_user_detail.*
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import java.text.SimpleDateFormat
 import java.util.*
+import com.ddrx.ddrxfront.Utilities.URLHelper.*
+import okhttp3.*
+import okhttp3.Request
+import org.json.JSONObject
+import java.io.IOException
 
 /**
  * Created by dokym on 2018/3/24.
@@ -58,6 +60,8 @@ class UserDetailActivity : AppCompatActivity() {
         mDataList.add(UserDetailModel("生日", SimpleDateFormat("yyyy-MM-dd").format(userInfoPreference.userInfo.birthday)))
         mDataList.add(UserDetailModel("所在城市", userInfoPreference.userInfo.city))
         mDataList.add(UserDetailModel("个性签名", userInfoPreference.userInfo.brief))
+
+        btn_detail_save.setOnClickListener(OnConfirmBtnClickedListener())
     }
 
     fun showNickNameDialog() {
@@ -80,7 +84,6 @@ class UserDetailActivity : AppCompatActivity() {
                     dialog.dismiss()
                 })
                 .show()
-
     }
 
     fun showCityDialog() {
@@ -151,6 +154,51 @@ class UserDetailActivity : AppCompatActivity() {
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             return DatePickerDialog(activity, this, year, month, day)
+        }
+    }
+
+    inner class OnConfirmBtnClickedListener : View.OnClickListener {
+        override fun onClick(v: View?) {
+            val client = OKHttpClientWrapper.getInstance(this@UserDetailActivity)
+            val formBody = FormBody.Builder()
+                    .add(MAC, MacAddressUtil(this@UserDetailActivity).macAddress)
+                    .add(USER_ID, "${userInfoPreference.userInfo.id}")
+                    .add(NICK_NAME, userInfoPreference.userInfo.nickname)
+                    .add(SEX, userInfoPreference.userInfo.sex)
+                    .add(BIRTHDAY, SimpleDateFormat("yyyy-MM-dd").format(userInfoPreference.userInfo.birthday))
+                    .add(CITY, userInfoPreference.userInfo.city)
+                    .add(BRIEF, userInfoPreference.userInfo.brief)
+                    .build()
+            val request = Request.Builder()
+                    .url(URLHelper("/user/social_alter").build())
+                    .post(formBody)
+                    .build()
+            client.newCall(request)
+                    .enqueue(object : Callback {
+                        override fun onFailure(call: Call?, e: IOException?) {
+                            prompt(this@UserDetailActivity, "网络环境错误，请重试")
+                        }
+
+                        override fun onResponse(call: Call?, response: Response?) {
+                            val obj = JSONObject(response?.body().toString())
+                            when (obj.get("code") as Int) {
+                                600 -> ToastUtil.prompt(this@UserDetailActivity, "用户不存在！")
+                                601 -> ToastUtil.prompt(this@UserDetailActivity, "密码错误！")
+                                1000 -> ToastUtil.prompt(this@UserDetailActivity, "服务器错误。")
+                                1003 -> ToastUtil.prompt(this@UserDetailActivity, "无效的Cookies。")
+                                1004 -> ToastUtil.prompt(this@UserDetailActivity, "MAC地址错误。")
+                                0 -> {
+                                    prompt(this@UserDetailActivity, "修改成功")
+                                    try {
+                                        JSONToEntity.getUserDetailInfo(this@UserDetailActivity, obj)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                        prompt(this@UserDetailActivity, "修改失败")
+                                    }
+                                }
+                            }
+                        }
+                    })
         }
     }
 }
