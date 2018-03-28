@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +24,7 @@
         <activity
             android:name=".WarehouseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".UserActivity" />
         <activity android:name=".TestActivity" />
@@ -31,6 +33,10 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".CardWarehouseDetailActivity" />
+        <activity android:name=".ShowCardActivity" />
+        <activity android:name=".AddNewWarehouseActivity"></activity>
     </application>
 
 </manifest>

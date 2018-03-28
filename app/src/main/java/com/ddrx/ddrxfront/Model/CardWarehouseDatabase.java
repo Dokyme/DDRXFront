@@ -14,7 +14,7 @@ public abstract class CardWarehouseDatabase extends RoomDatabase {
     private static final String DB_NAME = "CardWarehouseDatabase.db";
     private static volatile CardWarehouseDatabase instance;
 
-    static synchronized CardWarehouseDatabase getInstance(Context context){
+    public static synchronized CardWarehouseDatabase getInstance(Context context){
         if (instance ==  null){
             instance = create(context);
         }

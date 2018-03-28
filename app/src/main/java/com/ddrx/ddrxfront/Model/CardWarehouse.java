@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Created by vincentshaw on 2018/3/15.
  */
-@Entity(tableName = "CardWarehouse")
+@Entity
 public class CardWarehouse {
     @PrimaryKey
     private long CW_id;
@@ -21,13 +21,12 @@ public class CardWarehouse {
     private int CW_card_num;
     private String CW_abstract;
     private String CW_detail;
-    private int CW_per_day;
-    private int CW_per_month;
-    private int CW_cover_url;
+    private int CW_training;
+    private String CW_cover_url;
 
     public CardWarehouse(){}
 
-    public CardWarehouse(long CW_id, long CT_id, String CT_name, long u_id, String u_nick, String UCW_time, String CW_name, int CW_privilege, int CW_card_num, String CW_abstract, String CW_detail, int CW_per_day, int CW_per_month) {
+    public CardWarehouse(long CW_id, long CT_id, String CT_name, long u_id, String u_nick, String UCW_time, String CW_name, int CW_privilege, int CW_card_num, String CW_abstract, String CW_detail, int CW_training) {
         this.CW_id = CW_id;
         this.CT_id = CT_id;
         this.CT_name = CT_name;
@@ -39,17 +38,16 @@ public class CardWarehouse {
         this.CW_card_num = CW_card_num;
         this.CW_abstract = CW_abstract;
         this.CW_detail = CW_detail;
-        this.CW_per_day = CW_per_day;
-        this.CW_per_month = CW_per_month;
+        this.CW_training = CW_training;
     }
 
     private String CW_content;
 
-    public int getCW_cover_url() {
+    public String getCW_cover_url() {
         return CW_cover_url;
     }
 
-    public void setCW_cover_url(int CW_cover_url) {
+    public void setCW_cover_url(String CW_cover_url) {
         this.CW_cover_url = CW_cover_url;
     }
 
@@ -149,19 +147,11 @@ public class CardWarehouse {
         this.CW_detail = CW_detail;
     }
 
-    public int getCW_per_day() {
-        return CW_per_day;
+    public int getCW_training() {
+        return CW_training;
     }
 
-    public void setCW_per_day(int CW_per_day) {
-        this.CW_per_day = CW_per_day;
-    }
-
-    public int getCW_per_month() {
-        return CW_per_month;
-    }
-
-    public void setCW_per_month(int CW_per_month) {
-        this.CW_per_month = CW_per_month;
+    public void setCW_training(int CW_training) {
+        this.CW_training = CW_training;
     }
 }
