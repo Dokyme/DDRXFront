@@ -14,7 +14,7 @@ public abstract class CardModelDatabase extends RoomDatabase{
     private static final String DB_NAME = "CardModelDatabase.db";
     private static volatile CardModelDatabase instance;
 
-    static synchronized CardModelDatabase getInstance(Context context){
+    public static synchronized CardModelDatabase getInstance(Context context){
         if (instance ==  null){
             instance = create(context);
         }
@@ -25,5 +25,5 @@ public abstract class CardModelDatabase extends RoomDatabase{
         return Room.databaseBuilder(context, CardModelDatabase.class, DB_NAME).build();
     }
 
-    public abstract CardModelDAO getCardModeleDAO();
+    public abstract CardModelDAO getCardModelDAO();
 }

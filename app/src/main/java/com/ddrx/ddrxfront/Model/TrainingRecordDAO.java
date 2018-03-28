@@ -39,4 +39,7 @@ public interface TrainingRecordDAO {
 
     @Delete
     void deleteTrainingRecord(List<TrainingRecord> trainingRecords);
+
+    @Query("Delete From TrainingRecord Where 1=1")
+    void deleteAllTrainingRecord();
 }

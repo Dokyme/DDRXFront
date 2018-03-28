@@ -1,22 +1,24 @@
 package com.ddrx.ddrxfront.Controller;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.ddrx.ddrxfront.CardFragment;
 import com.ddrx.ddrxfront.Model.CardModel;
+import com.ddrx.ddrxfront.Model.CardModelDatabase;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
+import com.ddrx.ddrxfront.Model.MemoryCard;
+import com.ddrx.ddrxfront.Model.MemoryCardDatabase;
+import com.ddrx.ddrxfront.Model.TrainingRecord;
+import com.ddrx.ddrxfront.Model.TrainingRecordDatabase;
 import com.ddrx.ddrxfront.Utilities.JSONToEntity;
 import com.ddrx.ddrxfront.Utilities.MacAddressUtil;
 import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
-import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
 
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -30,18 +32,15 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-/**
- * Created by vincentshaw on 2018/3/28.
- */
-
 public class InitUpdateDatabase {
     private static final String HOST_NAME = "localhost:3000";
     private static final String GET_USER_ALL_CW_INFO_URL = HOST_NAME + "/warehouse/down_list";
     private static final String GET_COVER_URL = HOST_NAME + "/warehouse/down_list";
     private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/";
+    private static final String GET_USER_ALL_TRAINING_RECORD = HOST_NAME + "/down_record";
     public static final int NETWORK_ERROR = 1;
 
-    public InitUpdateDatabse(){}
+    public InitUpdateDatabase(){}
 
     public static void updateCardWarehouseDatabase(final Context context, final Handler handler, final OkHttpClient client){
         new Thread(new Runnable() {
@@ -59,15 +58,15 @@ public class InitUpdateDatabase {
                             sendMessageToUI(handler, NETWORK_ERROR);
                             return;
                         }
-                        ParseBackDataPack parser =  new ParseBackDataPack(response_data);
+                        ParseBackDataPack parser = new ParseBackDataPack(response_data);
                         return_code = parser.getCode();
                         if (return_code == 0) {
                             List<CardWarehouse> warehouseList = JSONToEntity.getCardWarehouseList(parser.getBody());
-                            List<String> cover_url_list = downloadCovers(handler, client, warehouseList);
+                            List<String> cover_url_list = downloadCovers(handler, client, context, warehouseList);
                             if (warehouseList == null || cover_url_list == null || warehouseList.size() != cover_url_list.size()) {
                                 sendMessageToUI(handler, NETWORK_ERROR);
-                            }else {
-                                for(int i = 0; i < warehouseList.size(); i++){
+                            } else {
+                                for (int i = 0; i < warehouseList.size(); i++) {
                                     CardWarehouse warehouse = warehouseList.get(i);
                                     String cover_url = cover_url_list.get(i);
                                     warehouse.setCW_cover_url(cover_url);
@@ -77,19 +76,17 @@ public class InitUpdateDatabase {
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
                         }
-                    } else {
-                        sendMessageToUI(handler, NETWORK_ERROR);
                     }
                 }
             }
         }).start();
     }
 
-    public static void updateCardModelDatabase(final Context context, final Handler handler, OkHttpClient client){
+    public static void updateCardModelDatabase(final Context context, final Handler handler, final OkHttpClient client){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Response response = getResponse(context, GET_USER_ALL_CT_INFO_URL);
+                Response response = getResponse(context, GET_USER_ALL_CT_INFO_URL, client, handler);
                 if(response != null) {
                     if (response.isSuccessful()) {
                         String response_data;
@@ -104,17 +101,11 @@ public class InitUpdateDatabase {
                         ParseBackDataPack parser =  new ParseBackDataPack(response_data);
                         return_code = parser.getCode();
                         if (return_code == 0) {
-                            List<CardModel> cardModelList = JSONToEntity.
-                            List<String> cover_url_list = downloadCovers(handler, client, warehouseList);
-                            if (warehouseList == null || cover_url_list == null || warehouseList.size() != cover_url_list.size()) {
+                            List<CardModel> cardModelList = JSONToEntity.getCardModelList(parser.getBody());
+                            if (cardModelList == null) {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             }else {
-                                for(int i = 0; i < warehouseList.size(); i++){
-                                    CardWarehouse warehouse = warehouseList.get(i);
-                                    String cover_url = cover_url_list.get(i);
-                                    warehouse.setCW_cover_url(cover_url);
-                                }
-                                updateCWDatabase(context, warehouseList);
+                                updateCTDatabase(context, cardModelList);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -127,11 +118,74 @@ public class InitUpdateDatabase {
         }).start();
     }
 
-    public static void updateTrainingRecordDatabase(Context context, Handler handler, OkHttpClient client){
+    public static void updateTrainingRecordDatabase(final Context context, final Handler handler, final OkHttpClient client){
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Response response = getResponse(context, GET_USER_ALL_TRAINING_RECORD, client, handler);
+                if(response != null) {
+                    if (response.isSuccessful()) {
+                        String response_data;
+                        int return_code;
+                        try {
+                            response_data = response.body().string();
+                        } catch (IOException e) {
+                            Log.e("Network Error", "updateTrainingRecordDatabase@InitUpdateDatabase");
+                            sendMessageToUI(handler, NETWORK_ERROR);
+                            return;
+                        }
+                        ParseBackDataPack parser =  new ParseBackDataPack(response_data);
+                        return_code = parser.getCode();
+                        if (return_code == 0) {
+                            List<TrainingRecord> trainingRecordList = JSONToEntity.getTrainingRecordList(parser.getBody());
+                            if (trainingRecordList == null) {
+                                sendMessageToUI(handler, NETWORK_ERROR);
+                            }else {
+                                updateTRDatabase(context, trainingRecordList);
+                            }
+                        } else {
+                            sendMessageToUI(handler, NETWORK_ERROR);
+                        }
+                    } else {
+                        sendMessageToUI(handler, NETWORK_ERROR);
+                    }
+                }
+            }
+        }).start();
+    }
 
+    public static void updateMemoryCardDatabase(final Context context, final Handler handler, final OkHttpClient client){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Response response = getResponse(context, GET_USER_ALL_TRAINING_RECORD, client, handler);
+                if(response != null) {
+                    if (response.isSuccessful()) {
+                        String response_data;
+                        int return_code;
+                        try {
+                            response_data = response.body().string();
+                        } catch (IOException e) {
+                            Log.e("Network Error", "updateMemoryCardDatabase@InitUpdateDatabase");
+                            sendMessageToUI(handler, NETWORK_ERROR);
+                            return;
+                        }
+                        ParseBackDataPack parser =  new ParseBackDataPack(response_data);
+                        return_code = parser.getCode();
+                        if (return_code == 0) {
+                            List<MemoryCard> memoryCardList = JSONToEntity.getMemoryCardList(parser.getBody());
+                            if (memoryCardList == null) {
+                                sendMessageToUI(handler, NETWORK_ERROR);
+                            }else {
+                                updateTRDatabase(context, memoryCardList);
+                            }
+                        } else {
+                            sendMessageToUI(handler, NETWORK_ERROR);
+                        }
+                    } else {
+                        sendMessageToUI(handler, NETWORK_ERROR);
+                    }
+                }
             }
         }).start();
     }
@@ -191,7 +245,7 @@ public class InitUpdateDatabase {
                 return null;
             }
             if(response.isSuccessful()){
-                FileInputStream out = null;
+                FileOutputStream out = null;
                 BufferedWriter writer = null;
                 try{
                     out = context.openFileOutput(String.valueOf(CW_id) + "_cover.jpg", Context.MODE_PRIVATE);
@@ -219,6 +273,34 @@ public class InitUpdateDatabase {
                 return null;
             }
         }
+        return coverLists;
     }
 
+    private static void updateCTDatabase(final Context context, List<CardModel> modelList){
+        CardModelDatabase db = CardModelDatabase.getInstance(context);
+        HashSet<Long> model_ids = new HashSet<>(db.getCardModelDAO().queryAllCT_ID());
+        List<Long> now_model_ids = new LinkedList<>();
+        for(CardModel model: modelList){
+            if(model_ids.contains(model.getCT_name()))
+                db.getCardModelDAO().updateCardModels(model);
+            else
+                db.getCardModelDAO().insertSingleCardModel(model);
+            now_model_ids.add(model.getCT_id());
+        }
+        List<Long> delete_model_ids = db.getCardModelDAO().queryAllNotExistCT_ID(now_model_ids);
+        db.getCardModelDAO().deleteCardModelById(delete_model_ids);
+        db.close();
+    }
+
+    private static void updateTRDatabase(final Context context, List<TrainingRecord> trainingRecordList){
+        TrainingRecordDatabase db = TrainingRecordDatabase.getInstance();
+        db.getTrainingRecordDAO().deleteAllTrainingRecord();
+        db.getTrainingRecordDAO().insertIntoTrainingRecord(trainingRecordList);
+    }
+
+    private static void updateMCDatabase(final Context context, List<MemoryCard> memoryCardList){
+        MemoryCardDatabase db = MemoryCardDatabase.getInstance();
+        db.getCardWarehouseDAO().deleteAllMemoryCard();
+        db.getCardWarehouseDAO().insetIntoMemoryCard(memoryCardList);
+    }
 }
