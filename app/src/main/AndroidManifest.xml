@@ -35,7 +35,8 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".CardWarehouseDetailActivity" />
-        <activity android:name=".ShowCardActivity"></activity>
+        <activity android:name=".ShowCardActivity" />
+        <activity android:name=".AddNewWarehouseActivity"></activity>
     </application>
 
 </manifest>

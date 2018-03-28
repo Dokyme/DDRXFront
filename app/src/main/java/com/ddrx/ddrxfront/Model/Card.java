@@ -18,9 +18,9 @@ public class Card {
     private List<JSONObject> card_content;
     private int serial_id;
     private long timestamp;
-    private int CW_id;
+    private long CW_id;
 
-    public Card(String json_string, int CW_id){
+    public Card(String json_string, long CW_id){
         this.CW_id = CW_id;
         card_content = new LinkedList<>();
         try{

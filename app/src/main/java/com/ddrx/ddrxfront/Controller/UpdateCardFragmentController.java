@@ -71,7 +71,7 @@ public class UpdateCardFragmentController {
                         return_code = parser.getCode();
                         if (return_code == 0) {
                             List<CardWarehouse> warehouseList = JSONToEntity.getCardWarehouseList(parser.getBody());
-                            if (warehouseList == null) {
+                            if (warehouseList == null ) {
                                 sendMessageToUI(CardFragment.NETWORK_ERROR);
                             } else if (warehouseList.isEmpty()) {
                                 sendMessageToUI(CardFragment.EMPTY_LIST);
