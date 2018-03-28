@@ -24,7 +24,6 @@ public class CardModel {
     private String creator_name;
     private String intro;
     private int privilege;
-    private double price;
     private String storage;
 
     public int getModel_id() {
@@ -67,22 +66,13 @@ public class CardModel {
         this.privilege = privilege;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public CardModel(int model_id, String model_name, String creator_name, String intro, int privilege, double price, String storage) {
+    public CardModel(int model_id, String model_name, String creator_name, String intro, int privilege, String storage) {
 
         this.model_id = model_id;
         this.model_name = model_name;
         this.creator_name = creator_name;
         this.intro = intro;
         this.privilege = privilege;
-        this.price = price;
         this.storage = storage;
     }
 }

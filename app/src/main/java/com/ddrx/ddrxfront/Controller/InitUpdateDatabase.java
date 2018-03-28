@@ -7,9 +7,11 @@ import android.os.Message;
 import android.util.Log;
 
 import com.ddrx.ddrxfront.CardFragment;
+import com.ddrx.ddrxfront.Model.CardModel;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
 import com.ddrx.ddrxfront.Utilities.JSONToEntity;
+import com.ddrx.ddrxfront.Utilities.MacAddressUtil;
 import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
 import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
 
@@ -32,12 +34,12 @@ import okhttp3.Response;
  * Created by vincentshaw on 2018/3/28.
  */
 
-public class InitUpdateDatabse {
+public class InitUpdateDatabase {
     private static final String HOST_NAME = "localhost:3000";
     private static final String GET_USER_ALL_CW_INFO_URL = HOST_NAME + "/warehouse/down_list";
     private static final String GET_COVER_URL = HOST_NAME + "/warehouse/down_list";
+    private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/";
     public static final int NETWORK_ERROR = 1;
-    public static final int
 
     public InitUpdateDatabse(){}
 
@@ -83,11 +85,44 @@ public class InitUpdateDatabse {
         }).start();
     }
 
-    public static void updateCardModelDatabase(Context context, Handler handler, OkHttpClient client){
+    public static void updateCardModelDatabase(final Context context, final Handler handler, OkHttpClient client){
         new Thread(new Runnable() {
             @Override
             public void run() {
-
+                Response response = getResponse(context, GET_USER_ALL_CT_INFO_URL);
+                if(response != null) {
+                    if (response.isSuccessful()) {
+                        String response_data;
+                        int return_code;
+                        try {
+                            response_data = response.body().string();
+                        } catch (IOException e) {
+                            Log.e("Network Error", "updateCardModelDatabase@InitUpdateDatabase");
+                            sendMessageToUI(handler, NETWORK_ERROR);
+                            return;
+                        }
+                        ParseBackDataPack parser =  new ParseBackDataPack(response_data);
+                        return_code = parser.getCode();
+                        if (return_code == 0) {
+                            List<CardModel> cardModelList = JSONToEntity.
+                            List<String> cover_url_list = downloadCovers(handler, client, warehouseList);
+                            if (warehouseList == null || cover_url_list == null || warehouseList.size() != cover_url_list.size()) {
+                                sendMessageToUI(handler, NETWORK_ERROR);
+                            }else {
+                                for(int i = 0; i < warehouseList.size(); i++){
+                                    CardWarehouse warehouse = warehouseList.get(i);
+                                    String cover_url = cover_url_list.get(i);
+                                    warehouse.setCW_cover_url(cover_url);
+                                }
+                                updateCWDatabase(context, warehouseList);
+                            }
+                        } else {
+                            sendMessageToUI(handler, NETWORK_ERROR);
+                        }
+                    } else {
+                        sendMessageToUI(handler, NETWORK_ERROR);
+                    }
+                }
             }
         }).start();
     }
@@ -102,9 +137,9 @@ public class InitUpdateDatabse {
     }
 
     private static Response getResponse(Context context, String url, OkHttpClient client, Handler handler){
-        UserInfoPreference preference = new UserInfoPreference(context);
+        MacAddressUtil mac = new MacAddressUtil(context);
         RequestBody formBody = new FormBody.Builder()
-                .add("U_id", String.valueOf(preference.getUserInfo().getId())).build();
+                .add("_MAC", String.valueOf(mac.getMacAddr())).build();
         Request request = new Request.Builder()
                 .url(url)
                 .post(formBody)
