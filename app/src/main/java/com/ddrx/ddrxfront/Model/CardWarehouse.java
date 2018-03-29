@@ -24,14 +24,15 @@ public class CardWarehouse {
     private int CW_training;
     private String CW_cover_url;
 
-    public CardWarehouse(){}
+    public CardWarehouse() {
+    }
 
-    public CardWarehouse(long CW_id, long CT_id, String CT_name, long u_id, String u_nick, String UCW_time, String CW_name, int CW_privilege, int CW_card_num, String CW_abstract, String CW_detail, int CW_training) {
+    public CardWarehouse(long CW_id, long CT_id, String CT_name, long U_id, String U_nick, String UCW_time, String CW_name, int CW_privilege, int CW_card_num, String CW_abstract, String CW_detail, int CW_training) {
         this.CW_id = CW_id;
         this.CT_id = CT_id;
         this.CT_name = CT_name;
-        U_id = u_id;
-        U_nick = u_nick;
+        this.U_id = U_id;
+        this.U_nick = U_nick;
         this.UCW_time = UCW_time;
         this.CW_name = CW_name;
         this.CW_privilege = CW_privilege;

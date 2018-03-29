@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "20d1c054194f002032a5f7ee6c62930f",
+    "identityHash": "1b695d1b94839a549bedb22d19de7839",
     "entities": [
       {
         "tableName": "CardModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`model_id` INTEGER NOT NULL, `model_name` TEXT, `creator_name` TEXT, `intro` TEXT, `privilege` INTEGER NOT NULL, `price` REAL NOT NULL, `storage` TEXT, PRIMARY KEY(`model_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`model_id` INTEGER NOT NULL, `model_name` TEXT, `creator_name` TEXT, `intro` TEXT, `privilege` INTEGER NOT NULL, `storage` TEXT, PRIMARY KEY(`model_id`))",
         "fields": [
           {
             "fieldPath": "model_id",
@@ -39,12 +39,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "price",
-            "columnName": "price",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
             "fieldPath": "storage",
             "columnName": "storage",
             "affinity": "TEXT",
@@ -63,7 +57,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"20d1c054194f002032a5f7ee6c62930f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1b695d1b94839a549bedb22d19de7839\")"
     ]
   }
 }

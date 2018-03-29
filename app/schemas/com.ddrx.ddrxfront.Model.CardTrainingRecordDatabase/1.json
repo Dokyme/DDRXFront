@@ -1,0 +1,46 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "be437acc995e572c732ccfd04dceaa7d",
+    "entities": [
+      {
+        "tableName": "CardTranningRecord",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `serial_id` INTEGER NOT NULL, `training_count` INTEGER NOT NULL, PRIMARY KEY(`CW_id`, `serial_id`))",
+        "fields": [
+          {
+            "fieldPath": "CW_id",
+            "columnName": "CW_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serial_id",
+            "columnName": "serial_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "training_count",
+            "columnName": "training_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "CW_id",
+            "serial_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"be437acc995e572c732ccfd04dceaa7d\")"
+    ]
+  }
+}

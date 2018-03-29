@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6fbfd58a5707de46bae39004c56ed164",
+    "identityHash": "8971f4159721a4e7e7505c82c7616b08",
     "entities": [
       {
         "tableName": "CardWarehouse",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_nick` TEXT, `UCW_time` TEXT, `CW_name` TEXT, `CW_privilege` INTEGER NOT NULL, `CW_card_num` INTEGER NOT NULL, `CW_abstract` TEXT, `CW_detail` TEXT, `CW_per_day` INTEGER NOT NULL, `CW_per_month` INTEGER NOT NULL, `CW_cover_url` TEXT, `CW_content` TEXT, PRIMARY KEY(`CW_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_nick` TEXT, `UCW_time` TEXT, `CW_name` TEXT, `CW_privilege` INTEGER NOT NULL, `CW_card_num` INTEGER NOT NULL, `CW_abstract` TEXT, `CW_detail` TEXT, `CW_training` INTEGER NOT NULL, `CW_cover_url` TEXT, `CW_content` TEXT, PRIMARY KEY(`CW_id`))",
         "fields": [
           {
             "fieldPath": "CW_id",
@@ -75,14 +75,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "CW_per_day",
-            "columnName": "CW_per_day",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "CW_per_month",
-            "columnName": "CW_per_month",
+            "fieldPath": "CW_training",
+            "columnName": "CW_training",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -111,7 +105,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6fbfd58a5707de46bae39004c56ed164\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8971f4159721a4e7e7505c82c7616b08\")"
     ]
   }
 }

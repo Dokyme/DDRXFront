@@ -41,7 +41,7 @@ public class InitUpdateDatabase {
     private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/";
     public static final int NETWORK_ERROR = 1;
 
-    public InitUpdateDatabse(){}
+    public InitUpdateDatabase(){}
 
     public static void updateCardWarehouseDatabase(final Context context, final Handler handler, final OkHttpClient client){
         new Thread(new Runnable() {
