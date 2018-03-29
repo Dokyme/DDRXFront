@@ -9,32 +9,32 @@
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`model_id` INTEGER NOT NULL, `model_name` TEXT, `creator_name` TEXT, `intro` TEXT, `privilege` INTEGER NOT NULL, `storage` TEXT, PRIMARY KEY(`model_id`))",
         "fields": [
           {
-            "fieldPath": "model_id",
-            "columnName": "model_id",
+            "fieldPath": "CT_id",
+            "columnName": "CT_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "model_name",
-            "columnName": "model_name",
+            "fieldPath": "CT_name",
+            "columnName": "CT_name",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "creator_name",
-            "columnName": "creator_name",
+            "fieldPath": "U_name",
+            "columnName": "U_name",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "intro",
-            "columnName": "intro",
+            "fieldPath": "CT_brief",
+            "columnName": "CT_brief",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "privilege",
-            "columnName": "privilege",
+            "fieldPath": "CT_type",
+            "columnName": "CT_type",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -47,7 +47,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "model_id"
+            "CT_id"
           ],
           "autoGenerate": false
         },

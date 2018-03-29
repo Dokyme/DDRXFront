@@ -5,6 +5,8 @@ import android.util.Log;
 
 import com.ddrx.ddrxfront.Model.CardModel;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
+import com.ddrx.ddrxfront.Model.MemoryCard;
+import com.ddrx.ddrxfront.Model.TrainingRecord;
 import com.ddrx.ddrxfront.Model.UserInfo;
 
 import org.json.JSONArray;
@@ -54,7 +56,7 @@ public class JSONToEntity {
 
         long CW_id, CT_id, U_id;
         String CT_name, U_nick, CW_name, CW_abstract, UCW_time, CW_detail;
-        int CW_privilege, CW_card_num, CW_per_day, CW_per_month;
+        int CW_privilege, CW_card_num, CW_training;
 
         List<CardWarehouse> result = new ArrayList<>();
         for(int i = 0; i < jsonArray.length(); i++){
@@ -69,8 +71,7 @@ public class JSONToEntity {
                 CW_abstract = obj.getString("CW_abstract");
                 UCW_time = obj.getString("UCW_time");
                 CW_detail = obj.getString("CW_detail");
-                CW_per_day = obj.getInt("CW_per_day");
-                CW_per_month = obj.getInt("CW_per_month");
+                CW_training = obj.getInt("CW_training");
                 CW_privilege = obj.getInt("CW_privilege");
                 CW_card_num = obj.getInt("CW_card_num");
             }catch(JSONException exception){
@@ -78,7 +79,7 @@ public class JSONToEntity {
                 continue;
             }
             result.add(new CardWarehouse(CW_id, CT_id, CT_name, U_id, U_nick, UCW_time, CW_name, CW_privilege, CW_card_num
-                                        , CW_abstract, CW_detail, CW_per_day, CW_per_month));
+                                        , CW_abstract, CW_detail, CW_training));
         }
         return result;
     }
@@ -92,7 +93,66 @@ public class JSONToEntity {
         return result;
     }
 
-    public static List<CardModel> getCardModelList(String json_string){
+    public static List<CardModel> getCardModelList(JSONArray array){
+        long CT_id;
+        String CT_name, U_name, CT_brief, CT_context;
+        int CT_privilege, CT_type;
 
+        List<CardModel> models = new ArrayList<>();
+        try{
+            for(int i = 0; i < array.length(); i++){
+                JSONObject obj = array.getJSONObject(i);
+                CT_id = obj.getLong("CT_id");
+                CT_name = obj.getString("CT_name");
+                U_name = obj.getString("U_name");
+                CT_privilege = obj.getInt("CT_privilege");
+                CT_brief = obj.getString("CT_brief");
+                CT_type = obj.getInt("CT_type");
+                CT_context = obj.getString("CT_context");
+                models.add(new CardModel(CT_id, CT_name, U_name, CT_brief, CT_privilege, CT_type, CT_context));
+            }
+        } catch(JSONException e){
+            Log.e("JSON Format Error", "getCardModelList@JSONToEntity");
+            return null;
+        }
+        return models;
+    }
+
+    public static List<TrainingRecord> getTrainingRecordList(JSONArray array){
+        long CW_id, U_id;
+        String training_time;
+        List<TrainingRecord> recordList = new ArrayList<>();
+        try{
+            for(int i = 0; i < array.length(); i++){
+                JSONObject obj = array.getJSONObject(i);
+                CW_id = obj.getLong("CW_id");
+                U_id = obj.getLong("U_id");
+                training_time = obj.getString("TR_finish");
+                recordList.add(new TrainingRecord(CW_id, U_id, training_time));
+            }
+        } catch(JSONException e){
+            Log.e("JSON Format Error", "getTrainingRecordList@JSONToEntity");
+            return null;
+        }
+        return recordList;
+    }
+
+    public static List<MemoryCard> getMemoryCardList(JSONArray array){
+        long CC_id, CW_id;
+        String CC_content;
+        List<MemoryCard> memoryCardList = new ArrayList<>();
+        try{
+            for(int i = 0; i < array.length(); i++){
+                JSONObject obj = array.getJSONObject(i);
+                CC_id = obj.getLong("CC_id");
+                CW_id = obj.getLong("CW_id");
+                CC_content = obj.getString("CC_content");
+                memoryCardList.add(new MemoryCard(CC_id, CW_id, CC_content));
+            }
+        } catch (JSONException e){
+            Log.e("JSON Format Error", "getMemoryCardList@JSONToEntity");
+            return null;
+        }
+        return memoryCardList;
     }
 }

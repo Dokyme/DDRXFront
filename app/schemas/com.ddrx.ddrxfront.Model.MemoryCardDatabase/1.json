@@ -1,0 +1,45 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "1efe2c0e785817640bcc93bca8ea0ab1",
+    "entities": [
+      {
+        "tableName": "MemoryCard",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CC_id` INTEGER NOT NULL, `CW_id` INTEGER NOT NULL, `CC_content` TEXT, PRIMARY KEY(`CC_id`))",
+        "fields": [
+          {
+            "fieldPath": "CC_id",
+            "columnName": "CC_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_id",
+            "columnName": "CW_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CC_content",
+            "columnName": "CC_content",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "CC_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1efe2c0e785817640bcc93bca8ea0ab1\")"
+    ]
+  }
+}

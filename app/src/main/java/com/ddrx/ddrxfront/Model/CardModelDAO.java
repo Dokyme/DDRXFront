@@ -14,6 +14,15 @@ import java.util.List;
 
 @Dao
 public interface CardModelDAO {
+    @Query("Select CT_id From CardModel")
+    List<Long> queryAllCT_ID();
+
+    @Query("Select CT_id From CardModel Where CT_id not in (:CT_ids)")
+    List<Long> queryAllNotExistCT_ID(List<Long> CT_ids);
+
+    @Query("Delete From CardModel Where CT_id in (:CT_ids)")
+    void deleteCardModelById(List<Long> CT_ids);
+
     @Insert
     void insertSingleCardModel(CardModel cardModel);
 

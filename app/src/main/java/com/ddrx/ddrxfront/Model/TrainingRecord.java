@@ -13,6 +13,7 @@ public class TrainingRecord {
 
     private long CW_id;
     private long U_id;
+    @NonNull
     private String training_time;
 
     public long getCW_id() {
@@ -39,9 +40,10 @@ public class TrainingRecord {
         this.training_time = training_time;
     }
 
-    public TrainingRecord(@NonNull long CW_id,@NonNull long U_id,@NonNull String training_time) {
+    public TrainingRecord(long CW_id, long U_id, String training_time) {
+
         this.CW_id = CW_id;
-        this.U_id = U_id;
+        U_id = U_id;
         this.training_time = training_time;
     }
 }
