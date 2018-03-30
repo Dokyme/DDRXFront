@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/training_module"
-        android:title="@string/training_name"
-        android:icon="@mipmap/training" />
+          android:title="@string/training_name"
+          android:icon="@mipmap/training"/>
     <item android:id="@+id/warehouse_module"
-        android:title="@string/warehouse_name"
-        android:icon="@mipmap/warehouse" />
-    <item android:id="@+id/discover_module"
-        android:title="@string/discover_name"
-        android:icon="@mipmap/discover" />
+          android:title="@string/warehouse_name"
+          android:icon="@mipmap/warehouse"/>
+    <item android:id="@+id/template_module"
+          android:title="模板"
+          android:icon="@mipmap/discover"/>
 </menu>
