@@ -65,6 +65,7 @@ class TrainingActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             val fragment = MemoryCard_Fragment()
             fragment.setCard(Card(trainingCardList[position].cC_content))
+            return fragment
         }
 
         override fun getCount(): Int {

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ce66641eb91c8d6f7004e47ba6c8d0ba",
+    "identityHash": "671b478c11f3c5d1de7b2171da5af2fd",
     "entities": [
       {
         "tableName": "CardWarehouse",
@@ -104,7 +104,7 @@
       },
       {
         "tableName": "CardModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_name` TEXT, `CT_brief` TEXT, `CT_type` INTEGER NOT NULL, `CT_privilege` INTEGER NOT NULL, `CT_context` TEXT, PRIMARY KEY(`CT_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `UCT_time` TEXT, `U_name` TEXT, `CT_brief` TEXT, `CT_type` INTEGER NOT NULL, `CT_privilege` INTEGER NOT NULL, `CT_context` TEXT, PRIMARY KEY(`CT_id`))",
         "fields": [
           {
             "fieldPath": "CT_id",
@@ -123,6 +123,12 @@
             "columnName": "U_id",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "UCT_time",
+            "columnName": "UCT_time",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "U_name",
@@ -278,7 +284,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ce66641eb91c8d6f7004e47ba6c8d0ba\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"671b478c11f3c5d1de7b2171da5af2fd\")"
     ]
   }
 }

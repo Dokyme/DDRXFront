@@ -38,14 +38,21 @@ class TestingActivity : AppCompatActivity() {
         btn_next.setOnClickListener(OnSubmit())
     }
 
+    inner class OnPass:View.OnClickListener{
+        override fun onClick(v: View?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+    }
+
+    inner class OnNotPass:View.OnClickListener{
+        override fun onClick(v: View?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+    }
+
     inner class OnSubmit : View.OnClickListener {
         override fun onClick(v: View?) {
-            //对比答案
-            if (currentFragment.getAnswer() == Card(testingCardList[currentPage].cC_content).cardTrainingItem.data) {
-                
-            } else {
-                //回答错误
-            }
+
             btn_next.text = "下一题"
             btn_next.setOnClickListener(OnNext())
         }
@@ -64,12 +71,16 @@ class TestingActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             val fragment = TestingPageFragment()
             fragment.card = Card(testingCardList[position].cC_content)
-            currentFragment = fragment
             return fragment
         }
 
         override fun getCount(): Int {
             return testingCardList.size
+        }
+
+        override fun setPrimaryItem(container: View, position: Int, `object`: Any) {
+            super.setPrimaryItem(container, position, `object`)
+            currentFragment = `object` as TestingPageFragment
         }
     }
 }

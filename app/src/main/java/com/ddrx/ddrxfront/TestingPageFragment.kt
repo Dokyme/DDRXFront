@@ -16,14 +16,6 @@ class TestingPageFragment : Fragment() {
     var card: Card? = null
 
     fun getAnswer(): String {
-
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return ""
     }
 }
