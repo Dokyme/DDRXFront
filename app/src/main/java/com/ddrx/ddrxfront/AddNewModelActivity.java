@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,7 +36,7 @@ public class AddNewModelActivity extends AppCompatActivity {
     private ImageView add_new_model_entry;
     private Button commit_model;
     private LinearLayout entry_layout;
-    private HashMap<Integer, LinearLayout> entry_manager;
+    private HashMap<Integer, ConstraintLayout> entry_manager;
     private Context context;
     private MyHandler handler;
     private int max_count = 0;
@@ -71,26 +72,32 @@ public class AddNewModelActivity extends AppCompatActivity {
         add_new_model_entry = findViewById(R.id.ANM_add_new_stuff);
         commit_model = findViewById(R.id.ANM_commit);
         entry_layout = findViewById(R.id.ANM_entry_layout);
+        entry_manager = new HashMap<>();
         handler = new MyHandler(this);
-        Spinner type_tag = findViewById(R.id.ANM_type);
-        type_tag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final Spinner type_tag = findViewById(R.id.ANM_type);
+        type_tag.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CT_type = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){
+                type_tag.setSelection(0);
             }
         });
 
         add_new_model_entry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout entry = (LinearLayout) View.inflate(context, R.layout.add_new_model_record, entry_layout);
+                ConstraintLayout entry = (ConstraintLayout) View.inflate(context, R.layout.add_new_model_record, null);
                 ImageView delete_btn = entry.findViewById(R.id.delete_entry);
                 delete_btn.setTag(max_count);
                 delete_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         int item_id = (int) v.getTag();
-                        LinearLayout delete_entry = entry_manager.get(item_id);
+                        ConstraintLayout delete_entry = entry_manager.get(item_id);
                         entry_layout.removeView(delete_entry);
                         entry_manager.remove(item_id);
                     }

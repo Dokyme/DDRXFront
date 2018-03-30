@@ -46,7 +46,7 @@ public class ShowCardController {
                         if(file_name.split("_")[1].equals(String.valueOf(CW_id))){
                             String read_json = readStringFromFile(file_name);
                             if(read_json != null)
-                                result.add(new Card(read_json, CW_id));
+                                result.add(new Card(read_json));
                         }
                     }
                 }
