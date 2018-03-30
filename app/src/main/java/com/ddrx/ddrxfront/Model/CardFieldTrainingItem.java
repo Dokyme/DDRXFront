@@ -9,12 +9,24 @@ import java.util.List;
 public class CardFieldTrainingItem {
     private String name;
     private int type;
+    private String data;
     private boolean name_visible;
-    private int level;
+    private int text_size;
     private int align;
-    private List<TrainingSet> trainingSets;
+    private String[] keywords;
+
+    public CardFieldTrainingItem(String name, int type, String data, boolean name_visible, int text_size, int align, String[] keywords) {
+        this.name = name;
+        this.type = type;
+        this.data = data;
+        this.name_visible = name_visible;
+        this.text_size = text_size;
+        this.align = align;
+        this.keywords = keywords;
+    }
 
     public String getName() {
+
         return name;
     }
 
@@ -30,6 +42,14 @@ public class CardFieldTrainingItem {
         this.type = type;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
     public boolean isName_visible() {
         return name_visible;
     }
@@ -38,12 +58,12 @@ public class CardFieldTrainingItem {
         this.name_visible = name_visible;
     }
 
-    public int getLevel() {
-        return level;
+    public int getText_size() {
+        return text_size;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setText_size(int text_size) {
+        this.text_size = text_size;
     }
 
     public int getAlign() {
@@ -54,35 +74,11 @@ public class CardFieldTrainingItem {
         this.align = align;
     }
 
-    public List<TrainingSet> getTrainingSets() {
-        return trainingSets;
+    public String[] getKeywords() {
+        return keywords;
     }
 
-    public void setTrainingSets(List<TrainingSet> trainingSets) {
-        this.trainingSets = trainingSets;
-    }
-
-    public CardFieldTrainingItem(String name, int type, boolean name_visible, int level, int align, List<TrainingSet> trainingSets) {
-        this.name = name;
-        this.type = type;
-        this.name_visible = name_visible;
-        this.level = level;
-        this.align = align;
-        this.trainingSets = trainingSets;
-
-    }
-
-}
-
-class TrainingSet{
-    public int start_period;
-    public int end_period;
-    public int training_type;
-    public String training_data;
-    public TrainingSet(int start_period, int end_period, int training_type, String training_data){
-        this.start_period = start_period;
-        this.end_period = end_period;
-        this.training_type = training_type;
-        this.training_data = training_data;
+    public void setKeywords(String[] keywords) {
+        this.keywords = keywords;
     }
 }

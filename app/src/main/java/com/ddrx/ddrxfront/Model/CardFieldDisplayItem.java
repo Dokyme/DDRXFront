@@ -9,7 +9,6 @@ public class CardFieldDisplayItem {
     private int type;
     private String data;
     private boolean name_visible;
-    private int level;
     private int align;
     private int text_size;
 
@@ -37,14 +36,6 @@ public class CardFieldDisplayItem {
         this.name_visible = name_visible;
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public String getName() {
         return name;
     }
@@ -69,13 +60,12 @@ public class CardFieldDisplayItem {
         this.data = data;
     }
 
-    public CardFieldDisplayItem(String name, int type, String data, boolean name_visible, int level, int align, int text_size) {
+    public CardFieldDisplayItem(String name, int type, String data, boolean name_visible, int align, int text_size) {
 
         this.name = name;
         this.type = type;
         this.data = data;
         this.name_visible = name_visible;
-        this.level = level;
         this.align = align;
         this.text_size = text_size;
     }

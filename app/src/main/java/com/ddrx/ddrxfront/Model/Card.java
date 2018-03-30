@@ -15,126 +15,63 @@ import java.util.List;
  */
 
 public class Card {
-    private List<JSONObject> card_content;
-    private int serial_id;
-    private long timestamp;
-    private long CW_id;
 
-    public Card(String json_string, long CW_id){
-        this.CW_id = CW_id;
-        card_content = new LinkedList<>();
+    private List<CardItem> items;
+
+    public Card(String json_array){
+        JSONArray array = null;
+        items = new ArrayList<>();
         try{
-            JSONObject object = new JSONObject(json_string);
-            serial_id = object.getInt("serial_id");
-            timestamp = object.getInt("timestamp");
-            JSONArray content = object.getJSONArray("content");
-            for(int i = 0; i < content.length(); i++){
-                card_content.add(content.getJSONObject(i));
+            array = new JSONArray(json_array);
+            for(int i = 0; i < array.length(); i++){
+                items.add(new CardItem(array.getJSONObject(i)));
             }
-        }catch(JSONException e){
-            Log.e("CardFormatError", "Warehouse " + String.valueOf(CW_id) + "Card " + String.valueOf(serial_id));
+        }catch (JSONException e){
+            Log.e("JSON Format Error", "Card@Card");
         }
     }
 
-    boolean isUpToDate(long up_to_date_timestamp){
-        return timestamp == up_to_date_timestamp;
-    }
-
-    public boolean updateCard(String json_string){
-        card_content.clear();
-        try{
-            JSONObject object = new JSONObject(json_string);
-            timestamp = object.getInt("timestamp");
-            JSONArray content = object.getJSONArray("content");
-            for(int i = 0; i < content.length(); i++){
-                card_content.add(content.getJSONObject(i));
-            }
-        }catch(JSONException e){
-            Log.e("CardFormatError", "Warehouse " + String.valueOf(CW_id) + "Card " + String.valueOf(serial_id));
-            return false;
+    public List<CardFieldDisplayItem> getCardDisplayItem(){
+        List<CardFieldDisplayItem> displayItems = new ArrayList<>();
+        for(CardItem card_item: items){
+            displayItems.add(new CardFieldDisplayItem(card_item.name, card_item.type, card_item.data, card_item.name_visible, card_item.text_align, card_item.text_size));
         }
-        return true;
+        return  displayItems;
     }
 
-    public List<CardFieldDisplayItem> getDisplayItems(){
-        List<CardFieldDisplayItem> items = new LinkedList<>();
-        for(JSONObject obj: card_content){
-            List<JSONObject> stack = new LinkedList<>();
-            List<Integer> levels = new LinkedList<>();
-            stack.add(obj);
-            levels.add(1);
-            while(!stack.isEmpty()){
-                JSONObject top_obj = stack.get(stack.size() - 1);
-                int now_level = levels.get(levels.size() - 1);
-                try{
-                    if(top_obj.getInt("type") == Model.COMPLEX_TYPE){
-                        items.add(new CardFieldDisplayItem(top_obj.getString("name"), top_obj.getInt("type"), "", top_obj.getBoolean("name_visible"), now_level, top_obj.getInt("align"), top_obj.getInt("text_size")));
-                        stack.remove(top_obj);
-                        levels.remove(levels.size() - 1);
-                        JSONArray array = top_obj.getJSONArray("data");
-                        for(int i = 0; i < array.length(); i++){
-                            stack.add(array.getJSONObject(i));
-                            levels.add(now_level + 1);
-                        }
-                    }
-                    else{
-                        items.add(new CardFieldDisplayItem(obj.getString("name"), obj.getInt("type"), obj.getString("data"), obj.getBoolean("name_visible"), now_level, top_obj.getInt("align"), top_obj.getInt("text_size")));
-                        stack.remove(top_obj);
-                        levels.remove(levels.size() - 1);
-                    }
-                }catch(JSONException e){
-                    Log.e("CardFormatError", "Warehouse " + String.valueOf(CW_id) + "Card " + String.valueOf(serial_id));
-                    return null;
-                }
+    public CardFieldTrainingItem getCardTrainingItem(){
+        List<CardFieldTrainingItem> trainingItems = new ArrayList<>();
+        for(CardItem card_item: items){
+            if(card_item.trainable){
+                CardFieldTrainingItem temp = new CardFieldTrainingItem(card_item.name, card_item.type, card_item.data, card_item.name_visible, card_item.text_size, card_item.text_align, new ArrayList<String>(card_item.keyword.split("\\s+")));
             }
+
         }
-        return items;
     }
 
-    public List<CardFieldTrainingItem> getTrainingItems(){
-        List<CardFieldTrainingItem> items = new LinkedList<>();
-        for(JSONObject obj: card_content){
+    public class CardItem{
+        private String name;
+        private int type;
+        private String data;
+        private boolean name_visible;
+        private int text_size;
+        private int text_align;
+        private boolean trainable;
+        private String keyword;
+
+        public CardItem(JSONObject obj){
             try{
-                if(!obj.getBoolean("training_visible")){
-                    List<JSONObject> stack = new LinkedList<>();
-                    List<Integer> levels = new LinkedList<>();
-                    stack.add(obj);
-                    levels.add(1);
-                    while(!stack.isEmpty()){
-                        JSONObject top_obj = stack.get(stack.size() - 1);
-                        int now_level = levels.get(levels.size() - 1);
-                        try{
-                            if(top_obj.getInt("type") == Model.COMPLEX_TYPE){
-                                items.add(new CardFieldTrainingItem(top_obj.getString("name"), top_obj.getInt("type"), top_obj.getBoolean("name_visible"), now_level, top_obj.getInt("align"), new ArrayList<TrainingSet>()));
-                                stack.remove(top_obj);
-                                levels.remove(levels.size() - 1);
-                                JSONArray array = top_obj.getJSONArray("data");
-                                for(int i = 0; i < array.length(); i++){
-                                    stack.add(array.getJSONObject(i));
-                                    levels.add(now_level + 1);
-                                }
-                            }
-                            else{
-                                JSONArray array = top_obj.getJSONArray("training");
-                                List<TrainingSet> trainingSets = new ArrayList<>();
-                                for(int j = 0; j < array.length(); j++){
-                                    JSONObject object = array.getJSONObject(j);
-                                    trainingSets.add(new TrainingSet(object.getInt("start_period"), object.getInt("end_period"), object.getInt("training_type"), object.getString("training_content")));
-                                }
-                                items.add(new CardFieldTrainingItem(obj.getString("name"), obj.getInt("type"), obj.getBoolean("name_visible"), now_level, top_obj.getInt("align"), trainingSets));
-                                stack.remove(top_obj);
-                                levels.remove(levels.size() - 1);
-                            }
-                        }catch(JSONException e){
-
-                        }
-                    }
-                }
+                name = obj.getString("name");
+                type = obj.getInt("type");
+                data = obj.getString("data");
+                name_visible = obj.getBoolean("name_visible");
+                text_size = obj.getInt("size");
+                text_align = obj.getInt("align");
+                trainable = obj.getBoolean("trainable");
+                keyword = obj.getString("keyword");
             }catch(JSONException e){
-                Log.e("CardFormatError", "Warehouse " + String.valueOf(CW_id) + "Card " + String.valueOf(serial_id));
-                return null;
+                Log.e("JSON Format Error", "CardItem@Card");
             }
         }
-        return items;
     }
 }
