@@ -8,10 +8,10 @@ import android.os.Message;
 import com.ddrx.ddrxfront.AddNewWarehouseActivity;
 import com.ddrx.ddrxfront.Model.CardModelIntro;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
-import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 
 import java.util.List;
 
+import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 import okhttp3.OkHttpClient;
 
 /**
@@ -23,7 +23,7 @@ public class AddNewWarehouseController {
     private Handler handler;
     private OkHttpClient client;
 
-    public void getAllModels(){
+    public void getAllModels() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -37,12 +37,12 @@ public class AddNewWarehouseController {
         }).start();
     }
 
-    public void uploadCover(Bitmap bitmap){
+    public void uploadCover(Bitmap bitmap) {
 
     }
 
-    public AddNewWarehouseController(Context context, Handler handler){
-        client = OKHttpClientWrapper.getInstance();
+    public AddNewWarehouseController(Context context, Handler handler) {
+        client = OKHttpClientWrapper.Companion.getInstance(context);
         this.context = context;
         this.handler = handler;
     }

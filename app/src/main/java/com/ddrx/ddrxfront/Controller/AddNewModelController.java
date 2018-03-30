@@ -30,13 +30,13 @@ public class AddNewModelController {
     private OkHttpClient client;
     private Handler handler;
     private Context context;
-    private final String HOST_NAME = "localhost:3000";
+    private final String HOST_NAME = "http://120.79.35.160:3000/";
     private final String UPDATE_CARD_MODEL_URL = HOST_NAME + "/template/upload";
 
     public AddNewModelController(Handler handler, Context context){
         this.handler = handler;
         this.context = context;
-        client = OKHttpClientWrapper.getInstance();
+        client = OKHttpClientWrapper.Companion.getInstance(context);
     }
 
     public void uploadModel(final CardModel new_model){

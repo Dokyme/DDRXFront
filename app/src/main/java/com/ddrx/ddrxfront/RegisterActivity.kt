@@ -10,6 +10,7 @@ import com.ddrx.ddrxfront.Utilities.URLHelper.*
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import kotlinx.android.synthetic.main.activity_register.*
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 
@@ -44,26 +45,30 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         fun check(): Boolean {
-            if (input_register_username.text.toString().trim().isEmpty()) {
+            val pwd = input_register_pwd.text.toString().trim()
+            val username = input_register_username.text.toString().trim()
+            val confirm = input_register_confirmpwd.text.toString().trim()
+            val nickname = input_register_nickname.text.toString().trim()
+            if (username.isEmpty()) {
                 prompt(this@RegisterActivity, "用户名不能为空")
                 return false
             }
-            if (input_register_pwd.text.isEmpty() || input_register_confirmpwd.text.isEmpty()) {
+            if (pwd.isEmpty() || confirm.isEmpty()) {
                 prompt(this@RegisterActivity, "密码不能为空")
                 return false
             }
-            if (!input_register_pwd.text.equals(input_register_confirmpwd.text)) {
+            if (pwd != confirm) {
                 prompt(this@RegisterActivity, "两次输入的密码不一致")
                 return false
             }
-            if (input_register_pwd.text.length < 8) {
+            if (pwd.length < 8) {
                 prompt(this@RegisterActivity, "密码过短")
                 return false
-            } else if (input_register_pwd.text.length > 32) {
+            } else if (pwd.length > 32) {
                 prompt(this@RegisterActivity, "密码过长")
                 return false
             }
-            if (input_register_nickname.text.toString().trim().isEmpty()) {
+            if (nickname.isEmpty()) {
                 prompt(this@RegisterActivity, "昵称不能为空")
                 return false
             }
@@ -78,19 +83,19 @@ class RegisterActivity : AppCompatActivity() {
                     .add(NICK_NAME, nickname)
                     .build()
             com.ddrx.ddrxfront.Utilities.Request.Builder()
-                    .url("/user/sign_up")
+                    .url(URLHelper("/user/sign_up").build())
                     .post(formBody)
                     .build()
                     .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.DefaultCallback(this@RegisterActivity) {
-                        override fun onSuccess(context: Context, data: JSONObject, message: String) {
-                            prompt(this@RegisterActivity, "注册成功")
+                        override fun onSuccess(context: Context, data: JSONArray, message: String) {
+                            prompt(this@RegisterActivity, "注册成功", true)
                             try {
-                                JSONToEntity.getUserDetailInfo(this@RegisterActivity, data)
+                                JSONToEntity.getUserDetailInfo(this@RegisterActivity, data.getJSONObject(0))
                                 startActivity(Intent(this@RegisterActivity, UserDetailActivity::class.java))
                                 finish()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                prompt(this@RegisterActivity, "注册失败")
+                                prompt(this@RegisterActivity, "注册失败", true)
                             }
                         }
                     })

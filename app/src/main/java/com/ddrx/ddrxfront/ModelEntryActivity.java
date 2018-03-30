@@ -38,7 +38,7 @@ public class ModelEntryActivity extends AppCompatActivity {
         Switch entry_name_visible = findViewById(R.id.AME_name_visible);
         Spinner entry_type = findViewById(R.id.AME_type);
         Switch entry_only = findViewById(R.id.AME_only);
-        Spinner entry_align = findViewById(R.id.AME_align);
+        final Spinner entry_align = findViewById(R.id.AME_align);
         Spinner entry_size = findViewById(R.id.AME_size);
         Switch entry_trainable = findViewById(R.id.AME_trainable);
         Switch entry_keyword = findViewById(R.id.AME_keyword);
@@ -65,24 +65,39 @@ public class ModelEntryActivity extends AppCompatActivity {
         }
         entry_id = intent.getIntExtra("entry_id", 0);
 
-        entry_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        entry_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 entry_type_num = position + 1;
             }
-        });
 
-        entry_align.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                entry_align_num = position + 1;
+            public void onNothingSelected(AdapterView<?> parent){
+
             }
         });
 
-        entry_size.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        entry_align.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                entry_align_num = position + 1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){
+                entry_align.setSelection(0);
+            }
+        });
+
+        entry_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 entry_size_num = position + 1;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent){
+
             }
         });
 

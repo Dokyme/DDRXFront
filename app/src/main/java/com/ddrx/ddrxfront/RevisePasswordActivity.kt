@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_revise_password.*
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import com.ddrx.ddrxfront.Utilities.URLHelper.*
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -76,14 +77,14 @@ class RevisePasswordActivity : AppCompatActivity() {
                     .post(formBody)
                     .build()
                     .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.DefaultCallback(this@RevisePasswordActivity) {
-                        override fun onSuccess(context: Context, data: JSONObject, message: String) {
-                            prompt(this@RevisePasswordActivity, "修改密码成功。")
+                        override fun onSuccess(context: Context, data: JSONArray, message: String) {
+                            prompt(this@RevisePasswordActivity, "修改密码成功。", true)
                             try {
-                                JSONToEntity.getUserDetailInfo(this@RevisePasswordActivity, data)
+                                JSONToEntity.getUserDetailInfo(this@RevisePasswordActivity, data.getJSONObject(0))
                                 finish()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                prompt(this@RevisePasswordActivity, "修改密码失败")
+                                prompt(this@RevisePasswordActivity, "修改密码失败", true)
                             }
                         }
                     })

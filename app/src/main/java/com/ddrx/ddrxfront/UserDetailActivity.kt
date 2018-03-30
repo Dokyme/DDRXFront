@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import com.ddrx.ddrxfront.Utilities.URLHelper.*
 import okhttp3.FormBody
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -174,13 +175,13 @@ class UserDetailActivity : AppCompatActivity() {
                     .url("/user/social_alter")
                     .build()
                     .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.DefaultCallback(this@UserDetailActivity) {
-                        override fun onSuccess(context: Context, data: JSONObject, message: String) {
-                            prompt(this@UserDetailActivity, "修改成功")
+                        override fun onSuccess(context: Context, data: JSONArray, message: String) {
+                            prompt(this@UserDetailActivity, "修改成功", true)
                             try {
-                                JSONToEntity.getUserDetailInfo(this@UserDetailActivity, data)
+                                JSONToEntity.getUserDetailInfo(this@UserDetailActivity, data.getJSONObject(0))
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                prompt(this@UserDetailActivity, "修改失败")
+                                prompt(this@UserDetailActivity, "修改失败", true)
                             }
                         }
                     })

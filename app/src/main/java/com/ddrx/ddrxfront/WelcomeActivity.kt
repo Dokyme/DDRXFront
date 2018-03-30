@@ -4,11 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.ddrx.ddrxfront.Model.UserInfo
-import com.ddrx.ddrxfront.Utilities.CookiesPreference
-import com.ddrx.ddrxfront.Utilities.MacAddressUtil
-import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper
-import com.ddrx.ddrxfront.Utilities.UserInfoPreference
+import com.ddrx.ddrxfront.Utilities.*
 import okhttp3.*
+import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
@@ -54,7 +52,7 @@ class WelcomeActivity : AppCompatActivity() {
                         .build()
                 val request = Request.Builder()
                         .post(body)
-                        .url(LoginActivity.LOGIN_URL)
+                        .url(URLHelper("/user/sign_in").build())
                         .build()
                 OKHttpClientWrapper.getInstance(this)
                         .newCall(request)
@@ -68,7 +66,8 @@ class WelcomeActivity : AppCompatActivity() {
                             }
 
                             override fun onResponse(call: Call?, response: Response?) {
-                                val obj = JSONObject(response?.body().toString())
+                                val content = response?.body()?.string()
+                                val obj = JSONObject(content)
                                 when (obj.get("code") as Int) {
                                     0 -> {
                                         success = true

@@ -6,7 +6,7 @@ package com.ddrx.ddrxfront.Utilities;
 
 public class URLHelper {
 
-    private static final String HOSTNAME = "";
+    private static final String HOSTNAME = "http://120.79.35.160:3000/api";
 
     public static final String MAC = "_MAC";
     public static final String USER_ID = "_USER_ID";
