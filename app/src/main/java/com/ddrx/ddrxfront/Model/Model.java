@@ -2,6 +2,8 @@ package com.ddrx.ddrxfront.Model;
 
 import android.util.Log;
 
+import com.ddrx.ddrxfront.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +40,9 @@ public class Model {
 
     public static final int ONLY_ONE = 1;
     public static final int ONE_OR_MORE = 2;
+
+    public static final int[] TYPE = {R.mipmap.model_chinese, R.mipmap.model_math, R.mipmap.model_english,
+                                      R.mipmap.model_history, R.mipmap.model_politics, R.mipmap.model_academic, R.mipmap.model_other};
 
     private int version_number;
     private long CT_id;
