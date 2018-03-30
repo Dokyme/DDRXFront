@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.ddrx.ddrxfront.Model.CardWarehouseDatabase
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase
 import com.ddrx.ddrxfront.Model.TimeLineModel
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import com.yanzhenjie.album.Action
@@ -20,8 +20,6 @@ import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
 import com.yanzhenjie.durban.Durban
 import kotlinx.android.synthetic.main.activity_user.*
-
-import com.ddrx.ddrxfront.Model.TrainingRecordDatabase
 import com.ddrx.ddrxfront.Model.UserTrainingRecord
 import com.ddrx.ddrxfront.Utilities.UserInfoPreference
 
@@ -48,9 +46,9 @@ class UserActivity : AppCompatActivity() {
         userInfoPreference = UserInfoPreference(this)
 
         if (userInfoPreference.userInfo.id != -1L) {
-            val records: List<UserTrainingRecord> = TrainingRecordDatabase.getInstance(this).trainingRecordDAO.queryUserTrainingRecord(userInfoPreference.userInfo.id!!)
+            val records: List<UserTrainingRecord> = MemoryMasterDatabase.getInstance(this).trainingRecordDAO.queryUserTrainingRecord(userInfoPreference.userInfo.id!!)
             for (record in records) {
-                val cw = CardWarehouseDatabase.getInstance(this).cardWarehouseDAO.queryCardWarehouseById(record.cW_id)
+                val cw = MemoryMasterDatabase.getInstance(this).cardWarehouseDAO.queryCardWarehouseById(record.cW_id)
                 mDataList.add(TimeLineModel("复习了${cw.cW_name}", record.training_time))
             }
             mDataList.sortByDescending { e -> e.date }

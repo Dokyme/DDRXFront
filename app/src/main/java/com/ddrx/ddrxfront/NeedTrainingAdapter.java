@@ -45,6 +45,7 @@ public class NeedTrainingAdapter extends RecyclerView.Adapter<NeedTrainingAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_need_training, parent, false);
         final ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override

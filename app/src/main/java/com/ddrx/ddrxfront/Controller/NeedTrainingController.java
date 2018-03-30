@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
-import com.ddrx.ddrxfront.Model.CardTrainingRecordDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.NeedTraining;
 import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
 
@@ -33,7 +33,7 @@ public class NeedTrainingController {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CardTrainingRecordDatabase database = CardTrainingRecordDatabase.getInstance(context);
+                MemoryMasterDatabase database = MemoryMasterDatabase.getInstance(context);
                 List<NeedTraining> needTrainingList = database.getCardTrainingRecordDAO().queryNeedTrainingsByUserId(preference.getUserInfo().getId());
                 Message message = new Message();
                 if (!needTrainingList.isEmpty()) {

@@ -6,13 +6,13 @@ import android.os.Message;
 import android.util.Log;
 
 import com.ddrx.ddrxfront.Model.CardModel;
-import com.ddrx.ddrxfront.Model.CardModelDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
-import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.MemoryCard;
-import com.ddrx.ddrxfront.Model.MemoryCardDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.TrainingRecord;
-import com.ddrx.ddrxfront.Model.TrainingRecordDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Utilities.JSONToEntity;
 import com.ddrx.ddrxfront.Utilities.MacAddressUtil;
 import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
@@ -216,7 +216,7 @@ public class InitUpdateDatabase {
     }
 
     private static void updateCWDatabase(Context context, List<CardWarehouse> warehouseList){
-        CardWarehouseDatabase db = CardWarehouseDatabase.getInstance(context);
+        MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
         HashSet<Long> warehouse_ids = new HashSet<>(db.getCardWarehouseDAO().queryAllCW_ID());
         List<Long> now_warehouse_ids = new LinkedList<>();
         for(CardWarehouse warehouse: warehouseList){
@@ -277,7 +277,7 @@ public class InitUpdateDatabase {
     }
 
     private static void updateCTDatabase(final Context context, List<CardModel> modelList){
-        CardModelDatabase db = CardModelDatabase.getInstance(context);
+        MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
         HashSet<Long> model_ids = new HashSet<>(db.getCardModelDAO().queryAllCT_ID());
         List<Long> now_model_ids = new LinkedList<>();
         for(CardModel model: modelList){
@@ -293,14 +293,14 @@ public class InitUpdateDatabase {
     }
 
     private static void updateTRDatabase(final Context context, List<TrainingRecord> trainingRecordList){
-        TrainingRecordDatabase db = TrainingRecordDatabase.getInstance(context);
+        MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
         db.getTrainingRecordDAO().deleteAllTrainingRecord();
         db.getTrainingRecordDAO().insertIntoTrainingRecord(trainingRecordList);
     }
 
     private static void updateMCDatabase(final Context context, List<MemoryCard> memoryCardList){
-        MemoryCardDatabase db = MemoryCardDatabase.getInstance(context);
-        db.getCardWarehouseDAO().deleteAllMemoryCard();
-        db.getCardWarehouseDAO().insetIntoMemoryCard(memoryCardList);
+        MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
+        db.getMemoryCardDAO().deleteAllMemoryCard();
+        db.getMemoryCardDAO().insetIntoMemoryCard(memoryCardList);
     }
 }

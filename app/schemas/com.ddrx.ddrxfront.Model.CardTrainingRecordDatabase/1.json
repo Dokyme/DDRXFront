@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "be437acc995e572c732ccfd04dceaa7d",
+    "identityHash": "03a60ec8f35e3e555726f7e843e74f97",
     "entities": [
       {
         "tableName": "CardTranningRecord",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `serial_id` INTEGER NOT NULL, `training_count` INTEGER NOT NULL, PRIMARY KEY(`CW_id`, `serial_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `serial_id` INTEGER NOT NULL, `training_count` INTEGER NOT NULL, PRIMARY KEY(`CW_id`, `serial_id`), FOREIGN KEY(`CW_id`) REFERENCES `CardWarehouse`(`CW_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "CW_id",
@@ -35,12 +35,156 @@
           "autoGenerate": false
         },
         "indices": [],
+        "foreignKeys": [
+          {
+            "table": "CardWarehouse",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "CW_id"
+            ],
+            "referencedColumns": [
+              "CW_id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "CardWarehouse",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_nick` TEXT, `UCW_time` TEXT, `CW_name` TEXT, `CW_privilege` INTEGER NOT NULL, `CW_card_num` INTEGER NOT NULL, `CW_abstract` TEXT, `CW_detail` TEXT, `CW_training` INTEGER NOT NULL, `CW_cover_url` TEXT, `CW_content` TEXT, PRIMARY KEY(`CW_id`))",
+        "fields": [
+          {
+            "fieldPath": "CW_id",
+            "columnName": "CW_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CT_id",
+            "columnName": "CT_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CT_name",
+            "columnName": "CT_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "U_id",
+            "columnName": "U_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "U_nick",
+            "columnName": "U_nick",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "UCW_time",
+            "columnName": "UCW_time",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_name",
+            "columnName": "CW_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_privilege",
+            "columnName": "CW_privilege",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_card_num",
+            "columnName": "CW_card_num",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_abstract",
+            "columnName": "CW_abstract",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_detail",
+            "columnName": "CW_detail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_training",
+            "columnName": "CW_training",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CW_cover_url",
+            "columnName": "CW_cover_url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "CW_content",
+            "columnName": "CW_content",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "CW_id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "TrainingRecord",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `U_id` INTEGER NOT NULL, `training_time` TEXT NOT NULL, PRIMARY KEY(`CW_id`, `U_id`, `training_time`))",
+        "fields": [
+          {
+            "fieldPath": "CW_id",
+            "columnName": "CW_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "U_id",
+            "columnName": "U_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "training_time",
+            "columnName": "training_time",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "CW_id",
+            "U_id",
+            "training_time"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
         "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"be437acc995e572c732ccfd04dceaa7d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"03a60ec8f35e3e555726f7e843e74f97\")"
     ]
   }
 }

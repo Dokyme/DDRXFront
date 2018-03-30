@@ -8,9 +8,9 @@ import android.util.Log;
 import com.ddrx.ddrxfront.CardFragment;
 import com.ddrx.ddrxfront.CardWarehouseDetailActivity;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
-import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.TrainingRecord;
-import com.ddrx.ddrxfront.Model.TrainingRecordDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Utilities.GenericPair;
 import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
@@ -49,10 +49,10 @@ public class CardWarehouseDetailController {
             public void run() {
                 UserInfoPreference preference = new UserInfoPreference(context);
                 long U_id = preference.getUserInfo().getId();
-                CardWarehouseDatabase w_db = CardWarehouseDatabase.getInstance(context);
+                MemoryMasterDatabase w_db = MemoryMasterDatabase.getInstance(context);
                 CardWarehouse warehouse = w_db.getCardWarehouseDAO().queryCardWarehouseById(CW_id);
 
-                TrainingRecordDatabase t_db = TrainingRecordDatabase.getInstance(context);
+                MemoryMasterDatabase t_db = MemoryMasterDatabase.getInstance(context);
                 String latest_time = t_db.getTrainingRecordDAO().queryLatestTrainingTime(CW_id, U_id);
 
                 Message message = new Message();

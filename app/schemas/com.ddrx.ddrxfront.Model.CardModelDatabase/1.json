@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1b695d1b94839a549bedb22d19de7839",
+    "identityHash": "b9679692cfd96e59fcf094a1fe6c76b6",
     "entities": [
       {
         "tableName": "CardModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`model_id` INTEGER NOT NULL, `model_name` TEXT, `creator_name` TEXT, `intro` TEXT, `privilege` INTEGER NOT NULL, `storage` TEXT, PRIMARY KEY(`model_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CT_id` INTEGER NOT NULL, `CT_name` TEXT, `U_id` INTEGER NOT NULL, `U_name` TEXT, `CT_brief` TEXT, `CT_type` INTEGER NOT NULL, `CT_privilege` INTEGER NOT NULL, `CT_context` TEXT, PRIMARY KEY(`CT_id`))",
         "fields": [
           {
             "fieldPath": "CT_id",
@@ -19,6 +19,12 @@
             "columnName": "CT_name",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "U_id",
+            "columnName": "U_id",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "U_name",
@@ -39,8 +45,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "storage",
-            "columnName": "storage",
+            "fieldPath": "CT_privilege",
+            "columnName": "CT_privilege",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "CT_context",
+            "columnName": "CT_context",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -57,7 +69,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1b695d1b94839a549bedb22d19de7839\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b9679692cfd96e59fcf094a1fe6c76b6\")"
     ]
   }
 }

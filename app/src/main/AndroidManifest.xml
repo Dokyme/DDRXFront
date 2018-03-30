@@ -45,7 +45,9 @@
 
         <activity android:name=".CardWarehouseDetailActivity" />
         <activity android:name=".ShowCardActivity" />
-        <activity android:name=".AddNewWarehouseActivity"></activity>
+        <activity android:name=".AddNewWarehouseActivity" />
+        <activity android:name=".AddNewModelActivity" />
+        <activity android:name=".ModelEntryActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="model_align">
+        <item>左对齐</item>
+        <item>居中</item>
+        <item>右对齐</item>
+    </string-array>
+    <string-array name="model_size">
+        <item>大号</item>
+        <item>中号</item>
+        <item>小号</item>
+    </string-array>
+    <string-array name="model_type">
+        <item>语文</item>
+        <item>数学</item>
+        <item>英语</item>
+        <item>历史</item>
+        <item>政治</item>
+        <item>专业</item>
+        <item>其他</item>
+    </string-array>
+</resources>

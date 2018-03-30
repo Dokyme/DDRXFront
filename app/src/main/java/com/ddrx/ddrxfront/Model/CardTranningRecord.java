@@ -1,12 +1,15 @@
 package com.ddrx.ddrxfront.Model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+
+import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 /**
  * Created by dokym on 2018/3/28.
  */
 
-@Entity(primaryKeys = {"CW_id", "serial_id"})
+@Entity(primaryKeys = {"CW_id", "serial_id"}, foreignKeys = @ForeignKey(entity = CardWarehouse.class, parentColumns = "CW_id", childColumns = "CW_id", onDelete = CASCADE))
 public class CardTranningRecord {
     private long CW_id;
     private int serial_id;

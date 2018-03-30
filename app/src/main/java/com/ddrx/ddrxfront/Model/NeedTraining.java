@@ -35,11 +35,11 @@ public class NeedTraining {
         this.warehouseId = warehouseId;
     }
 
-    public int getWarehouseName() {
+    public String getWarehouseName() {
         return warehouseName;
     }
 
-    public void setWarehouseName(int warehouseName) {
+    public void setWarehouseName(String warehouseName) {
         this.warehouseName = warehouseName;
     }
 

@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ddrx.ddrxfront.Controller.UpdateCardFragmentController;
-import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
 import com.ddrx.ddrxfront.Model.CardWarehouseIntro;
 
 import java.lang.ref.WeakReference;

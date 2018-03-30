@@ -1,12 +1,13 @@
 package com.ddrx.ddrxfront.Model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
 /**
  * Created by vincentshaw on 2018/3/15.
  */
-@Entity
+@Entity(tableName = "CardWarehouse")
 public class CardWarehouse {
     @PrimaryKey
     private long CW_id;
@@ -23,9 +24,6 @@ public class CardWarehouse {
     private String CW_detail;
     private int CW_training;
     private String CW_cover_url;
-
-    public CardWarehouse() {
-    }
 
     public CardWarehouse(long CW_id, long CT_id, String CT_name, long U_id, String U_nick, String UCW_time, String CW_name, int CW_privilege, int CW_card_num, String CW_abstract, String CW_detail, int CW_training) {
         this.CW_id = CW_id;

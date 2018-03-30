@@ -33,8 +33,8 @@ public class Model {
 
     public static final int FONT_SIZE_DEFAULT = 0;
     public static final int FONT_SIZE_BIG = 22;
-    public static final int FONT_SIZE_MID = 16;
-    public static final int FONT_SIZE_SMALL = 12;
+    public static final int FONT_SIZE_MID = 18;
+    public static final int FONT_SIZE_SMALL = 14;
 
     public static final int ONLY_ONE = 1;
     public static final int ONE_OR_MORE = 2;

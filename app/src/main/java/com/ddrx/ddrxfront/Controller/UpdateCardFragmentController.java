@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.ddrx.ddrxfront.CardFragment;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
-import com.ddrx.ddrxfront.Model.CardWarehouseDatabase;
+import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.CardWarehouseIntro;
 import com.ddrx.ddrxfront.Utilities.JSONToEntity;
 import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
@@ -97,7 +97,7 @@ public class UpdateCardFragmentController {
         new Thread(new Runnable() {
             @Override
             public void run() {
-            CardWarehouseDatabase db = CardWarehouseDatabase.getInstance(context);
+            MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
             List<CardWarehouseIntro> db_warehouse_intro_list = db.getCardWarehouseDAO().queryAllCardWarehouseIntro();
             if(!db_warehouse_intro_list.isEmpty()){
                 Message message = new Message();
@@ -115,7 +115,7 @@ public class UpdateCardFragmentController {
     }
 
     private void updateDatabase(List<CardWarehouse> warehouseList){
-        CardWarehouseDatabase db = CardWarehouseDatabase.getInstance(context);
+        MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
         HashSet<Long> warehouse_ids = new HashSet<>(db.getCardWarehouseDAO().queryAllCW_ID());
         List<Long> now_warehouse_ids = new LinkedList<>();
         for(CardWarehouse warehouse: warehouseList){
@@ -218,7 +218,7 @@ public class UpdateCardFragmentController {
     }
 
     private List<CardWarehouseIntro> get_up_to_date_intros(){
-        CardWarehouseDatabase db = CardWarehouseDatabase.getInstance(context);
+        MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
         List<CardWarehouseIntro> introList = db.getCardWarehouseDAO().queryAllCardWarehouseIntro();
         db.close();
         return introList;

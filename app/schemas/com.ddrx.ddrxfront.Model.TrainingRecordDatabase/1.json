@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6f79acf87a7ea20e7ed50aa43a308a70",
+    "identityHash": "83af0b295087c79ef14323897ba932fa",
     "entities": [
       {
         "tableName": "TrainingRecord",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `U_id` INTEGER NOT NULL, `training_time` TEXT, PRIMARY KEY(`CW_id`, `U_id`, `training_time`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `U_id` INTEGER NOT NULL, `training_time` TEXT NOT NULL, PRIMARY KEY(`CW_id`, `U_id`, `training_time`))",
         "fields": [
           {
             "fieldPath": "CW_id",
@@ -24,7 +24,7 @@
             "fieldPath": "training_time",
             "columnName": "training_time",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -41,7 +41,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6f79acf87a7ea20e7ed50aa43a308a70\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"83af0b295087c79ef14323897ba932fa\")"
     ]
   }
 }
