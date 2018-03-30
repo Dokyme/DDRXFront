@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,7 +37,7 @@ public class MemoryCard_Fragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_memory_card, container, false);
         LinearLayout layout = view.findViewById(R.id.memory_card_layout);
-        List<CardFieldDisplayItem> displayItems = card.getDisplayItems();
+        List<CardFieldDisplayItem> displayItems = card.getCardDisplayItem();
 
         for(CardFieldDisplayItem item:displayItems){
             LinearLayout new_record = new LinearLayout(getContext());
@@ -48,7 +47,6 @@ public class MemoryCard_Fragment extends Fragment {
                 item_name.setTextSize(14);
                 item_name.setGravity(Gravity.START);
                 LinearLayout.LayoutParams margins = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                margins.setMargins(8 * item.getLevel(), 0, 0, 0);
                 item_name.setLayoutParams(margins);
                 new_record.addView(item_name);
             }
@@ -58,7 +56,6 @@ public class MemoryCard_Fragment extends Fragment {
             if(item.getAlign() == Model.LEFT_ALIGN){
                 if(!item.isName_visible()){
                     LinearLayout.LayoutParams margins = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    margins.setMargins(8 * item.getLevel(), 0, 0, 0);
                     item_data.setLayoutParams(margins);
                 }
                 item_data.setGravity(Gravity.START);

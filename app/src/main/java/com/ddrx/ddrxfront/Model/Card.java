@@ -39,14 +39,14 @@ public class Card {
         return  displayItems;
     }
 
-    public CardFieldTrainingItem getCardTrainingItem(){
+    public List<CardFieldTrainingItem> getCardTrainingItem(){
         List<CardFieldTrainingItem> trainingItems = new ArrayList<>();
         for(CardItem card_item: items){
             if(card_item.trainable){
-                CardFieldTrainingItem temp = new CardFieldTrainingItem(card_item.name, card_item.type, card_item.data, card_item.name_visible, card_item.text_size, card_item.text_align, new ArrayList<String>(card_item.keyword.split("\\s+")));
+                CardFieldTrainingItem temp = new CardFieldTrainingItem(card_item.name, card_item.type, card_item.data, card_item.name_visible, card_item.text_size, card_item.text_align, card_item.keyword.split("\\s+"));
             }
-
         }
+        return trainingItems;
     }
 
     public class CardItem{

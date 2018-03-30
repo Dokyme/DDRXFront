@@ -80,7 +80,7 @@ public class AddNewModelController {
                         return;
                     }
                     new_model.setCT_id(CT_id);
-                    MemoryMasterDatabase db = MemoryMasterDatabase.getInstance();
+                    MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
                     db.getCardModelDAO().insertSingleCardModel(new_model);
                     Message message = new Message();
                     message.what = AddNewModelActivity.NETWORK_PASS;
