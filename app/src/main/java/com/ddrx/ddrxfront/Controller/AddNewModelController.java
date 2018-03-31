@@ -36,7 +36,7 @@ public class AddNewModelController {
     public AddNewModelController(Handler handler, Context context){
         this.handler = handler;
         this.context = context;
-        client = OKHttpClientWrapper.getInstance();
+        client = OKHttpClientWrapper.Companion.getInstance(context);
     }
 
     public void uploadModel(final CardModel new_model){

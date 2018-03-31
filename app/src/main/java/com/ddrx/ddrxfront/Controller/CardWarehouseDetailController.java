@@ -3,26 +3,15 @@ package com.ddrx.ddrxfront.Controller;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
-import com.ddrx.ddrxfront.CardFragment;
 import com.ddrx.ddrxfront.CardWarehouseDetailActivity;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
-import com.ddrx.ddrxfront.Model.TrainingRecord;
-import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Utilities.GenericPair;
 import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
-import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
 import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
 
-import java.io.IOException;
-
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 /**
@@ -40,7 +29,7 @@ public class CardWarehouseDetailController {
         this.handler = handler;
         this.context = context;
         this.CW_id = CW_id;
-        okHttpClient = OKHttpClientWrapper.getInstance();
+        okHttpClient = OKHttpClientWrapper.Companion.getInstance(context);
     }
 
     public void updateInfo(){

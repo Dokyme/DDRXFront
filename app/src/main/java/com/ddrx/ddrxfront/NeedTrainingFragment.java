@@ -2,7 +2,7 @@ package com.ddrx.ddrxfront;
 
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -35,7 +35,7 @@ public class NeedTrainingFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case NeedTrainingController.EMPTY_LIST:
-                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
                     textView.setVisibility(View.VISIBLE);
                     textView.setText("训练场空空如也...");
                     progressBar.setVisibility(View.INVISIBLE);
@@ -43,10 +43,11 @@ public class NeedTrainingFragment extends Fragment {
                 case NeedTrainingController.UPDATE_UI:
                     needTrainingList = (List<NeedTraining>) msg.obj;
                     recyclerView.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.INVISIBLE);
-                    progressBar.setVisibility(View.INVISIBLE);
+                    textView.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     break;
             }
+            view.invalidate();
         }
     }
 
@@ -57,6 +58,7 @@ public class NeedTrainingFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView textView;
     private NeedTrainingController controller;
+    private View view;
 
     public NeedTrainingFragment() {
         // Required empty public constructor
@@ -72,7 +74,7 @@ public class NeedTrainingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        progressBar.setVisibility(View.VISIBLE);
+
         controller.updateNeedTrainingFromDB();
     }
 
@@ -87,6 +89,12 @@ public class NeedTrainingFragment extends Fragment {
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+
+        this.view = view;
+        view.invalidate();
         return view;
     }
 

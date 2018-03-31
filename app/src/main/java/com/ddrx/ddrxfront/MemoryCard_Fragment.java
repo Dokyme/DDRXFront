@@ -23,11 +23,12 @@ import java.util.List;
 public class MemoryCard_Fragment extends Fragment {
 
     Card card;
+
     public MemoryCard_Fragment() {
         // Required empty public constructor
     }
 
-    public void setCard(Card card){
+    public void setCard(Card card) {
         this.card = card;
     }
 
@@ -39,10 +40,10 @@ public class MemoryCard_Fragment extends Fragment {
         LinearLayout layout = view.findViewById(R.id.memory_card_layout);
         List<CardFieldDisplayItem> displayItems = card.getCardDisplayItem();
 
-        for(CardFieldDisplayItem item:displayItems){
+        for (CardFieldDisplayItem item : displayItems) {
             LinearLayout new_record = new LinearLayout(getContext());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            if(item.isName_visible()){
+            if (item.isName_visible()) {
                 TextView item_name = new TextView(getContext());
                 item_name.setTextSize(14);
                 item_name.setGravity(Gravity.START);
@@ -53,17 +54,15 @@ public class MemoryCard_Fragment extends Fragment {
 
             TextView item_data = new TextView(getContext());
             item_data.setTextSize(item.getText_size());
-            if(item.getAlign() == Model.LEFT_ALIGN){
-                if(!item.isName_visible()){
+            if (item.getAlign() == Model.LEFT_ALIGN) {
+                if (!item.isName_visible()) {
                     LinearLayout.LayoutParams margins = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     item_data.setLayoutParams(margins);
                 }
                 item_data.setGravity(Gravity.START);
-            }
-            else if(item.getAlign() == Model.MID_ALIGN){
+            } else if (item.getAlign() == Model.MID_ALIGN) {
                 item_data.setGravity(Gravity.CENTER);
-            }
-            else if(item.getAlign() == Model.RIGHT_ALIGN){
+            } else if (item.getAlign() == Model.RIGHT_ALIGN) {
                 item_data.setGravity(Gravity.END);
             }
             new_record.addView(item_data);

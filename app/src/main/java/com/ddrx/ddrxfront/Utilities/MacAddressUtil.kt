@@ -1,68 +1,51 @@
 package com.ddrx.ddrxfront.Utilities
 
 import android.content.Context
+import android.net.wifi.WifiManager
+import java.io.InputStreamReader
+import java.io.LineNumberReader
 import java.net.InetAddress
 import java.net.NetworkInterface
+import java.util.*
 
 
 /**
  * Created by dokym on 2018/3/24.
  */
-class MacAddressUtil(context: Context) {
-    var preMacAddress: String by Preference(context, "mac", "")
+class MacAddressUtil(var context: Context) {
 
     var macAddress: String? = null
         get() {
-            if (preMacAddress == "")
-                preMacAddress = getMacAddr()
-            return preMacAddress
+            return getMacAddr()
         }
 
     fun getMacAddr(): String {
-        var strMacAddr = ""
+        var mac = ""
         try {
-            val ip = getLocalInetAddr()
-            val bytes = NetworkInterface.getByInetAddress(ip).hardwareAddress
-            val buffer = StringBuffer()
-            for (i in 0..bytes.size - 1) {
-                if (i != 0)
-                    buffer.append(":")
-                val str = Integer.toHexString(bytes[i].toInt())
-                if (str.isEmpty())
-                    buffer.append("0$str")
-                else
-                    buffer.append(str)
+            val process = Runtime.getRuntime().exec("cat /sys/class/net/wlan0/address")
+            val ir = InputStreamReader(process.inputStream)
+            val input = LineNumberReader(ir)
+            var str = ""
+            while (str != null) {
+                str = input.readLine()
+                if (str != null) {
+                    mac = str.trim()
+                    break
+                }
             }
-            strMacAddr = buffer.toString().toUpperCase()
-            return strMacAddr
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return strMacAddr
+        return mac
     }
 
-    private fun getLocalInetAddr(): InetAddress? {
-        var ip: InetAddress? = null
+    private fun getMacAddrUnder6(): String {
         try {
-            val netInterfaces = NetworkInterface.getNetworkInterfaces()
-            while (netInterfaces.hasMoreElements()) {
-                val ni = netInterfaces.nextElement() as NetworkInterface
-                val ips = ni.inetAddresses
-                while (ips.hasMoreElements()) {
-                    ip = ips.nextElement()
-                    if (!ip.isLoopbackAddress && ip.hostAddress.indexOf(":") == -1)
-                        break
-                    else
-                        ip = null
-                }
-                if (ip != null)
-                    break
-            }
-            return ip
+            val wifiManager = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+            return wifiManager.connectionInfo.macAddress
         } catch (e: Exception) {
-            e.printStackTrace()
+            return ""
         }
-        return ip
     }
 
 }

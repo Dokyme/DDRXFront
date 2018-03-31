@@ -24,6 +24,9 @@ public interface CardTrainingRecordDAO {
             "having count(*) < cw.CW_training")
     List<NeedTraining> queryNeedTrainingsByUserId(Long userId);
 
+    @Query("Select CW_id,serial_id,training_count from CardTranningRecord where CW_id=:cwId and serial_id=:serialNum")
+    CardTranningRecord queryTrainRecord(Long cwId, int serialNum);
+
     @Update
     void updateCardsTrainingRecords(CardTranningRecord... cardTranningRecords);
 

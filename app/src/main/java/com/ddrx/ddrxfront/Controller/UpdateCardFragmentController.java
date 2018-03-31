@@ -10,11 +10,7 @@ import com.ddrx.ddrxfront.CardFragment;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.CardWarehouseIntro;
-import com.ddrx.ddrxfront.Utilities.JSONToEntity;
-import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
-import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
-import com.ddrx.ddrxfront.Utilities.SaveBitmapFromNetwork;
-import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
+import com.ddrx.ddrxfront.Utilities.*;
 
 import org.json.JSONException;
 
@@ -48,7 +44,7 @@ public class UpdateCardFragmentController {
     public UpdateCardFragmentController(Handler handler, Context context){
         this.handler = handler;
         this.context = context;
-        client = OKHttpClientWrapper.getInstance();
+        client = OKHttpClientWrapper.Companion.getInstance(context);
     }
 
     public void getDataListFromNetwork(){

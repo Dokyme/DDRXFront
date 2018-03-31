@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.ddrx.ddrxfront.Model.Card;
 import com.ddrx.ddrxfront.ShowCardActivity;
-import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
 
+import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 import okhttp3.OkHttpClient;
 
 /**
@@ -32,7 +32,7 @@ public class ShowCardController {
         this.handler = handler;
         this.context = context;
         this.CW_id = CW_id;
-        client = OKHttpClientWrapper.getInstance();
+        client = OKHttpClientWrapper.Companion.getInstance(context);
     }
 
     public void getAllCardByCWid(final long CW_id){

@@ -36,6 +36,11 @@ public class NeedTrainingController {
                 MemoryMasterDatabase database = MemoryMasterDatabase.getInstance(context);
                 List<NeedTraining> needTrainingList = database.getCardTrainingRecordDAO().queryNeedTrainingsByUserId(preference.getUserInfo().getId());
                 Message message = new Message();
+                try {
+                    Thread.sleep(5000);
+                } catch (Exception e) {
+
+                }
                 if (!needTrainingList.isEmpty()) {
                     message.what = UPDATE_UI;
                     message.obj = needTrainingList;

@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import okhttp3.FormBody
+import org.json.JSONArray
 
 /**
  * Created by dokym on 2018/3/15.
@@ -19,10 +20,6 @@ import okhttp3.FormBody
 class LoginActivity : AppCompatActivity() {
 
     lateinit var userInfo: UserInfo
-
-    companion object {
-        var LOGIN_URL = "http://localhost:8080/user/sign_in"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,18 +44,18 @@ class LoginActivity : AppCompatActivity() {
                 .add("_PASSWORD", password)
                 .build()
         Request.Builder()
-                .url("/user/sign_up")
+                .url(URLHelper("/user/sign_in").build())
                 .post(body)
                 .build()
-                .enqueue(object : Request.DefaultCallback(this) {
-                    override fun onSuccess(context: Context, data: JSONObject, message: String) {
-                        prompt(this@LoginActivity, "登陆成功。")
+                .enqueue(object : Request.DefaultCallback(this@LoginActivity) {
+                    override fun onSuccess(context: Context, data: JSONArray, message: String) {
+                        prompt(this@LoginActivity, "登陆成功。", true)
                         try {
-                            JSONToEntity.getUserInfo(this@LoginActivity, data)
+                            JSONToEntity.getUserInfo(this@LoginActivity, data.getJSONObject(0))
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            prompt(this@LoginActivity, "登陆失败")
+                            prompt(this@LoginActivity, "登陆失败", true)
                         }
                     }
                 })
@@ -76,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
             else if (username.length > 32)
                 Toast.makeText(this@LoginActivity, "用户名过长", Toast.LENGTH_SHORT).show()
             else if (password.length < 8)
-                prompt(this@LoginActivity, "密码过短")
+                prompt(this@LoginActivity, "密码过短", false)
             else if (password.length > 32)
                 Toast.makeText(this@LoginActivity, "密码过长", Toast.LENGTH_SHORT).show()
             else {
