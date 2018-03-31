@@ -20,7 +20,10 @@ class MacAddressUtil(var context: Context) {
             if (!result1.isEmpty())
                 return result1
             result1 = getMacAddrUnder6()
-            if (!result1.isEmpty()&&!result1.equals("02:00:00:00:00:00"))
+            if (!result1.isEmpty() && !result1.equals("02:00:00:00:00:00"))
+                return result1
+            result1 = getMacAddrByInterface()
+            if (!result1.isEmpty() && !result1.equals("02:00:00:00:00:00"))
                 return result1
             return "02:00:00:00:00:00"
         }
@@ -52,6 +55,27 @@ class MacAddressUtil(var context: Context) {
         } catch (e: Exception) {
             return ""
         }
+    }
+
+    private fun getMacAddrByInterface(): String {
+        try {
+            val interfaces = Collections.list(NetworkInterface.getNetworkInterfaces())
+            for (nif in interfaces) {
+                if (nif.name.equals("wlan0", true)) {
+                    val macBytes = nif.hardwareAddress ?: return ""
+                    val sb = StringBuilder()
+                    for (b in macBytes) {
+                        sb.append(String.format("%02X:", b))
+                    }
+                    if (sb.isNotEmpty())
+                        sb.deleteCharAt(sb.length - 1)
+                    return sb.toString()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
     }
 
 }
