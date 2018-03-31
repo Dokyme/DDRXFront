@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ddrx.ddrxfront.Controller.AddNewModelController;
-import com.ddrx.ddrxfront.Model.Card;
 import com.ddrx.ddrxfront.Model.CardModel;
 import com.ddrx.ddrxfront.Model.Model;
 import com.ddrx.ddrxfront.Model.UserInfo;
@@ -61,7 +60,8 @@ public class AddNewModelActivity extends AppCompatActivity {
         public void handleMessage(Message msg){
             switch (msg.what){
                 case NETWORK_ERROR:
-                    Toast.makeText(mActivity.get(), "网络错误，请重试！", Toast.LENGTH_SHORT).show();
+                    mActivity.get().progressDialog.dismiss();
+                    Toast.makeText(mActivity.get(), (String)msg.obj, Toast.LENGTH_SHORT).show();
                     break;
                 case NETWORK_PASS:
                     //TODO: disable waiting dialog

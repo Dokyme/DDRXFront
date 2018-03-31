@@ -62,38 +62,9 @@ public class Model {
 
     public List<ModelInput> getModelInputs() throws JSONException{
         List<ModelInput> result = new ArrayList<>();
-
-//        for(JSONObject obj: model_obj){
-//            if(obj.getInt("type") == COMPLEX_TYPE){
-//                Stack<JSONObject> obj_stack = new Stack<>();
-//                Stack<ModelInput> model_stack = new Stack<>();
-//                ModelInput top = new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("num"));
-//                obj_stack.push(obj);
-//                model_stack.push(top);
-//                while(!obj_stack.empty()){
-//                    top = model_stack.peek();
-//                    obj = obj_stack.peek();
-//                    JSONArray array = obj.getJSONArray("sub");
-//                    List<ModelInput> top_sub = new ArrayList<>();
-//                    for(int i = 0; i < array.length(); i++){
-//                        JSONObject now_obj = array.getJSONObject(i);
-//                        ModelInput now_input = new ModelInput(now_obj.getString("name"), obj.getInt("type"), obj.getInt("num"));
-//                        top_sub.add(now_input);
-//                        if(now_obj.getInt("type") == Model.COMPLEX_TYPE){
-//                            obj_stack.push(now_obj);
-//                        }
-//                    }
-//                    top.setSub_models(top_sub);
-//                    result.add(top);
-//                    obj_stack.pop();
-//                    model_stack.pop();
-//                }
-//            }
-//            else{
-//                result.add(new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("num")));
-//            }
-//        }
+        for(JSONObject obj: model_obj){
+            result.add(new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("only")));
+        }
         return result;
     }
-
 }

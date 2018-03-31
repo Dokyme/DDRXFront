@@ -17,6 +17,9 @@ public interface CardModelDAO {
     @Query("Select CT_name as model_name, U_name as creator_name, CT_brief as intro, CT_type as type, UCT_time From CardModel")
     List<CardModelIntro> queryAllCardModelIntro();
 
+    @Query("Select CT_context From CardModel Where CT_id = :CT_id")
+    String queryCardModelContextById(long CT_id);
+
     @Query("Select CT_id From CardModel")
     List<Long> queryAllCT_ID();
 

@@ -30,7 +30,7 @@ public class AddNewModelController {
     private OkHttpClient client;
     private Handler handler;
     private Context context;
-    private final String HOST_NAME = "http://120.79.35.160:3000/";
+    private final String HOST_NAME = "http://120.79.35.160:3000/api";
     private final String UPDATE_CARD_MODEL_URL = HOST_NAME + "/template/upload";
 
     public AddNewModelController(Handler handler, Context context){
@@ -60,6 +60,7 @@ public class AddNewModelController {
                 ParseBackDataPack parser = null;
                 try{
                     response = client.newCall(request).execute();
+                    Log.e("Network", "isrunning");
                     parser = new ParseBackDataPack(response.body().string());
                 }catch(IOException e){
                     Log.e("Network Error", "uploadModel@AddNewModelController");
@@ -84,6 +85,12 @@ public class AddNewModelController {
                     db.getCardModelDAO().insertSingleCardModel(new_model);
                     Message message = new Message();
                     message.what = AddNewModelActivity.NETWORK_PASS;
+                    handler.sendMessage(message);
+                }
+                else{
+                    Message message = new Message();
+                    message.what = AddNewModelActivity.NETWORK_ERROR;
+                    message.obj = parser.getMessage();
                     handler.sendMessage(message);
                 }
             }

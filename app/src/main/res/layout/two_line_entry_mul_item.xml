@@ -10,6 +10,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/AC_content_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -25,14 +26,6 @@
                 android:gravity="center"
                 android:text="TextView"
                 android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/AC_delete_entry"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                app:srcCompat="@mipmap/delete_entry" />
 
         </LinearLayout>
 
