@@ -9,7 +9,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
  * Created by dokym on 2018/3/28.
  */
 
-@Entity(primaryKeys = {"CW_id", "serial_id"}, foreignKeys = @ForeignKey(entity = CardWarehouse.class, parentColumns = "CW_id", childColumns = "CW_id", onDelete = CASCADE))
+@Entity(primaryKeys = {"CW_id", "CC_id"}, foreignKeys = @ForeignKey(entity = CardWarehouse.class, parentColumns = "CW_id", childColumns = "CW_id", onDelete = CASCADE))
 public class CardTranningRecord {
     private long CW_id;
     private long CC_id;

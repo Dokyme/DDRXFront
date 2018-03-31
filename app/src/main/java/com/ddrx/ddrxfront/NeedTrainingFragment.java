@@ -91,10 +91,11 @@ public class NeedTrainingFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setVisibility(View.GONE);
+        recyclerView.setAdapter(new NeedTrainingAdapter(needTrainingList));
         progressBar.setVisibility(View.VISIBLE);
 
         this.view = view;
-        view.invalidate();
+
         return view;
     }
 

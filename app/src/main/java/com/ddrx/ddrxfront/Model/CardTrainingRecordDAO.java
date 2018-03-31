@@ -20,7 +20,7 @@ public interface CardTrainingRecordDAO {
             "(Select max(training_time) from TrainingRecord where CW_id=cw.CW_id and U_id=:userId) as lastTrainingDate " +
             "from CardTranningRecord ctr " +
             "inner join CardWarehouse cw on cw.CW_id=ctr.CW_id " +
-            "group by ctr.CW_id,ctr.serial_id,cw.CW_training,cw.CW_name,cw.CW_cover_url " +
+            "group by ctr.CW_id,ctr.CC_id,cw.CW_training,cw.CW_name,cw.CW_cover_url " +
             "having count(*) < cw.CW_training")
     List<NeedTraining> queryNeedTrainingsByUserId(Long userId);
 

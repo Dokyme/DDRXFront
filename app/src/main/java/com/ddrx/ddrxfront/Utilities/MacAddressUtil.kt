@@ -16,7 +16,13 @@ class MacAddressUtil(var context: Context) {
 
     var macAddress: String? = null
         get() {
-            return getMacAddr()
+            var result1 = getMacAddr()
+            if (!result1.isEmpty())
+                return result1
+            result1 = getMacAddrUnder6()
+            if (!result1.isEmpty()&&!result1.equals("02:00:00:00:00:00"))
+                return result1
+            return "02:00:00:00:00:00"
         }
 
     fun getMacAddr(): String {
