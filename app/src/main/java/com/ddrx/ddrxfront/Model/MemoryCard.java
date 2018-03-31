@@ -7,9 +7,8 @@ import android.arch.persistence.room.PrimaryKey;
  * Created by vincentshaw on 2018/3/28.
  */
 
-@Entity
+@Entity(primaryKeys = {"CC_id", "CW_id"})
 public class MemoryCard {
-    @PrimaryKey
     private long CC_id;
 
     private long CW_id;

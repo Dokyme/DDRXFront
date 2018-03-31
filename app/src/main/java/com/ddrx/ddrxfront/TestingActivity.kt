@@ -1,25 +1,31 @@
 package com.ddrx.ddrxfront
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.ddrx.ddrxfront.Model.Card
+import com.ddrx.ddrxfront.Model.CardFieldTrainingItem
 import com.ddrx.ddrxfront.Model.MemoryCard
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase
 import kotlinx.android.synthetic.main.activity_testing.*
+import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 
 /**
  * Created by dokym on 2018/3/30.
  */
 class TestingActivity : AppCompatActivity() {
 
-    private lateinit var testingCardList: MutableList<MemoryCard>
+    private var testingCardList: MutableList<MemoryCard> = mutableListOf()
+    private val cardList: MutableList<Card> = mutableListOf()
+    private val testingQuesList: MutableList<CardFieldTrainingItem> = mutableListOf()
     private var cwId: Long? = null
     private lateinit var memoryMasterDatabase: MemoryMasterDatabase
-    private var currentPage: Int = 0
-    private lateinit var currentFragment: TestingPageFragment
+    private var currentQuesIndex: Int = 0
+    private var currentCardIndex: Int = 0
+    private var quesPerCard: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,58 +35,86 @@ class TestingActivity : AppCompatActivity() {
         testingCardList = memoryMasterDatabase
                 .memoryCardDAO
                 .queryMemoryCardByCW_id(cwId!!)
+        for (mCard in testingCardList) {
+            val card = Card(mCard.cC_content)
+            cardList.add(card)
+            testingQuesList.addAll(card.cardTrainingItem)
+        }
+        quesPerCard = cardList[0].cardTrainingItem.size
         viewpager_testing.adapter = TestingFragmentPagerAdapter()
 
         initEvent()
     }
 
     fun initEvent() {
-        btn_next.setOnClickListener(OnSubmit())
+        btn_pass.setOnClickListener(OnPass())
+        btn_notpass.setOnClickListener(OnNotPass())
+        btn_show_answer.setOnClickListener(OnShowAnswer())
     }
 
-    inner class OnPass:View.OnClickListener{
+    inner class OnPass : View.OnClickListener {
         override fun onClick(v: View?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val training = memoryMasterDatabase
+                    .cardTrainingRecordDAO
+                    .queryTrainRecord(cwId, testingCardList[currentCardIndex].cC_id)
+            training.training_count++
+            memoryMasterDatabase
+                    .cardTrainingRecordDAO
+                    .updateCardsTrainingRecords(training)
+            currentQuesIndex++
+            viewpager_testing.currentItem = currentQuesIndex
+            if (currentQuesIndex % quesPerCard!! == 0) {
+                //说明进入了下一张卡片
+                currentCardIndex++
+                if (currentCardIndex == testingCardList.size) {
+                    //所有卡片的所有题目都已经答题完毕
+                    prompt(this@TestingActivity, "本次训练结束")
+                    startActivity(Intent(this@TestingActivity, WarehouseActivity::class.java))
+                    return
+                }
+            }
         }
     }
 
-    inner class OnNotPass:View.OnClickListener{
+    inner class OnNotPass : View.OnClickListener {
         override fun onClick(v: View?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            currentQuesIndex++
+            viewpager_testing.currentItem = currentQuesIndex
+            if (currentQuesIndex % quesPerCard!! == 0) {
+                //说明进入了下一张卡片
+                currentCardIndex++
+                if (currentCardIndex == testingCardList.size) {
+                    //所有卡片的所有题目都已经答题完毕
+                    prompt(this@TestingActivity, "本次训练结束")
+                    startActivity(Intent(this@TestingActivity, WarehouseActivity::class.java))
+                    return
+                }
+            }
         }
     }
 
-    inner class OnSubmit : View.OnClickListener {
+    inner class OnShowAnswer : View.OnClickListener {
         override fun onClick(v: View?) {
-
-            btn_next.text = "下一题"
-            btn_next.setOnClickListener(OnNext())
-        }
-    }
-
-    inner class OnNext : View.OnClickListener {
-        override fun onClick(v: View?) {
-            currentPage++
-            //跳转到下一题
-            btn_next.text = "确认"
-            btn_next.setOnClickListener(OnSubmit())
+            btn_show_answer.isEnabled = false
         }
     }
 
     inner class TestingFragmentPagerAdapter : FragmentPagerAdapter(supportFragmentManager) {
         override fun getItem(position: Int): Fragment {
             val fragment = TestingPageFragment()
-            fragment.card = Card(testingCardList[position].cC_content)
+            fragment.item = testingQuesList[position]
+            fragment.quesIndex = position
             return fragment
         }
 
         override fun getCount(): Int {
-            return testingCardList.size
+            return testingQuesList.size
         }
 
         override fun setPrimaryItem(container: View, position: Int, `object`: Any) {
             super.setPrimaryItem(container, position, `object`)
-            currentFragment = `object` as TestingPageFragment
+            btn_show_answer.isEnabled = true
+            currentQuesIndex = (`object` as TestingPageFragment).quesIndex!!
         }
     }
 }

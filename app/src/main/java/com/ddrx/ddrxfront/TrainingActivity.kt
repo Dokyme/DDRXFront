@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.ddrx.ddrxfront.Model.Card
 import com.ddrx.ddrxfront.Model.MemoryCard
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase
@@ -40,6 +41,7 @@ class TrainingActivity : AppCompatActivity() {
     fun nextPage() {
         currentPage++
         //切换viewpager
+        viewpager_training.currentItem = currentPage
         if (currentPage == trainingCardList.size - 1) {
             btn_next.text = "开始测试"
             btn_next.setOnClickListener({
@@ -54,6 +56,7 @@ class TrainingActivity : AppCompatActivity() {
     fun previousPage() {
         currentPage--
         //切换viewpager
+        viewpager_training.currentItem = currentPage
         if (currentPage == 0) {
             btn_previous.text = "退出训练"
             btn_previous.setOnClickListener({ startActivity(Intent(this, WarehouseActivity::class.java)) })
@@ -71,5 +74,6 @@ class TrainingActivity : AppCompatActivity() {
         override fun getCount(): Int {
             return trainingCardList.size
         }
+
     }
 }
