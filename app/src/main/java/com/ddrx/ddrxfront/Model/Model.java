@@ -43,13 +43,12 @@ public class Model {
 
     public static final int[] TYPE = {R.mipmap.model_chinese, R.mipmap.model_math, R.mipmap.model_english,
                                       R.mipmap.model_history, R.mipmap.model_politics, R.mipmap.model_academic, R.mipmap.model_other};
+    public static final String[] TYPE_NAME = {"语文", "数学", "英语", "历史", "政治", "专业", "其他"};
+    public static final String[] ENTRY_TYPE_NAME = {"数字", "单词", "句子", "段落"};
 
-    private int version_number;
-    private long CT_id;
     private List<JSONObject> model_obj;
 
-    public Model(String json_string, long CT_id){
-        this.CT_id = CT_id;
+    public Model(String json_string){
         model_obj = new ArrayList<>();
         try{
             JSONArray array = new JSONArray(json_string);
@@ -63,36 +62,37 @@ public class Model {
 
     public List<ModelInput> getModelInputs() throws JSONException{
         List<ModelInput> result = new ArrayList<>();
-        for(JSONObject obj: model_obj){
-            if(obj.getInt("type") == COMPLEX_TYPE){
-                Stack<JSONObject> obj_stack = new Stack<>();
-                Stack<ModelInput> model_stack = new Stack<>();
-                ModelInput top = new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("num"));
-                obj_stack.push(obj);
-                model_stack.push(top);
-                while(!obj_stack.empty()){
-                    top = model_stack.peek();
-                    obj = obj_stack.peek();
-                    JSONArray array = obj.getJSONArray("sub");
-                    List<ModelInput> top_sub = new ArrayList<>();
-                    for(int i = 0; i < array.length(); i++){
-                        JSONObject now_obj = array.getJSONObject(i);
-                        ModelInput now_input = new ModelInput(now_obj.getString("name"), obj.getInt("type"), obj.getInt("num"));
-                        top_sub.add(now_input);
-                        if(now_obj.getInt("type") == Model.COMPLEX_TYPE){
-                            obj_stack.push(now_obj);
-                        }
-                    }
-                    top.setSub_models(top_sub);
-                    result.add(top);
-                    obj_stack.pop();
-                    model_stack.pop();
-                }
-            }
-            else{
-                result.add(new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("num")));
-            }
-        }
+
+//        for(JSONObject obj: model_obj){
+//            if(obj.getInt("type") == COMPLEX_TYPE){
+//                Stack<JSONObject> obj_stack = new Stack<>();
+//                Stack<ModelInput> model_stack = new Stack<>();
+//                ModelInput top = new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("num"));
+//                obj_stack.push(obj);
+//                model_stack.push(top);
+//                while(!obj_stack.empty()){
+//                    top = model_stack.peek();
+//                    obj = obj_stack.peek();
+//                    JSONArray array = obj.getJSONArray("sub");
+//                    List<ModelInput> top_sub = new ArrayList<>();
+//                    for(int i = 0; i < array.length(); i++){
+//                        JSONObject now_obj = array.getJSONObject(i);
+//                        ModelInput now_input = new ModelInput(now_obj.getString("name"), obj.getInt("type"), obj.getInt("num"));
+//                        top_sub.add(now_input);
+//                        if(now_obj.getInt("type") == Model.COMPLEX_TYPE){
+//                            obj_stack.push(now_obj);
+//                        }
+//                    }
+//                    top.setSub_models(top_sub);
+//                    result.add(top);
+//                    obj_stack.pop();
+//                    model_stack.pop();
+//                }
+//            }
+//            else{
+//                result.add(new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("num")));
+//            }
+//        }
         return result;
     }
 

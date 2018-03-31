@@ -11,21 +11,11 @@ public class ModelInput {
     private int type;
     private int num;
 
-    public List<ModelInput> getSub_models() {
-        return sub_models;
-    }
-
-    public void setSub_models(List<ModelInput> sub_models) {
-        this.sub_models = sub_models;
-    }
-
-    private List<ModelInput> sub_models;
 
     public ModelInput(String name, int type, int num) {
         this.name = name;
         this.type = type;
         this.num = num;
-        sub_models = null;
     }
 
     public String getName() {

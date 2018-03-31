@@ -50,14 +50,14 @@ public class Card {
     }
 
     public class CardItem{
-        private String name;
-        private int type;
-        private String data;
-        private boolean name_visible;
-        private int text_size;
-        private int text_align;
-        private boolean trainable;
-        private String keyword;
+        public String name;
+        public int type;
+        public String data;
+        public boolean name_visible;
+        public int text_size;
+        public int text_align;
+        public boolean trainable;
+        public String keyword;
 
         public CardItem(JSONObject obj){
             try{

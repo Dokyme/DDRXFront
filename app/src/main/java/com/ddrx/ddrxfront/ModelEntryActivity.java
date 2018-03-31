@@ -3,6 +3,7 @@ package com.ddrx.ddrxfront;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -21,7 +22,7 @@ public class ModelEntryActivity extends AppCompatActivity {
     private Switch entry_trainable;
     private Switch entry_keyword;
     private int entry_id;
-    private int entry_type_num = 1;
+    private int entry_type_num = 0;
     private int entry_align_num = 1;
     private int entry_size_num = 1;
     private boolean entry_name_visible_val = true;
@@ -34,14 +35,14 @@ public class ModelEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_model_entry);
 
-        EditText entry_name = findViewById(R.id.AME_name);
-        Switch entry_name_visible = findViewById(R.id.AME_name_visible);
-        Spinner entry_type = findViewById(R.id.AME_type);
-        Switch entry_only = findViewById(R.id.AME_only);
-        final Spinner entry_align = findViewById(R.id.AME_align);
-        Spinner entry_size = findViewById(R.id.AME_size);
-        Switch entry_trainable = findViewById(R.id.AME_trainable);
-        Switch entry_keyword = findViewById(R.id.AME_keyword);
+        entry_name = findViewById(R.id.AME_name);
+        entry_name_visible = findViewById(R.id.AME_name_visible);
+        entry_type = findViewById(R.id.AME_type);
+        entry_only = findViewById(R.id.AME_only);
+        entry_align = findViewById(R.id.AME_align);
+        entry_size = findViewById(R.id.AME_size);
+        entry_trainable = findViewById(R.id.AME_trainable);
+        entry_keyword = findViewById(R.id.AME_keyword);
 
         Intent intent = getIntent();
         if(intent.getBooleanExtra("has_content", false)){
@@ -68,7 +69,7 @@ public class ModelEntryActivity extends AppCompatActivity {
         entry_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                entry_type_num = position + 1;
+                entry_type_num = position;
             }
 
             @Override
@@ -80,7 +81,7 @@ public class ModelEntryActivity extends AppCompatActivity {
         entry_align.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                entry_align_num = position + 1;
+                entry_align_num = position;
             }
 
             @Override
@@ -92,7 +93,7 @@ public class ModelEntryActivity extends AppCompatActivity {
         entry_size.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                entry_size_num = position + 1;
+                entry_size_num = position;
             }
 
             @Override

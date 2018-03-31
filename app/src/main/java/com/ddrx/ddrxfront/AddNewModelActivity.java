@@ -1,5 +1,6 @@
 package com.ddrx.ddrxfront;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -15,11 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ddrx.ddrxfront.Controller.AddNewModelController;
 import com.ddrx.ddrxfront.Model.Card;
 import com.ddrx.ddrxfront.Model.CardModel;
+import com.ddrx.ddrxfront.Model.Model;
 import com.ddrx.ddrxfront.Model.UserInfo;
 
 import org.json.JSONArray;
@@ -27,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,7 @@ public class AddNewModelActivity extends AppCompatActivity {
     private HashMap<Integer, ConstraintLayout> entry_manager;
     private Context context;
     private MyHandler handler;
+    private ProgressDialog progressDialog;
     private int max_count = 0;
     private int CT_type = 0;
     public final static int NETWORK_ERROR = 1;
@@ -60,6 +65,8 @@ public class AddNewModelActivity extends AppCompatActivity {
                     break;
                 case NETWORK_PASS:
                     //TODO: disable waiting dialog
+                    mActivity.get().progressDialog.dismiss();
+                    Toast.makeText(mActivity.get(), "上传成功！", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -69,6 +76,7 @@ public class AddNewModelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_model);
         context = this;
+        cardModelContextList = new ArrayList<>();
         add_new_model_entry = findViewById(R.id.ANM_add_new_stuff);
         commit_model = findViewById(R.id.ANM_commit);
         entry_layout = findViewById(R.id.ANM_entry_layout);
@@ -131,6 +139,11 @@ public class AddNewModelActivity extends AppCompatActivity {
                 AddNewModelController controller = new AddNewModelController(handler, context);
                 controller.uploadModel(new_model);
                 //TODO: show wait modal dialog
+                progressDialog = new ProgressDialog(AddNewModelActivity.this);
+                progressDialog.setTitle("上传模版中");
+                progressDialog.setMessage("等待中...");
+                progressDialog.setCancelable(true);
+                progressDialog.show();
             }
         });
     }
@@ -146,6 +159,12 @@ public class AddNewModelActivity extends AppCompatActivity {
                                                          data.getBooleanExtra("trainable", true), data.getBooleanExtra("keyword", true));
                     if(CT_content_obj != null){
                         cardModelContextList.add(CT_content_obj);
+                        ConstraintLayout entry = entry_manager.get(data.getIntExtra("entry_id", 0));
+                        TextView entry_name = entry.findViewById(R.id.entry_name);
+                        TextView entry_type = entry.findViewById(R.id.entry_type);
+                        entry_name.setText(data.getStringExtra("name"));
+                        entry_type.setText(Model.ENTRY_TYPE_NAME[data.getIntExtra("type", 0)]);
+
                     }
                 }
         }

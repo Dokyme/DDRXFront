@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,8 +36,9 @@ import java.util.List;
 public class AddNewWarehouseActivity extends AppCompatActivity {
 
     private MyHandler handler;
-    RecyclerView model_recycler_view;
+    private RecyclerView model_recycler_view;
     private AddNewWarehouseController controller;
+
 
     public static final int GET_MODEL = 1;
     public static final int CHOOSE_PHOTO = 2;
@@ -85,6 +87,13 @@ public class AddNewWarehouseActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton fab = findViewById(R.id.ANW_add_card);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void openAlbum(){
