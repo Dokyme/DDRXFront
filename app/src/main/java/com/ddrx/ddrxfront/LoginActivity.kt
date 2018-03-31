@@ -9,7 +9,6 @@ import android.widget.Toast
 import com.ddrx.ddrxfront.Model.UserInfo
 import com.ddrx.ddrxfront.Utilities.*
 import kotlinx.android.synthetic.main.activity_login.*
-import org.json.JSONObject
 import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import okhttp3.FormBody
 import org.json.JSONArray
@@ -49,10 +48,10 @@ class LoginActivity : AppCompatActivity() {
                 .build()
                 .enqueue(object : Request.DefaultCallback(this@LoginActivity) {
                     override fun onSuccess(context: Context, data: JSONArray, message: String) {
-                        prompt(this@LoginActivity, "登陆成功。", true)
+//                        prompt(this@LoginActivity, "登陆成功。", true)
                         try {
                             JSONToEntity.getUserInfo(this@LoginActivity, data.getJSONObject(0))
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            startActivity(Intent(this@LoginActivity, AddNewModelActivity::class.java))
                         } catch (e: Exception) {
                             e.printStackTrace()
                             prompt(this@LoginActivity, "登陆失败", true)

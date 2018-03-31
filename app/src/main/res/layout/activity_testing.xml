@@ -4,14 +4,31 @@
                 android:layout_height="match_parent">
     <android.support.v4.view.ViewPager android:layout_width="match_parent"
                                        android:id="@+id/viewpager_testing"
-                                       android:layout_above="@id/btn_next"
+                                       android:layout_above="@id/btn_show_answer"
                                        android:layout_height="wrap_content">
 
     </android.support.v4.view.ViewPager>
     <Button android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/btn_next"
-            android:text="下一题"
+            android:id="@+id/btn_show_answer"
+            android:layout_above="@id/bottom_btn_group"
+            android:text="显示答案"
             android:layout_height="wrap_content"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:id="@+id/bottom_btn_group"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
+                  android:orientation="horizontal">
+        <Button android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/btn_pass"
+                android:text="记住了"
+                android:layout_height="wrap_content"/>
+        <Button android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/btn_notpass"
+                android:text="没记住"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "671b478c11f3c5d1de7b2171da5af2fd",
+    "identityHash": "0d2146abbedb8f0a8317639dd93f32a3",
     "entities": [
       {
         "tableName": "CardWarehouse",
@@ -172,7 +172,7 @@
       },
       {
         "tableName": "CardTranningRecord",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `serial_id` INTEGER NOT NULL, `training_count` INTEGER NOT NULL, PRIMARY KEY(`CW_id`, `serial_id`), FOREIGN KEY(`CW_id`) REFERENCES `CardWarehouse`(`CW_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CW_id` INTEGER NOT NULL, `CC_id` INTEGER NOT NULL, `training_count` INTEGER NOT NULL, PRIMARY KEY(`CW_id`, `CC_id`), FOREIGN KEY(`CW_id`) REFERENCES `CardWarehouse`(`CW_id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "CW_id",
@@ -181,8 +181,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "serial_id",
-            "columnName": "serial_id",
+            "fieldPath": "CC_id",
+            "columnName": "CC_id",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -196,7 +196,7 @@
         "primaryKey": {
           "columnNames": [
             "CW_id",
-            "serial_id"
+            "CC_id"
           ],
           "autoGenerate": false
         },
@@ -217,7 +217,7 @@
       },
       {
         "tableName": "MemoryCard",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CC_id` INTEGER NOT NULL, `CW_id` INTEGER NOT NULL, `CC_content` TEXT, PRIMARY KEY(`CC_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`CC_id` INTEGER NOT NULL, `CW_id` INTEGER NOT NULL, `CC_content` TEXT, PRIMARY KEY(`CC_id`, `CW_id`))",
         "fields": [
           {
             "fieldPath": "CC_id",
@@ -240,7 +240,8 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "CC_id"
+            "CC_id",
+            "CW_id"
           ],
           "autoGenerate": false
         },
@@ -284,7 +285,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"671b478c11f3c5d1de7b2171da5af2fd\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0d2146abbedb8f0a8317639dd93f32a3\")"
     ]
   }
 }

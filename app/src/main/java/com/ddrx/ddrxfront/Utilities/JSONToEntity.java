@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class JSONToEntity {
     public static UserInfo getUserInfo(Context context, JSONObject data) throws Exception {
-        long id = (Long) data.get("U_id");
+        long id = Long.valueOf(data.get("U_id").toString());
         UserInfo userInfo = getUserDetailInfo(context, data);
         userInfo.setId(id);
         return userInfo;
@@ -33,9 +33,9 @@ public class JSONToEntity {
 
     public static UserInfo getUserDetailInfo(Context context, JSONObject data) throws Exception {
         String nickname = (String) data.get("U_nick");
-        long experience = (long) data.get("U_exp");
-        float balance = (float) data.get("U_balance");
-        int cardLimit = (int) data.get("U_card_limit");
+        long experience = (int) data.get("U_exp");
+        float balance = Float.valueOf(data.get("U_balance").toString());
+        int cardLimit = (int) data.get("U_card_limt");
         String sex = (String) data.get("U_sex");
         String birthday = (String) data.get("U_birth_day");
         String city = (String) data.get("U_city");
@@ -52,15 +52,15 @@ public class JSONToEntity {
         return userInfo;
     }
 
-    public static List<CardWarehouse> getCardWarehouseList(JSONArray jsonArray){
+    public static List<CardWarehouse> getCardWarehouseList(JSONArray jsonArray) {
 
         long CW_id, CT_id, U_id;
         String CT_name, U_nick, CW_name, CW_abstract, UCW_time, CW_detail;
         int CW_privilege, CW_card_num, CW_training;
 
         List<CardWarehouse> result = new ArrayList<>();
-        for(int i = 0; i < jsonArray.length(); i++){
-            try{
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 CW_id = obj.getLong("CW_id");
                 CT_id = obj.getLong("CT_id");
@@ -74,33 +74,33 @@ public class JSONToEntity {
                 CW_training = obj.getInt("CW_training");
                 CW_privilege = obj.getInt("CW_privilege");
                 CW_card_num = obj.getInt("CW_card_num");
-            }catch(JSONException exception){
+            } catch (JSONException exception) {
                 Log.e("JSON_parsing_error", "getCardWarehouseList");
                 continue;
             }
             result.add(new CardWarehouse(CW_id, CT_id, CT_name, U_id, U_nick, UCW_time, CW_name, CW_privilege, CW_card_num
-                                        , CW_abstract, CW_detail, CW_training));
+                    , CW_abstract, CW_detail, CW_training));
         }
         return result;
     }
 
-    public static Map<Long, Integer> getTimestamps(JSONArray jsonArray) throws JSONException{
+    public static Map<Long, Integer> getTimestamps(JSONArray jsonArray) throws JSONException {
         Map<Long, Integer> result = new HashMap<>();
-        for(int i = 0; i < jsonArray.length(); i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             result.put(obj.getLong("CW_id"), obj.getInt("timestamp"));
         }
         return result;
     }
 
-    public static List<CardModel> getCardModelList(JSONArray array){
+    public static List<CardModel> getCardModelList(JSONArray array) {
         long CT_id, U_id;
         String CT_name, U_name, UCT_time, CT_brief, CT_context;
         int CT_privilege, CT_type;
 
         List<CardModel> models = new ArrayList<>();
-        try{
-            for(int i = 0; i < array.length(); i++){
+        try {
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 CT_id = obj.getLong("CT_id");
                 CT_name = obj.getString("CT_name");
@@ -113,45 +113,45 @@ public class JSONToEntity {
                 CT_context = obj.getString("CT_context");
                 models.add(new CardModel(CT_id, CT_name, U_name, U_id, UCT_time, CT_brief, CT_privilege, CT_type, CT_context));
             }
-        } catch(JSONException e){
+        } catch (JSONException e) {
             Log.e("JSON Format Error", "getCardModelList@JSONToEntity");
             return null;
         }
         return models;
     }
 
-    public static List<TrainingRecord> getTrainingRecordList(JSONArray array){
+    public static List<TrainingRecord> getTrainingRecordList(JSONArray array) {
         long CW_id, U_id;
         String training_time;
         List<TrainingRecord> recordList = new ArrayList<>();
-        try{
-            for(int i = 0; i < array.length(); i++){
+        try {
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 CW_id = obj.getLong("CW_id");
                 U_id = obj.getLong("U_id");
                 training_time = obj.getString("TR_finish");
                 recordList.add(new TrainingRecord(CW_id, U_id, training_time));
             }
-        } catch(JSONException e){
+        } catch (JSONException e) {
             Log.e("JSON Format Error", "getTrainingRecordList@JSONToEntity");
             return null;
         }
         return recordList;
     }
 
-    public static List<MemoryCard> getMemoryCardList(JSONArray array){
+    public static List<MemoryCard> getMemoryCardList(JSONArray array) {
         long CC_id, CW_id;
         String CC_content;
         List<MemoryCard> memoryCardList = new ArrayList<>();
-        try{
-            for(int i = 0; i < array.length(); i++){
+        try {
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 CC_id = obj.getLong("CC_id");
                 CW_id = obj.getLong("CW_id");
                 CC_content = obj.getString("CC_content");
                 memoryCardList.add(new MemoryCard(CC_id, CW_id, CC_content));
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.e("JSON Format Error", "getMemoryCardList@JSONToEntity");
             return null;
         }
