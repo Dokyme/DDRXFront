@@ -174,14 +174,14 @@ class UserDetailActivity : AppCompatActivity() {
                     .post(formBody)
                     .url("/user/social_alter")
                     .build()
-                    .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.DefaultCallback(this@UserDetailActivity) {
+                    .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.SuccessfulCallback(this@UserDetailActivity) {
                         override fun onSuccess(context: Context, data: JSONArray, message: String) {
-                            prompt(this@UserDetailActivity, "修改成功", true)
+                            prompt(this@UserDetailActivity, "修改成功")
                             try {
                                 JSONToEntity.getUserDetailInfo(this@UserDetailActivity, data.getJSONObject(0))
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                prompt(this@UserDetailActivity, "修改失败", true)
+                                prompt(this@UserDetailActivity, "修改失败")
                             }
                         }
                     })

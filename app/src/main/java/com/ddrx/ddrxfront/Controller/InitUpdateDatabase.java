@@ -43,6 +43,7 @@ public class InitUpdateDatabase {
     private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/template/down_list";
     private static final String GET_USER_ALL_TRAINING_RECORD = HOST_NAME + "/training/down_record";
     private static final String GET_ALL_CARD = HOST_NAME + "/card/download";
+
     public static final int NETWORK_ERROR = 1;
     public static final int UPDATE_WAREHOUSE_SUCCESS = 2;
     public static final int UPDATE_MODEL_SUCCESS = 3;
@@ -298,7 +299,7 @@ public class InitUpdateDatabase {
         HashSet<Long> model_ids = new HashSet<>(db.getCardModelDAO().queryAllCT_ID());
         List<Long> now_model_ids = new LinkedList<>();
         for (CardModel model : modelList) {
-            if (model_ids.contains(model.getCT_name()))
+            if (model_ids.contains(model.getCT_id()))
                 db.getCardModelDAO().updateCardModels(model);
             else
                 db.getCardModelDAO().insertSingleCardModel(model);

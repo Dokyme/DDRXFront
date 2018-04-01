@@ -76,15 +76,15 @@ class RevisePasswordActivity : AppCompatActivity() {
                     .url("/user/sign_alter")
                     .post(formBody)
                     .build()
-                    .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.DefaultCallback(this@RevisePasswordActivity) {
+                    .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.SuccessfulCallback(this@RevisePasswordActivity) {
                         override fun onSuccess(context: Context, data: JSONArray, message: String) {
-                            prompt(this@RevisePasswordActivity, "修改密码成功。", true)
+                            prompt(this@RevisePasswordActivity, "修改密码成功。")
                             try {
                                 JSONToEntity.getUserDetailInfo(this@RevisePasswordActivity, data.getJSONObject(0))
                                 finish()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                prompt(this@RevisePasswordActivity, "修改密码失败", true)
+                                prompt(this@RevisePasswordActivity, "修改密码失败")
                             }
                         }
                     })

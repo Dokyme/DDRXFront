@@ -1,6 +1,9 @@
 package com.ddrx.ddrxfront.Utilities
 
 import android.content.Context
+import android.os.Handler
+import android.os.Message
+import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper.Companion.context
 
 import org.json.JSONException
 import org.json.JSONObject
@@ -20,8 +23,38 @@ import org.json.JSONArray
 
 class Request {
 
+    private val MESSAGE_SUCCESS = 0
+    private val MESSAGE_FAILURE = 1
     private var builder: okhttp3.Request.Builder = okhttp3.Request.Builder()
     private lateinit var callback: Callback
+
+    private val handler: Handler = Handler({ msg: Message? ->
+        when (msg?.what) {
+            MESSAGE_SUCCESS -> {
+                val response = msg.obj as String
+                val `object` = JSONObject(response)
+                if (!`object`.has("code") || !`object`.has("msg"))
+                    throw JSONException("Wrong Response Format:No Code Field")
+                val rmsg = `object`.getString("msg")
+                when (`object`.getInt("code")) {
+                    600 -> callback.onUsernameNotExist(rmsg)
+                    601 -> callback.onWrongPassword(rmsg)
+                    1000 -> callback.onServerInternalError(rmsg)
+                    1001 -> callback.onWrongParamaters(rmsg)
+                    1003 -> callback.onWrongCookies(rmsg)
+                    1004 -> callback.onWrongMacAddresss(rmsg)
+                    0 -> callback.onSuccess(context, `object`.getJSONArray("body"), rmsg)
+                }
+                true
+            }
+            MESSAGE_FAILURE -> {
+                val e = msg.obj as IOException
+                callback.onFailure(e)
+                true
+            }
+            else -> true
+        }
+    })
 
     interface Callback {
         fun onFailure(exception: IOException)
@@ -37,32 +70,53 @@ class Request {
         fun onWrongCookies(message: String)
 
         fun onWrongMacAddresss(message: String)
+
+        fun onWrongParamaters(message: String)
     }
 
-    abstract class DefaultCallback(private val context: Context) : Callback {
+    abstract class DefaultCallback(val context: Context) : Callback {
 
         override fun onFailure(exception: IOException) {
-            prompt(context, "网络环境错误 " + exception.message, true)
+            prompt(context, "网络环境错误 " + exception.message)
+            onAnyFailure("")
         }
 
         override fun onUsernameNotExist(message: String) {
-            prompt(context, "用户名不存在 $message", true)
+            prompt(context, "用户名不存在 $message")
+            onAnyFailure(message)
         }
 
         override fun onWrongPassword(message: String) {
-            prompt(context, "密码错误 $message", true)
+            prompt(context, "密码错误 $message")
+            onAnyFailure(message)
         }
 
         override fun onServerInternalError(message: String) {
-            prompt(context, "服务器内部错误 $message", true)
+            prompt(context, "服务器内部错误 $message")
+            onAnyFailure(message)
         }
 
         override fun onWrongCookies(message: String) {
-            prompt(context, "无效的Cookies $message", true)
+            prompt(context, "无效的Cookies $message")
+            onAnyFailure(message)
         }
 
         override fun onWrongMacAddresss(message: String) {
-            prompt(context, "Mac地址错误 $message", true)
+            prompt(context, "Mac地址错误 $message")
+            onAnyFailure(message)
+        }
+
+        override fun onWrongParamaters(message: String) {
+            prompt(context, "参数错误 $message")
+            onAnyFailure(message)
+        }
+
+        abstract fun onAnyFailure(message: String)
+    }
+
+    abstract class SuccessfulCallback(context: Context) : DefaultCallback(context) {
+        override fun onAnyFailure(message: String) {
+
         }
     }
 
@@ -104,23 +158,17 @@ class Request {
                 .newCall(builder.build())
                 .enqueue(object : okhttp3.Callback {
                     override fun onFailure(call: Call, e: IOException) {
-                        callback.onFailure(e)
+                        val message = Message()
+                        message.what = MESSAGE_FAILURE
+                        message.obj = e
+                        handler.sendMessage(message)
                     }
 
-                    @Throws(IOException::class, JSONException::class)
                     override fun onResponse(call: Call, response: Response) {
-                        val `object` = JSONObject(response.body()!!.string())
-                        if (!`object`.has("code") || !`object`.has("msg"))
-                            throw JSONException("Wrong Response Format:No Code Field")
-                        val msg = `object`.getString("msg")
-                        when (`object`.getInt("code")) {
-                            600 -> callback.onUsernameNotExist(msg)
-                            601 -> callback.onWrongPassword(msg)
-                            1000 -> callback.onServerInternalError(msg)
-                            1003 -> callback.onWrongCookies(msg)
-                            1004 -> callback.onWrongMacAddresss(msg)
-                            0 -> callback.onSuccess(context, `object`.getJSONArray("body"), msg)
-                        }
+                        val message = Message()
+                        message.what = MESSAGE_SUCCESS
+                        message.obj = response.body()?.string()
+                        handler.sendMessage(message)
                     }
                 })
     }
