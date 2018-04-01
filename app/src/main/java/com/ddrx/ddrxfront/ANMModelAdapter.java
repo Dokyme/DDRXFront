@@ -1,6 +1,7 @@
 package com.ddrx.ddrxfront;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.ddrx.ddrxfront.Model.CardModelIntro;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.Model;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,6 +27,8 @@ public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHo
 
     private List<CardModel> modelList;
     private AddNewWarehouseActivity activity;
+    private int last_click_pos = -1;
+    private HashMap<Integer, ViewHolder> viewHolderHashMap;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View model_view;
@@ -53,6 +57,11 @@ public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHo
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 final CardModel intro = modelList.get(position);
+                v.setBackgroundColor(Color.CYAN);
+                if(last_click_pos != -1){
+                    viewHolderHashMap.get(last_click_pos).model_view.setBackgroundColor(Color.WHITE);
+                }
+                last_click_pos = position;
                 activity.setChosen_model_id(intro.getCT_id());
             }
         });
@@ -64,6 +73,7 @@ public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHo
         CardModel model = modelList.get(position);
         holder.model_image.setImageResource(Model.TYPE[model.getCT_type()]);
         holder.model_name.setText(model.getCT_name());
+        viewHolderHashMap.put(position, holder);
     }
 
     @Override

@@ -112,11 +112,7 @@ public class JSONToEntity {
                 CT_context = obj.getString("CT_context");
                 CT_creator_name = obj.getString("CT_creator_name");
                 CT_creator_id = obj.getLong("CT_creator_id");
-<<<<<<< HEAD
-                models.add(new CardModel(CT_id, CT_name, U_name, U_id, UCT_time, CT_brief, CT_privilege, CT_type, CT_context, CT_creator_name, CT_creator_id));
-=======
                 models.add(new CardModel(CT_id, CT_name, "", U_id, UCT_time, CT_brief, CT_privilege, CT_type, CT_context, CT_creator_name, CT_creator_id));
->>>>>>> af63e650a9b0715f0c93cb11c19c695bdc856d81
             }
         } catch (JSONException e) {
             Log.e("JSON Format Error", "getCardModelList@JSONToEntity");
