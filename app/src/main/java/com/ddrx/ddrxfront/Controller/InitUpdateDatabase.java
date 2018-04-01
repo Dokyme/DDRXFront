@@ -37,9 +37,16 @@ public class InitUpdateDatabase {
     private static final String GET_USER_ALL_CW_INFO_URL = HOST_NAME + "/warehouse/down_list";
     private static final String GET_COVER_URL = HOST_NAME + "/warehouse/down_list";
     private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/template/down_list";
-    private static final String GET_USER_ALL_TRAINING_RECORD = HOST_NAME + "/down_record";
+    private static final String GET_USER_ALL_TRAINING_RECORD = HOST_NAME + "/training/down_record";
+
     public static final int NETWORK_ERROR = 1;
     public static final int UPDATE_SUCCESS = 2;
+    public static final int UPDATE_CARD_WAREHOUSE = 3;
+    public static final int UPDATE_CARD_MODEL = 4;
+    public static final int UPDATE_TRAINING_RECORD = 5;
+    public static final int UPDATE_MEMORY_CARD = 6;
+
+    private static int successPart = 0;
 
     public InitUpdateDatabase() {
     }
@@ -74,7 +81,7 @@ public class InitUpdateDatabase {
                                     warehouse.setCW_cover_url(cover_url);
                                 }
                                 updateCWDatabase(context, warehouseList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
+                                sendMessageToUI(handler, UPDATE_CARD_WAREHOUSE);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -109,7 +116,7 @@ public class InitUpdateDatabase {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             } else {
                                 updateCTDatabase(context, cardModelList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
+                                sendMessageToUI(handler, UPDATE_CARD_MODEL);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -146,7 +153,7 @@ public class InitUpdateDatabase {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             } else {
                                 updateTRDatabase(context, trainingRecordList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
+                                sendMessageToUI(handler, UPDATE_TRAINING_RECORD);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -183,7 +190,7 @@ public class InitUpdateDatabase {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             } else {
                                 updateMCDatabase(context, memoryCardList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
+                                sendMessageToUI(handler, UPDATE_MEMORY_CARD);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);

@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
-import com.ddrx.ddrxfront.Model.NeedTraining;
+import com.ddrx.ddrxfront.Model.NeedTrainingItem;
 import com.ddrx.ddrxfront.Utilities.UserInfoPreference;
 
 import java.util.List;
@@ -34,16 +34,16 @@ public class NeedTrainingController {
             @Override
             public void run() {
                 MemoryMasterDatabase database = MemoryMasterDatabase.getInstance(context);
-                List<NeedTraining> needTrainingList = database.getCardTrainingRecordDAO().queryNeedTrainingsByUserId(preference.getUserInfo().getId());
+                List<NeedTrainingItem> needTrainingItemList = database.getCardTrainingRecordDAO().queryNeedTrainingsByUserId(preference.getUserInfo().getId());
                 Message message = new Message();
                 try {
                     Thread.sleep(5000);
                 } catch (Exception e) {
 
                 }
-                if (!needTrainingList.isEmpty()) {
+                if (!needTrainingItemList.isEmpty()) {
                     message.what = UPDATE_UI;
-                    message.obj = needTrainingList;
+                    message.obj = needTrainingItemList;
                 } else {
                     message.what = EMPTY_LIST;
                 }

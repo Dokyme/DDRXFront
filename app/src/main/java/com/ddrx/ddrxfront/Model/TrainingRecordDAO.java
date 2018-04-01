@@ -20,7 +20,7 @@ public interface TrainingRecordDAO {
     String queryLatestTrainingTime(long CW_id, long U_id);
 
     @Query("Select CW_id, training_time From TrainingRecord Where U_id = :U_id")
-    List<UserTrainingRecord> queryUserTrainingRecord(long U_id);
+    List<TrainingRecordItem> queryUserTrainingRecord(long U_id);
 
     @Insert
     void insertIntoTrainingRecord(List<TrainingRecord> trainingRecords);

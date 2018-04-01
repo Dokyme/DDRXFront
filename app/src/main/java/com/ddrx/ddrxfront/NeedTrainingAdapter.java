@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ddrx.ddrxfront.Model.NeedTraining;
+import com.ddrx.ddrxfront.Model.NeedTrainingItem;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class NeedTrainingAdapter extends RecyclerView.Adapter<NeedTrainingAdapter.ViewHolder> {
 
-    private List<NeedTraining> needTrainingList;
+    private List<NeedTrainingItem> needTrainingItemList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View view;
@@ -36,8 +36,8 @@ public class NeedTrainingAdapter extends RecyclerView.Adapter<NeedTrainingAdapte
         }
     }
 
-    public NeedTrainingAdapter(List<NeedTraining> dataList) {
-        needTrainingList = dataList;
+    public NeedTrainingAdapter(List<NeedTrainingItem> dataList) {
+        needTrainingItemList = dataList;
     }
 
     @NonNull
@@ -50,7 +50,7 @@ public class NeedTrainingAdapter extends RecyclerView.Adapter<NeedTrainingAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        NeedTraining nt = needTrainingList.get(position);
+        NeedTrainingItem nt = needTrainingItemList.get(position);
         holder.image.setImageBitmap(BitmapFactory.decodeFile(nt.getImageUrl()));
         holder.name.setText(nt.getWarehouseName());
         holder.lastDate.setText(nt.getLastTrainingDate());
@@ -58,6 +58,6 @@ public class NeedTrainingAdapter extends RecyclerView.Adapter<NeedTrainingAdapte
 
     @Override
     public int getItemCount() {
-        return needTrainingList.size();
+        return needTrainingItemList.size();
     }
 }

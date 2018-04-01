@@ -6,13 +6,13 @@ import android.arch.persistence.room.Entity;
  * Created by dokym on 2018/3/28.
  */
 
-public class NeedTraining {
+public class NeedTrainingItem {
     private String imageUrl;
     private int warehouseId;
     private String warehouseName;
     private String lastTrainingDate;
 
-    public NeedTraining(String imageUrl, int warehouseId, String warehouseName, String lastTrainingDate) {
+    public NeedTrainingItem(String imageUrl, int warehouseId, String warehouseName, String lastTrainingDate) {
         this.imageUrl = imageUrl;
         this.warehouseId = warehouseId;
         this.warehouseName = warehouseName;

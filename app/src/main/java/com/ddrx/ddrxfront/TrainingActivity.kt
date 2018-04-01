@@ -26,8 +26,8 @@ class TrainingActivity : AppCompatActivity() {
 
         cwId = intent.getLongExtra("CW_id", -1)
         trainingCardList = MemoryMasterDatabase.getInstance(this)
-                .memoryCardDAO
-                .queryMemoryCardByCW_id(cwId!!)
+                .cardTrainingRecordDAO
+                .queryNeedTrainingMemoryCardByCWId(cwId)
         viewpager_training.adapter = TrainingFragmentPagerAdapter()
 
         initEvent()
@@ -48,6 +48,7 @@ class TrainingActivity : AppCompatActivity() {
                 val intent = Intent(this, TestingActivity::class.java)
                 intent.putExtra("CW_id", cwId)
                 startActivity(intent)
+                finish()
             })
         } else if (currentPage == 1)
             btn_previous.text = "上一页"

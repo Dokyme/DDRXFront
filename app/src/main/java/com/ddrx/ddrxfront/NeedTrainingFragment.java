@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ddrx.ddrxfront.Controller.NeedTrainingController;
-import com.ddrx.ddrxfront.Model.NeedTraining;
+import com.ddrx.ddrxfront.Model.NeedTrainingItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class NeedTrainingFragment extends Fragment {
                     progressBar.setVisibility(View.INVISIBLE);
                     break;
                 case NeedTrainingController.UPDATE_UI:
-                    needTrainingList = (List<NeedTraining>) msg.obj;
+                    needTrainingItemList = (List<NeedTrainingItem>) msg.obj;
                     recyclerView.setVisibility(View.VISIBLE);
                     textView.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
@@ -51,7 +51,7 @@ public class NeedTrainingFragment extends Fragment {
         }
     }
 
-    private List<NeedTraining> needTrainingList;
+    private List<NeedTrainingItem> needTrainingItemList;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -68,7 +68,7 @@ public class NeedTrainingFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = new NeedTrainingController(new MyHandler(), getContext());
-        needTrainingList = new ArrayList<>();
+        needTrainingItemList = new ArrayList<>();
     }
 
     @Override
@@ -91,7 +91,7 @@ public class NeedTrainingFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.setVisibility(View.GONE);
-        recyclerView.setAdapter(new NeedTrainingAdapter(needTrainingList));
+        recyclerView.setAdapter(new NeedTrainingAdapter(needTrainingItemList));
         progressBar.setVisibility(View.VISIBLE);
 
         this.view = view;

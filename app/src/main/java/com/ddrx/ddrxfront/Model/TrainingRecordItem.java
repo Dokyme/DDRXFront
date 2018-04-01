@@ -4,7 +4,7 @@ package com.ddrx.ddrxfront.Model;
  * Created by vincentshaw on 2018/3/27.
  */
 
-public class UserTrainingRecord {
+public class TrainingRecordItem {
     private long CW_id;
     private String training_time;
 
@@ -24,7 +24,7 @@ public class UserTrainingRecord {
         this.training_time = training_time;
     }
 
-    public UserTrainingRecord(long CW_id, String training_time) {
+    public TrainingRecordItem(long CW_id, String training_time) {
 
         this.CW_id = CW_id;
         this.training_time = training_time;

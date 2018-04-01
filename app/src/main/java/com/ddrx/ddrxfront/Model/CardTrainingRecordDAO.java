@@ -14,18 +14,37 @@ import java.util.List;
 @Dao
 public interface CardTrainingRecordDAO {
 
-    @Query("Select cw.CW_name as warehouseName," +
-            "cw.CW_id as warehouseId," +
+    /**
+     * 选出还有卡片没有达到次数要求的CardWarehouse(即NeedTranning)
+     *
+     * @return
+     */
+    @Query("Select cw.CW_id as warehouseId," +
             "cw.CW_cover_url as imageUrl," +
-            "(Select max(training_time) from TrainingRecord where CW_id=cw.CW_id and U_id=:userId) as lastTrainingDate " +
-            "from CardTranningRecord ctr " +
-            "inner join CardWarehouse cw on cw.CW_id=ctr.CW_id " +
-            "group by ctr.CW_id,ctr.CC_id,cw.CW_training,cw.CW_name,cw.CW_cover_url " +
-            "having count(*) < cw.CW_training")
-    List<NeedTraining> queryNeedTrainingsByUserId(Long userId);
+            "cw.CW_name as warehouseName," +
+            "(Select max(tr.training_time) from TrainingRecord tr where tr.CW_id=cw.CW_id) as lastTrainingDate " +
+            "from CardWarehouse cw " +
+            "where exists (Select * from CardTranningRecord ctr where ctr.CW_id=cw.CW_id and ctr.training_count < cw.CW_training)")
+    List<NeedTrainingItem> queryNeedTrainingsByUserId();
 
+    /**
+     * 选出cwId卡片仓库的还未完成训练次数的卡片
+     *
+     * @param cwId
+     * @param CC_id
+     * @return
+     */
     @Query("Select CW_id,CC_id,training_count from CardTranningRecord where CW_id=:cwId and CC_id=:CC_id")
     CardTranningRecord queryTrainRecord(Long cwId, long CC_id);
+
+    @Query("Select mc.CC_id as CC_id," +
+            "mc.CW_id as CW_id," +
+            "mc.CC_content as CC_content " +
+            "from MemoryCard mc " +
+            "where mc.CW_id=:cwId and " +
+            "(Select training_count from CardTranningRecord ctr where ctr.CW_id=:cwId and ctr.CC_id=mc.CC_id)" +
+            " < (Select cw.CW_training from CardWarehouse cw where cw.CW_id=:cwId)")
+    List<MemoryCard> queryNeedTrainingMemoryCardByCWId(Long cwId);
 
     @Update
     void updateCardsTrainingRecords(CardTranningRecord... cardTranningRecords);

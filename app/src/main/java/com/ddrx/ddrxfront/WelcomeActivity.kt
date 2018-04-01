@@ -2,9 +2,13 @@ package com.ddrx.ddrxfront
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v7.app.AppCompatActivity
+import com.ddrx.ddrxfront.Controller.InitUpdateDatabase
 import com.ddrx.ddrxfront.Model.UserInfo
 import com.ddrx.ddrxfront.Utilities.*
+import com.ddrx.ddrxfront.Utilities.ToastUtil.prompt
 import okhttp3.*
 import okhttp3.Request
 import org.json.JSONObject
@@ -17,31 +21,58 @@ import java.util.*
 class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var userInfo: UserInfo
-    private var success: Boolean? = null
-    private var timeUp = false
-    private lateinit var task: TimerTask
-    private lateinit var timer: Timer
+    private lateinit var handler: Handler
+    private lateinit var partSuccess = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_welcome)
         userInfo = UserInfoPreference(this).userInfo
-        task = object : TimerTask() {
-            override fun run() {
-                timeUp = true
-                val temp = success
-                if (temp != null) {
-                    if (temp)
-                        startActivity(Intent(this@WelcomeActivity, MainActivity::class.java))
-                    else
-                        startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
-                    finish()
+        handler = Handler({ msg: Message? ->
+            kotlin.run {
+                when (msg?.what) {
+                    InitUpdateDatabase.UPDATE_CARD_WAREHOUSE -> {
+                        partSuccess++
+                        if (partSuccess == 4) {
+                            partSuccess = 0
+                            startActivity(Intent(this, WarehouseActivity::class.java))
+                        }
+                    }
+                    InitUpdateDatabase.UPDATE_CARD_MODEL -> {
+                        partSuccess++
+                        if (partSuccess == 4) {
+                            partSuccess = 0
+                            startActivity(Intent(this, WarehouseActivity::class.java))
+                        }
+                    }
+                    InitUpdateDatabase.UPDATE_TRAINING_RECORD -> {
+                        partSuccess++
+                        if (partSuccess == 4) {
+                            partSuccess = 0
+                            startActivity(Intent(this, WarehouseActivity::class.java))
+                        }
+                    }
+                    InitUpdateDatabase.UPDATE_MEMORY_CARD -> {
+                        partSuccess++
+                        if (partSuccess == 4) {
+                            partSuccess = 0
+                            startActivity(Intent(this, WarehouseActivity::class.java))
+                        }
+                    }
+                    InitUpdateDatabase.NETWORK_ERROR -> {
+                        prompt(this, "网络错误")
+                        handler.removeMessages(InitUpdateDatabase.NETWORK_ERROR)
+                        handler.removeMessages(InitUpdateDatabase.UPDATE_CARD_WAREHOUSE)
+                        handler.removeMessages(InitUpdateDatabase.UPDATE_CARD_MODEL)
+                        handler.removeMessages(InitUpdateDatabase.UPDATE_TRAINING_RECORD)
+                        handler.removeMessages(InitUpdateDatabase.UPDATE_MEMORY_CARD)
+                        finish()
+                    }
                 }
+                true
             }
-        }
+        })
         check()
-        timer = Timer()
-        timer.schedule(task, 1000)
     }
 
     private fun check() {
@@ -58,11 +89,8 @@ class WelcomeActivity : AppCompatActivity() {
                         .newCall(request)
                         .enqueue(object : Callback {
                             override fun onFailure(call: Call?, e: IOException?) {
-                                success = false
-                                if (timeUp) {
-                                    startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
-                                    finish()
-                                }
+                                startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
+                                finish()
                             }
 
                             override fun onResponse(call: Call?, response: Response?) {
@@ -70,19 +98,15 @@ class WelcomeActivity : AppCompatActivity() {
                                 val obj = JSONObject(content)
                                 when (obj.get("code") as Int) {
                                     0 -> {
-                                        success = true
-                                        if (timeUp) {
-                                            startActivity(Intent(this@WelcomeActivity, MainActivity::class.java))
-                                            finish()
-                                        }
+                                        InitUpdateDatabase.updateCardWarehouseDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
+                                        InitUpdateDatabase.updateCardModelDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
+                                        InitUpdateDatabase.updateMemoryCardDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
+                                        InitUpdateDatabase.updateTrainingRecordDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
                                     }
                                     else -> {
-                                        CookiesPreference(this@WelcomeActivity).cookieList = emptyList()
-                                        success = false
-                                        if (timeUp) {
-                                            startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
-                                            finish()
-                                        }
+                                        prompt(this@WelcomeActivity, obj.get("msg") as String, true)
+                                        startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
+                                        finish()
                                     }
                                 }
                             }
@@ -90,9 +114,6 @@ class WelcomeActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            success = false
-            timer.cancel()
-            task.run()
         }
     }
 }

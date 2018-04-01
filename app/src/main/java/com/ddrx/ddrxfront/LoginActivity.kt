@@ -34,7 +34,10 @@ class LoginActivity : AppCompatActivity() {
         handler = Handler({ msg: Message? ->
             kotlin.run {
                 when (msg?.what) {
-                    InitUpdateDatabase.NETWORK_ERROR -> prompt(this, "网络错误")
+                    InitUpdateDatabase.NETWORK_ERROR -> {
+                        prompt(this, "网络错误")
+                        progressDialog.dismiss()
+                    }
                     InitUpdateDatabase.UPDATE_SUCCESS -> progressDialog.dismiss()
                 }
                 true

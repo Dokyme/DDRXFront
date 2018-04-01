@@ -20,7 +20,7 @@ import com.yanzhenjie.album.Album
 import com.yanzhenjie.album.AlbumFile
 import com.yanzhenjie.durban.Durban
 import kotlinx.android.synthetic.main.activity_user.*
-import com.ddrx.ddrxfront.Model.UserTrainingRecord
+import com.ddrx.ddrxfront.Model.TrainingRecordItem
 import com.ddrx.ddrxfront.Utilities.UserInfoPreference
 
 /**
@@ -46,8 +46,8 @@ class UserActivity : AppCompatActivity() {
         userInfoPreference = UserInfoPreference(this)
 
         if (userInfoPreference.userInfo.id != -1L) {
-            val records: List<UserTrainingRecord> = MemoryMasterDatabase.getInstance(this).trainingRecordDAO.queryUserTrainingRecord(userInfoPreference.userInfo.id!!)
-            for (record in records) {
+            val recordItems: List<TrainingRecordItem> = MemoryMasterDatabase.getInstance(this).trainingRecordDAO.queryUserTrainingRecord(userInfoPreference.userInfo.id!!)
+            for (record in recordItems) {
                 val cw = MemoryMasterDatabase.getInstance(this).cardWarehouseDAO.queryCardWarehouseById(record.cW_id)
                 mDataList.add(TimeLineModel("复习了${cw.cW_name}", record.training_time))
             }

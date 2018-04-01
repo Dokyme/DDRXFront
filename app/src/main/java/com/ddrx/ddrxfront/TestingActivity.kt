@@ -33,8 +33,8 @@ class TestingActivity : AppCompatActivity() {
         cwId = intent.getLongExtra("CW_id", -1)
         memoryMasterDatabase = com.ddrx.ddrxfront.Model.MemoryMasterDatabase.getInstance(this)
         testingCardList = memoryMasterDatabase
-                .memoryCardDAO
-                .queryMemoryCardByCW_id(cwId!!)
+                .cardTrainingRecordDAO
+                .queryNeedTrainingMemoryCardByCWId(cwId)
         for (mCard in testingCardList) {
             val card = Card(mCard.cC_content)
             cardList.add(card)
@@ -66,7 +66,7 @@ class TestingActivity : AppCompatActivity() {
             if (currentQuesIndex % quesPerCard!! == 0) {
                 //说明进入了下一张卡片
                 currentCardIndex++
-                if (currentCardIndex == testingCardList.size) {
+                if (currentCardIndex == tes tingCardList.size) {
                     //所有卡片的所有题目都已经答题完毕
                     prompt(this@TestingActivity, "本次训练结束")
                     startActivity(Intent(this@TestingActivity, WarehouseActivity::class.java))
