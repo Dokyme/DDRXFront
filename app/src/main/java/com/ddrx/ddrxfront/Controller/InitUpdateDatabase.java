@@ -17,6 +17,10 @@ import com.ddrx.ddrxfront.Utilities.JSONToEntity;
 import com.ddrx.ddrxfront.Utilities.MacAddressUtil;
 import com.ddrx.ddrxfront.Utilities.ParseBackDataPack;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,11 +39,14 @@ import okhttp3.Response;
 public class InitUpdateDatabase {
     private static final String HOST_NAME = "http://120.79.35.160:3000/api";
     private static final String GET_USER_ALL_CW_INFO_URL = HOST_NAME + "/warehouse/down_list";
-    private static final String GET_COVER_URL = HOST_NAME + "/warehouse/down_list";
+    private static final String GET_COVER_URL = "http://120.79.35.160:3000";
     private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/template/down_list";
     private static final String GET_USER_ALL_TRAINING_RECORD = HOST_NAME + "/down_record";
+    private static final String GET_ALL_CARD = HOST_NAME + "/card/download";
     public static final int NETWORK_ERROR = 1;
-    public static final int UPDATE_SUCCESS = 2;
+    public static final int UPDATE_WAREHOUSE_SUCCESS = 2;
+    public static final int UPDATE_MODEL_SUCCESS = 3;
+    public static final int UPDATE_TRAINING_SUCCESS = 4;
 
     public InitUpdateDatabase() {
     }
@@ -68,13 +75,55 @@ public class InitUpdateDatabase {
                             if (warehouseList == null || cover_url_list == null || warehouseList.size() != cover_url_list.size()) {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             } else {
+                                MacAddressUtil mac = new MacAddressUtil(context);
                                 for (int i = 0; i < warehouseList.size(); i++) {
                                     CardWarehouse warehouse = warehouseList.get(i);
                                     String cover_url = cover_url_list.get(i);
                                     warehouse.setCW_cover_url(cover_url);
+                                    RequestBody requestBody = new FormBody.Builder()
+                                            .add("_MAC", mac.getMacAddr())
+                                            .add("_WAREHOUSE_ID", String.valueOf(warehouse.getCW_id())).build();
+                                    Request request = new Request.Builder()
+                                                                    .url(GET_ALL_CARD)
+                                                                    .post(requestBody)
+                                                                    .build();
+                                    Response response1 = null;
+                                    ParseBackDataPack parser2 = null;
+                                    try{
+                                        response1 = client.newCall(request).execute();
+                                        parser2 = new ParseBackDataPack(response1.body().string());
+                                    }catch(IOException e){
+                                        Log.e("Network Error", "updateCardWarehouseDatabase@InitUpdateDatabase");
+                                        sendMessageToUI(handler, NETWORK_ERROR);
+                                        return;
+                                    }
+                                    if(response1.isSuccessful()){
+                                        if(parser2.getCode() == 0){
+                                            JSONArray cards = parser2.getBody();
+                                            List<MemoryCard> memoryCardList = new ArrayList<>();
+                                            for(int j = 0; j < cards.length(); j++){
+                                                try{
+                                                    JSONObject obj = cards.getJSONObject(j);
+                                                    MemoryCard card = new MemoryCard(obj.getLong("CC_id"), obj.getLong("CW_id"), obj.getString("CC_context"));
+                                                }catch(JSONException e){
+                                                    Log.e("JSON Format Error", "updateCardWarehouseDatabase104@InitUpdateDatabase");
+                                                }
+                                            }
+                                            updateMCDatabase(context, memoryCardList);
+                                        }
+                                        else{
+                                            Log.e("Network Error", "updataCardWarehouseDatabase@InitUpdateDatabase");
+                                            sendMessageToUI(handler, NETWORK_ERROR);
+                                            return;
+                                        }
+                                    }
+                                    else{
+                                        Log.e("Network Error", "updataCardWarehouseDatabase@InitUpdateDatabase");
+                                        sendMessageToUI(handler, NETWORK_ERROR);
+                                    }
                                 }
                                 updateCWDatabase(context, warehouseList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
+                                sendMessageToUI(handler, UPDATE_WAREHOUSE_SUCCESS);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -109,7 +158,7 @@ public class InitUpdateDatabase {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             } else {
                                 updateCTDatabase(context, cardModelList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
+                                sendMessageToUI(handler, UPDATE_MODEL_SUCCESS);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -146,44 +195,7 @@ public class InitUpdateDatabase {
                                 sendMessageToUI(handler, NETWORK_ERROR);
                             } else {
                                 updateTRDatabase(context, trainingRecordList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
-                            }
-                        } else {
-                            sendMessageToUI(handler, NETWORK_ERROR);
-                        }
-                    } else {
-                        sendMessageToUI(handler, NETWORK_ERROR);
-                    }
-                }
-            }
-        }).start();
-    }
-
-    public static void updateMemoryCardDatabase(final Context context, final Handler handler, final OkHttpClient client) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Response response = getResponse(context, GET_USER_ALL_TRAINING_RECORD, client, handler);
-                if (response != null) {
-                    if (response.isSuccessful()) {
-                        String response_data;
-                        int return_code;
-                        try {
-                            response_data = response.body().string();
-                        } catch (IOException e) {
-                            Log.e("Network Error", "updateMemoryCardDatabase@InitUpdateDatabase");
-                            sendMessageToUI(handler, NETWORK_ERROR);
-                            return;
-                        }
-                        ParseBackDataPack parser = new ParseBackDataPack(response_data);
-                        return_code = parser.getCode();
-                        if (return_code == 0) {
-                            List<MemoryCard> memoryCardList = JSONToEntity.getMemoryCardList(parser.getBody());
-                            if (memoryCardList == null) {
-                                sendMessageToUI(handler, NETWORK_ERROR);
-                            } else {
-                                updateMCDatabase(context, memoryCardList);
-                                sendMessageToUI(handler, UPDATE_SUCCESS);
+                                sendMessageToUI(handler, UPDATE_TRAINING_SUCCESS);
                             }
                         } else {
                             sendMessageToUI(handler, NETWORK_ERROR);
@@ -241,7 +253,7 @@ public class InitUpdateDatabase {
         List<String> coverLists = new ArrayList<>();
         for (int i = 0; i < warehouse_list.size(); i++) {
             long CW_id = warehouse_list.get(i).getCW_id();
-            Request request = new Request.Builder().url(GET_COVER_URL + "warehouse_id_" + String.valueOf(CW_id) + "/cover.jpg").get().build();
+            Request request = new Request.Builder().url(GET_COVER_URL + warehouse_list.get(i).getCW_cover_url()).get().build();
             Response response = null;
             try {
                 response = client.newCall(request).execute();
@@ -254,7 +266,7 @@ public class InitUpdateDatabase {
                 FileOutputStream out = null;
                 BufferedWriter writer = null;
                 try {
-                    out = context.openFileOutput(String.valueOf(CW_id) + "_cover.jpg", Context.MODE_PRIVATE);
+                    out = context.openFileOutput(String.valueOf(CW_id) + "_cover.png", Context.MODE_PRIVATE);
                     writer = new BufferedWriter(new OutputStreamWriter(out));
                     writer.write(response.body().string());
                 } catch (IOException e) {
