@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.ddrx.ddrxfront.Controller.InitUpdateDatabase
 import com.ddrx.ddrxfront.Model.UserInfo
 import com.ddrx.ddrxfront.Utilities.*
@@ -31,42 +32,20 @@ class WelcomeActivity : AppCompatActivity() {
         handler = Handler({ msg: Message? ->
             kotlin.run {
                 when (msg?.what) {
-                    InitUpdateDatabase.UPDATE_CARD_WAREHOUSE -> {
-                        partSuccess++
-                        if (partSuccess == 4) {
-                            partSuccess = 0
-                            startActivity(Intent(this, WarehouseActivity::class.java))
-                        }
-                    }
-                    InitUpdateDatabase.UPDATE_CARD_MODEL -> {
-                        partSuccess++
-                        if (partSuccess == 4) {
-                            partSuccess = 0
-                            startActivity(Intent(this, WarehouseActivity::class.java))
-                        }
-                    }
-                    InitUpdateDatabase.UPDATE_TRAINING_RECORD -> {
-                        partSuccess++
-                        if (partSuccess == 4) {
-                            partSuccess = 0
-                            startActivity(Intent(this, WarehouseActivity::class.java))
-                        }
-                    }
-                    InitUpdateDatabase.UPDATE_MEMORY_CARD -> {
-                        partSuccess++
-                        if (partSuccess == 4) {
-                            partSuccess = 0
-                            startActivity(Intent(this, WarehouseActivity::class.java))
-                        }
-                    }
                     InitUpdateDatabase.NETWORK_ERROR -> {
                         prompt(this, "网络错误")
+                        Log.d("dokyme","WelcomeActivity InitUpdateDatabase.NETWORK_ERROR")
                         handler.removeMessages(InitUpdateDatabase.NETWORK_ERROR)
-                        handler.removeMessages(InitUpdateDatabase.UPDATE_CARD_WAREHOUSE)
-                        handler.removeMessages(InitUpdateDatabase.UPDATE_CARD_MODEL)
-                        handler.removeMessages(InitUpdateDatabase.UPDATE_TRAINING_RECORD)
-                        handler.removeMessages(InitUpdateDatabase.UPDATE_MEMORY_CARD)
+                        handler.removeMessages(InitUpdateDatabase.UPDATE_WAREHOUSE_SUCCESS)
+                        handler.removeMessages(InitUpdateDatabase.UPDATE_MODEL_SUCCESS)
+                        handler.removeMessages(InitUpdateDatabase.UPDATE_TRAINING_SUCCESS)
                         finish()
+                    }
+                    else -> {
+                        if (++partSuccess == 3) {
+                            partSuccess = 0
+                            startActivity(Intent(this, WarehouseActivity::class.java))
+                        }
                     }
                 }
                 true
@@ -100,7 +79,6 @@ class WelcomeActivity : AppCompatActivity() {
                                     0 -> {
                                         InitUpdateDatabase.updateCardWarehouseDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
                                         InitUpdateDatabase.updateCardModelDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
-                                        InitUpdateDatabase.updateMemoryCardDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
                                         InitUpdateDatabase.updateTrainingRecordDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
                                     }
                                     else -> {

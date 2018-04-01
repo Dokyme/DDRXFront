@@ -17,6 +17,8 @@ public class CardModel {
     private String UCT_time;
 
     private String U_name;
+    private String CT_creator_name;
+    private long CT_creator_id;
     private String CT_brief;
     private int CT_type;
     private int CT_privilege;
@@ -30,7 +32,7 @@ public class CardModel {
         U_id = u_id;
     }
 
-    public CardModel(long CT_id, String CT_name, String U_name, long U_id, String UCT_time, String CT_brief, int CT_type, int CT_privilege, String CT_context) {
+    public CardModel(long CT_id, String CT_name, String U_name, long U_id, String UCT_time, String CT_brief, int CT_type, int CT_privilege, String CT_context, String CT_creator_name, long CT_creator_id) {
         this.CT_id = CT_id;
         this.CT_name = CT_name;
         this.U_name = U_name;
@@ -40,6 +42,8 @@ public class CardModel {
         this.CT_type = CT_type;
         this.CT_privilege = CT_privilege;
         this.CT_context = CT_context;
+        this.setCT_creator_name(CT_creator_name);
+        this.setCT_creator_id(CT_creator_id);
     }
 
     public long getCT_id() {
@@ -105,5 +109,21 @@ public class CardModel {
 
     public void setUCT_time(String UCT_time) {
         this.UCT_time = UCT_time;
+    }
+
+    public String getCT_creator_name() {
+        return CT_creator_name;
+    }
+
+    public void setCT_creator_name(String CT_creator_name) {
+        this.CT_creator_name = CT_creator_name;
+    }
+
+    public long getCT_creator_id() {
+        return CT_creator_id;
+    }
+
+    public void setCT_creator_id(long CT_creator_id) {
+        this.CT_creator_id = CT_creator_id;
     }
 }
