@@ -58,6 +58,7 @@ public class AddCardActivity extends AppCompatActivity {
                     if(inputs != null){
                         mActivity.get().adapter = new AddCardAdapter(inputs, mActivity.get());
                         mActivity.get().recyclerView.setAdapter(mActivity.get().adapter);
+//                        mActivity.get().recyclerView.invalidate();
                     }
             }
         }

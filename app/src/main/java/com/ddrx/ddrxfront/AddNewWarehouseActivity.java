@@ -111,6 +111,7 @@ public class AddNewWarehouseActivity extends AppCompatActivity {
 
         model_recycler_view = findViewById(R.id.ANW_card_model);
         LinearLayoutManager layoutManager_1 = new LinearLayoutManager(this);
+        layoutManager_1.setOrientation(LinearLayoutManager.HORIZONTAL);
         model_recycler_view.setLayoutManager(layoutManager_1);
         controller.getAllModels();
 
