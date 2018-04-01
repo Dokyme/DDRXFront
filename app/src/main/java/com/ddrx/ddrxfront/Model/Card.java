@@ -31,6 +31,12 @@ public class Card {
         }
     }
 
+    public Card(){items = new ArrayList<>();}
+
+    public void addCardItem(CardItem cardItem){
+        items.add(cardItem);
+    }
+
     public List<CardFieldDisplayItem> getCardDisplayItem(){
         List<CardFieldDisplayItem> displayItems = new ArrayList<>();
         for(CardItem card_item: items){
@@ -49,7 +55,7 @@ public class Card {
         return trainingItems;
     }
 
-    public class CardItem{
+    public static class CardItem{
         public String name;
         public int type;
         public String data;
@@ -73,5 +79,50 @@ public class Card {
                 Log.e("JSON Format Error", "CardItem@Card");
             }
         }
+
+        public CardItem(JSONObject obj, String data){
+            try{
+                name = obj.getString("name");
+                type = obj.getInt("type");
+                this.data = data;
+                name_visible = obj.getBoolean("name_visible");
+                text_size = obj.getInt("size");
+                text_align = obj.getInt("align");
+                trainable = obj.getBoolean("trainable");
+                keyword = obj.getString("keyword");
+            }catch(JSONException e){
+                Log.e("JSON Format Error", "CardItem@Card");
+            }
+        }
+
+        public JSONObject toJSONObject(){
+            JSONObject result = new JSONObject();
+            try{
+                result.put("name", name);
+                result.put("type", type);
+                result.put("data", data);
+                result.put("name_visible", name_visible);
+                result.put("text_size", text_size);
+                result.put("text_align",text_align);
+                result.put("trainable", trainable);
+                result.put("keyword", keyword);
+            }catch (JSONException e){
+                Log.e("JSON Format Error", "CardItem@Card");
+                return null;
+            }
+            return result;
+        }
+    }
+
+    @Override
+    public String toString(){
+        JSONArray array = new JSONArray();
+        for(CardItem item: items){
+            JSONObject obj = item.toJSONObject();
+            if(obj != null){
+                array.put(obj);
+            }
+        }
+        return array.toString();
     }
 }

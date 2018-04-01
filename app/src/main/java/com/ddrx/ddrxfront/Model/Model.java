@@ -1,5 +1,6 @@
 package com.ddrx.ddrxfront.Model;
 
+import android.graphics.PorterDuff;
 import android.util.Log;
 
 import com.ddrx.ddrxfront.R;
@@ -66,5 +67,22 @@ public class Model {
             result.add(new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("only")));
         }
         return result;
+    }
+
+    public List<JSONObject> getEntrys(){
+        return model_obj;
+    }
+
+    public JSONObject getEntry(String entry_name){
+        try{
+            for(JSONObject obj: model_obj){
+                if(obj.getString("name") == entry_name)
+                    return obj;
+            }
+        }catch(JSONException e){
+            Log.e("JSON Format Error", "getEntry@Model");
+            return null;
+        }
+        return null;
     }
 }

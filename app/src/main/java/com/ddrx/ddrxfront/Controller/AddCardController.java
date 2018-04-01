@@ -38,19 +38,10 @@ public class AddCardController {
                 MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
                 String content = db.getCardModelDAO().queryCardModelContextById(CT_id);
                 Model model = new Model(content);
-                List<ModelInput> inputs = null;
-                try{
-                    inputs = model.getModelInputs();
-                }catch (JSONException e){
-                    Log.e("JSON Format Error","getModelInputs@AddCardController");
-                    Message message = new Message();
-                    message.what = AddCardActivity.DATA_ERROR;
-                    handler.sendMessage(message);
-                }
 
                 Message message = new Message();
                 message.what = AddCardActivity.GET_MODEL_INFO;
-                message.obj = inputs;
+                message.obj = model;
             }
         }).start();
     }

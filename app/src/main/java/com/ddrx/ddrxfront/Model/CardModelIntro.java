@@ -5,13 +5,24 @@ package com.ddrx.ddrxfront.Model;
  */
 
 public class CardModelIntro {
+    private long CT_id;
+
+    public long getCT_id() {
+        return CT_id;
+    }
+
+    public void setCT_id(long CT_id) {
+        this.CT_id = CT_id;
+    }
+
     private String model_name;
     private String creator_name;
     private String intro;
     private int type;
     private String UCT_time;
 
-    public CardModelIntro(String model_name, String creator_name, String intro, int type, String UCT_time) {
+    public CardModelIntro(String model_name, String creator_name, String intro, int type, String UCT_time, long CT_id) {
+        this.CT_id = CT_id;
         this.model_name = model_name;
         this.creator_name = creator_name;
         this.intro = intro;

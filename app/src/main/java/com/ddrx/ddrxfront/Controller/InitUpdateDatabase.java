@@ -33,10 +33,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class InitUpdateDatabase {
-    private static final String HOST_NAME = "localhost:3000";
+    private static final String HOST_NAME = "http://120.79.35.160:3000/api";
     private static final String GET_USER_ALL_CW_INFO_URL = HOST_NAME + "/warehouse/down_list";
     private static final String GET_COVER_URL = HOST_NAME + "/warehouse/down_list";
-    private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/";
+    private static final String GET_USER_ALL_CT_INFO_URL = HOST_NAME + "/template/down_list";
     private static final String GET_USER_ALL_TRAINING_RECORD = HOST_NAME + "/down_record";
     public static final int NETWORK_ERROR = 1;
 
