@@ -135,7 +135,7 @@ public class AddNewModelActivity extends AppCompatActivity {
                 String CT_content = array.toString();
                 Calendar now = Calendar.getInstance();
                 String UCT_time = String.valueOf(now.get(Calendar.YEAR)) + "-" + String.valueOf(now.get(Calendar.MONTH)) + "-" + String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-                CardModel new_model = new CardModel(0, userInfo.getNickname(), CT_name, userInfo.getId(), UCT_time, CT_brief, CT_type, 0, CT_content);
+                CardModel new_model = new CardModel(0, userInfo.getNickname(), CT_name, userInfo.getId(), UCT_time, CT_brief, CT_type, 0, CT_content, userInfo.getNickname(), userInfo.getId());
                 AddNewModelController controller = new AddNewModelController(handler, context);
                 controller.uploadModel(new_model);
                 //TODO: show wait modal dialog

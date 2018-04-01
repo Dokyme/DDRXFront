@@ -89,7 +89,14 @@ public class Card {
                 text_size = obj.getInt("size");
                 text_align = obj.getInt("align");
                 trainable = obj.getBoolean("trainable");
-                keyword = obj.getString("keyword");
+                keyword = "";
+                if(obj.getBoolean("keyword")){
+                    for(int i = 0; i < data.length(); i++){
+                        if(i % 4 == 0){
+                            keyword = keyword + data.charAt(i);
+                        }
+                    }
+                }
             }catch(JSONException e){
                 Log.e("JSON Format Error", "CardItem@Card");
             }
