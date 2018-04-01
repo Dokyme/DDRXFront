@@ -25,12 +25,14 @@ class LoginActivity : AppCompatActivity() {
     lateinit var userInfo: UserInfo
     lateinit var handler: Handler
     lateinit var progressDialog: ProgressDialog
+    var partSuccess = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         userInfo = UserInfoPreference(this).userInfo
         progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("正在更新数据")
         handler = Handler({ msg: Message? ->
             kotlin.run {
                 when (msg?.what) {
@@ -38,7 +40,25 @@ class LoginActivity : AppCompatActivity() {
                         prompt(this, "网络错误")
                         progressDialog.dismiss()
                     }
-                    InitUpdateDatabase.UPDATE_SUCCESS -> progressDialog.dismiss()
+                    InitUpdateDatabase.UPDATE_MODEL_SUCCESS -> {
+                        if (++partSuccess == 3) {
+                            partSuccess = 0
+                            progressDialog.dismiss()
+                        }
+                    }
+                    InitUpdateDatabase.UPDATE_TRAINING_SUCCESS -> {
+                        if (++partSuccess == 3) {
+                            partSuccess = 0
+                            progressDialog.dismiss()
+                        }
+                    }
+                    InitUpdateDatabase.UPDATE_WAREHOUSE_SUCCESS -> {
+                        if (++partSuccess == 3) {
+                            partSuccess = 0
+                            progressDialog.dismiss()
+                        }
+                    }
+
                 }
                 true
             }
@@ -72,10 +92,9 @@ class LoginActivity : AppCompatActivity() {
                             progressDialog.show()
                             InitUpdateDatabase.updateCardWarehouseDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
                             InitUpdateDatabase.updateCardModelDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
-                            InitUpdateDatabase.updateMemoryCardDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
                             InitUpdateDatabase.updateTrainingRecordDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
                             JSONToEntity.getUserInfo(this@LoginActivity, data.getJSONObject(0))
-                            startActivity(Intent(this@LoginActivity, AddNewModelActivity::class.java))
+                            startActivity(Intent(this@LoginActivity, AddNewWarehouseActivity::class.java))
                         } catch (e: Exception) {
                             e.printStackTrace()
                             prompt(this@LoginActivity, "登陆失败", true)
