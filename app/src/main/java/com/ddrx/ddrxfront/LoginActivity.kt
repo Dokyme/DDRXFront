@@ -1,11 +1,15 @@
 package com.ddrx.ddrxfront
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import com.ddrx.ddrxfront.Controller.InitUpdateDatabase
 import com.ddrx.ddrxfront.Model.UserInfo
 import com.ddrx.ddrxfront.Utilities.*
 import kotlinx.android.synthetic.main.activity_login.*
@@ -19,11 +23,23 @@ import org.json.JSONArray
 class LoginActivity : AppCompatActivity() {
 
     lateinit var userInfo: UserInfo
+    lateinit var handler: Handler
+    lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         userInfo = UserInfoPreference(this).userInfo
+        progressDialog = ProgressDialog.show(this, "正在更新数据", "请稍后...")
+        handler = Handler({ msg: Message? ->
+            kotlin.run {
+                when (msg?.what) {
+                    InitUpdateDatabase.NETWORK_ERROR -> prompt(this, "网络错误")
+                    InitUpdateDatabase.UPDATE_SUCCESS -> progressDialog.dismiss()
+                }
+                true
+            }
+        })
         initEvent()
     }
 
@@ -48,8 +64,13 @@ class LoginActivity : AppCompatActivity() {
                 .build()
                 .enqueue(object : Request.DefaultCallback(this@LoginActivity) {
                     override fun onSuccess(context: Context, data: JSONArray, message: String) {
-//                        prompt(this@LoginActivity, "登陆成功。", true)
+                        prompt(this@LoginActivity, "登陆成功。", true)
                         try {
+                            progressDialog.show()
+                            InitUpdateDatabase.updateCardWarehouseDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
+                            InitUpdateDatabase.updateCardModelDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
+                            InitUpdateDatabase.updateMemoryCardDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
+                            InitUpdateDatabase.updateTrainingRecordDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
                             JSONToEntity.getUserInfo(this@LoginActivity, data.getJSONObject(0))
                             startActivity(Intent(this@LoginActivity, AddNewModelActivity::class.java))
                         } catch (e: Exception) {

@@ -100,7 +100,6 @@ public class WarehouseActivity extends AppCompatActivity {
 //                    break;
 //            }
             viewPager.setCurrentItem(item.getOrder());
-            Log.d("dokyme", item.getTitle().toString());
             return true;
         }
     }
