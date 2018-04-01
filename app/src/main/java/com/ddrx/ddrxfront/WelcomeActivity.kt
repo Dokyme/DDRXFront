@@ -22,7 +22,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var userInfo: UserInfo
     private lateinit var handler: Handler
-    private lateinit var partSuccess = 0
+    private var partSuccess = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +104,7 @@ class WelcomeActivity : AppCompatActivity() {
                                         InitUpdateDatabase.updateTrainingRecordDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
                                     }
                                     else -> {
-                                        prompt(this@WelcomeActivity, obj.get("msg") as String, true)
+//                                        prompt(this@WelcomeActivity, obj.get("msg") as String, true)
                                         startActivity(Intent(this@WelcomeActivity, LoginActivity::class.java))
                                         finish()
                                     }

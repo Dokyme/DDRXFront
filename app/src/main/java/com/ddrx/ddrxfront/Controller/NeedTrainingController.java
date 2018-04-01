@@ -34,7 +34,7 @@ public class NeedTrainingController {
             @Override
             public void run() {
                 MemoryMasterDatabase database = MemoryMasterDatabase.getInstance(context);
-                List<NeedTrainingItem> needTrainingItemList = database.getCardTrainingRecordDAO().queryNeedTrainingsByUserId(preference.getUserInfo().getId());
+                List<NeedTrainingItem> needTrainingItemList = database.getCardTrainingRecordDAO().queryNeedTrainingsByUserId();
                 Message message = new Message();
                 try {
                     Thread.sleep(5000);

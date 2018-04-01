@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         userInfo = UserInfoPreference(this).userInfo
-        progressDialog = ProgressDialog.show(this, "正在更新数据", "请稍后...")
+        progressDialog = ProgressDialog(this)
         handler = Handler({ msg: Message? ->
             kotlin.run {
                 when (msg?.what) {
