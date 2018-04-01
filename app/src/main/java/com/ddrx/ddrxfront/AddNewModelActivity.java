@@ -57,11 +57,11 @@ public class AddNewModelActivity extends AppCompatActivity {
         }
 
         @Override
-        public void handleMessage(Message msg){
-            switch (msg.what){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case NETWORK_ERROR:
                     mActivity.get().progressDialog.dismiss();
-                    Toast.makeText(mActivity.get(), (String)msg.obj, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity.get(), (String) msg.obj, Toast.LENGTH_SHORT).show();
                     break;
                 case NETWORK_PASS:
                     //TODO: disable waiting dialog
@@ -71,7 +71,7 @@ public class AddNewModelActivity extends AppCompatActivity {
         }
     }
 
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_model);
@@ -90,7 +90,7 @@ public class AddNewModelActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent){
+            public void onNothingSelected(AdapterView<?> parent) {
                 type_tag.setSelection(0);
             }
         });
@@ -129,13 +129,13 @@ public class AddNewModelActivity extends AppCompatActivity {
                 String CT_brief = brief_tag.getText().toString();
                 UserInfo userInfo = new UserInfo(context);
                 JSONArray array = new JSONArray();
-                for(JSONObject obj:cardModelContextList){
+                for (JSONObject obj : cardModelContextList) {
                     array.put(obj);
                 }
                 String CT_content = array.toString();
                 Calendar now = Calendar.getInstance();
                 String UCT_time = String.valueOf(now.get(Calendar.YEAR)) + "-" + String.valueOf(now.get(Calendar.MONTH)) + "-" + String.valueOf(now.get(Calendar.DAY_OF_MONTH));
-                CardModel new_model = new CardModel(0, userInfo.getNickname(), CT_name, userInfo.getId(), UCT_time, CT_brief, CT_type, 0, CT_content);
+                CardModel new_model = new CardModel(0, userInfo.getNickname(), CT_name, userInfo.getId(), UCT_time, CT_brief, CT_type, 0, CT_content, userInfo.getNickname(), userInfo.getId());
                 AddNewModelController controller = new AddNewModelController(handler, context);
                 controller.uploadModel(new_model);
                 //TODO: show wait modal dialog
@@ -149,15 +149,15 @@ public class AddNewModelActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        switch(requestCode){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
             case 1:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     JSONObject CT_content_obj = getModelJsonFile(data.getStringExtra("name"), data.getIntExtra("type", 0),
-                                                         data.getBooleanExtra("name_visible", true), data.getBooleanExtra("only", true),
-                                                         data.getIntExtra("align", 0), data.getIntExtra("size", 0),
-                                                         data.getBooleanExtra("trainable", true), data.getBooleanExtra("keyword", true));
-                    if(CT_content_obj != null){
+                            data.getBooleanExtra("name_visible", true), data.getBooleanExtra("only", true),
+                            data.getIntExtra("align", 0), data.getIntExtra("size", 0),
+                            data.getBooleanExtra("trainable", true), data.getBooleanExtra("keyword", true));
+                    if (CT_content_obj != null) {
                         cardModelContextList.add(CT_content_obj);
                         ConstraintLayout entry = entry_manager.get(data.getIntExtra("entry_id", 0));
                         TextView entry_name = entry.findViewById(R.id.entry_name);
@@ -170,9 +170,9 @@ public class AddNewModelActivity extends AppCompatActivity {
         }
     }
 
-    private JSONObject getModelJsonFile(String name, int type, boolean name_visible, boolean only, int align, int size, boolean trainable, boolean keyword){
+    private JSONObject getModelJsonFile(String name, int type, boolean name_visible, boolean only, int align, int size, boolean trainable, boolean keyword) {
         JSONObject obj = new JSONObject();
-        try{
+        try {
             obj.put("name", name);
             obj.put("type", type);
             obj.put("name_visible", name_visible);
@@ -181,7 +181,7 @@ public class AddNewModelActivity extends AppCompatActivity {
             obj.put("size", size);
             obj.put("trainable", trainable);
             obj.put("keyword", keyword);
-        }catch(JSONException e){
+        } catch (JSONException e) {
             Log.e("JSON Create Error", "getModelJsonFile@AddNewModelActivity");
             return null;
         }

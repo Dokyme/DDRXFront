@@ -32,22 +32,27 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         userInfo = UserInfoPreference(this).userInfo
         progressDialog = ProgressDialog(this)
-        progressDialog.setTitle("正在更新数据")
         progressDialog.setMessage("请稍后")
         handler = Handler({ msg: Message? ->
             kotlin.run {
                 when (msg?.what) {
                     InitUpdateDatabase.NETWORK_ERROR -> {
                         prompt(this, "网络错误")
+
                         progressDialog.dismiss()
                     }
-                    else -> {
-                        if (++partSuccess == 3) {
-                            partSuccess = 0
-                            progressDialog.dismiss()
-                            startActivity(Intent(this@LoginActivity, AddNewWarehouseActivity::class.java))
-                            finish()
-                        }
+                    InitUpdateDatabase.UPDATE_TRAINING_SUCCESS -> {
+                        progressDialog.setTitle("正在获取模型数据")
+                        InitUpdateDatabase.updateCardModelDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
+                    }
+                    InitUpdateDatabase.UPDATE_MODEL_SUCCESS -> {
+                        progressDialog.setTitle("正在获取卡片仓库数据")
+                        InitUpdateDatabase.updateCardWarehouseDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
+                    }
+                    InitUpdateDatabase.UPDATE_WAREHOUSE_SUCCESS -> {
+                        progressDialog.dismiss()
+                        startActivity(Intent(this@LoginActivity, AddNewWarehouseActivity::class.java))
+                        finish()
                     }
                 }
                 true
@@ -75,18 +80,17 @@ class LoginActivity : AppCompatActivity() {
                 .url(URLHelper("/user/sign_in").build())
                 .post(body)
                 .build()
-                .enqueue(object : Request.DefaultCallback(this@LoginActivity) {
+                .enqueue(object : Request.SuccessfulCallback(this@LoginActivity) {
                     override fun onSuccess(context: Context, data: JSONArray, message: String) {
-//                        prompt(this@LoginActivity, "登陆成功。", true)
+                        prompt(this@LoginActivity, "登陆成功。")
                         try {
                             progressDialog.show()
-                            InitUpdateDatabase.updateCardWarehouseDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
-                            InitUpdateDatabase.updateCardModelDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
-                            InitUpdateDatabase.updateTrainingRecordDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
+                            progressDialog.setTitle("正在获取训练数据")
                             JSONToEntity.getUserInfo(this@LoginActivity, data.getJSONObject(0))
+                            InitUpdateDatabase.updateTrainingRecordDatabase(this@LoginActivity, handler, OKHttpClientWrapper.getInstance(this@LoginActivity))
                         } catch (e: Exception) {
                             e.printStackTrace()
-                            prompt(this@LoginActivity, "登陆失败", true)
+                            prompt(this@LoginActivity, "登陆失败")
                         }
                     }
                 })
@@ -104,7 +108,7 @@ class LoginActivity : AppCompatActivity() {
             else if (username.length > 32)
                 Toast.makeText(this@LoginActivity, "用户名过长", Toast.LENGTH_SHORT).show()
             else if (password.length < 8)
-                prompt(this@LoginActivity, "密码过短", false)
+                prompt(this@LoginActivity, "密码过短")
             else if (password.length > 32)
                 Toast.makeText(this@LoginActivity, "密码过长", Toast.LENGTH_SHORT).show()
             else {

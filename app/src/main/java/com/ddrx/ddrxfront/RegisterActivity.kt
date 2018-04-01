@@ -86,16 +86,16 @@ class RegisterActivity : AppCompatActivity() {
                     .url(URLHelper("/user/sign_up").build())
                     .post(formBody)
                     .build()
-                    .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.DefaultCallback(this@RegisterActivity) {
+                    .enqueue(object : com.ddrx.ddrxfront.Utilities.Request.SuccessfulCallback(this@RegisterActivity) {
                         override fun onSuccess(context: Context, data: JSONArray, message: String) {
-                            prompt(this@RegisterActivity, "注册成功", true)
+                            prompt(this@RegisterActivity, "注册成功")
                             try {
                                 JSONToEntity.getUserDetailInfo(this@RegisterActivity, data.getJSONObject(0))
                                 startActivity(Intent(this@RegisterActivity, UserDetailActivity::class.java))
                                 finish()
                             } catch (e: Exception) {
                                 e.printStackTrace()
-                                prompt(this@RegisterActivity, "注册失败", true)
+                                prompt(this@RegisterActivity, "注册失败")
                             }
                         }
                     })
