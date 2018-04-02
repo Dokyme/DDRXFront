@@ -1,11 +1,7 @@
 package com.ddrx.ddrxfront;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,17 +9,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ddrx.ddrxfront.Controller.UpdateCardFragmentController;
 import com.ddrx.ddrxfront.Model.CardWarehouseIntro;
+import com.ddrx.ddrxfront.Controller.InitUpdateDatabase;
+import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -41,8 +36,8 @@ public class CardFragment extends Fragment {
     private UpdateCardFragmentController controller;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog progressDialog;
+    private MyHandler handler;
 
-    public static final int NETWORK_ERROR = 1;
     public static final int EMPTY_LIST = 2;
     public static final int UPDATE_UI = 3;
 
@@ -57,9 +52,13 @@ public class CardFragment extends Fragment {
         @Override
         public void handleMessage(Message msg){
             switch (msg.what){
-                case NETWORK_ERROR:{
+                case InitUpdateDatabase.NETWORK_ERROR:{
                     mFragment.get().progressDialog.dismiss();
                     Toast.makeText(mFragment.get().getActivity(), "网络错误！", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case InitUpdateDatabase.UPDATE_WAREHOUSE_SUCCESS:{
+                    mFragment.get().controller.getDataListFromDB();
                     break;
                 }
                 case EMPTY_LIST:{
@@ -92,9 +91,10 @@ public class CardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         card_warehouses = new ArrayList<>();
-        MyHandler handler = new MyHandler(this);
+        handler = new MyHandler(this);
         controller = new UpdateCardFragmentController(handler, getContext());
         controller.getDataListFromDB();
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("获取仓库信息中");
         progressDialog.setMessage("等待中...");
         progressDialog.setCancelable(true);
@@ -109,11 +109,19 @@ public class CardFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_card, container, false);
         card_list_recycler_view = view.findViewById(R.id.card_list);
         swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
         card_list_recycler_view.setHasFixedSize(true);
+        swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                InitUpdateDatabase.updateCardWarehouseDatabase(getContext(), handler, OKHttpClientWrapper.Companion.getInstance(getActivity()));
+            }
+        });
 
         mLayoutManager = new LinearLayoutManager(getContext());
         card_list_recycler_view.setLayoutManager(mLayoutManager);

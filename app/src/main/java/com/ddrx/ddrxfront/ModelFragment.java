@@ -22,10 +22,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ddrx.ddrxfront.Controller.InitUpdateDatabase;
 import com.ddrx.ddrxfront.Controller.UpdateModelFragmentController;
 import com.ddrx.ddrxfront.Controller.UpdateModelFragmentController;
 import com.ddrx.ddrxfront.Model.CardModel;
 import com.ddrx.ddrxfront.Model.ModelIntro;
+import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -44,8 +46,8 @@ public class ModelFragment extends Fragment {
     private UpdateModelFragmentController controller;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog progressDialog;
+    ModelFragment.MyHandler handler;
 
-    public static final int NETWORK_ERROR = 1;
     public static final int EMPTY_LIST = 2;
     public static final int UPDATE_UI = 3;
 
@@ -60,9 +62,13 @@ public class ModelFragment extends Fragment {
         @Override
         public void handleMessage(Message msg){
             switch (msg.what){
-                case NETWORK_ERROR:{
+                case InitUpdateDatabase.NETWORK_ERROR:{
                     mFragment.get().progressDialog.dismiss();
                     Toast.makeText(mFragment.get().getActivity(), "网络错误！", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case InitUpdateDatabase.UPDATE_MODEL_SUCCESS:{
+                    mFragment.get().controller.getModelListFromDB();
                     break;
                 }
                 case EMPTY_LIST:{
@@ -95,9 +101,10 @@ public class ModelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         model_list = new ArrayList<>();
-        ModelFragment.MyHandler handler = new ModelFragment.MyHandler(this);
+        handler = new ModelFragment.MyHandler(this);
         controller = new UpdateModelFragmentController(handler, getContext());
         controller.getModelListFromDB();
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("获取模版信息中");
         progressDialog.setMessage("等待中...");
         progressDialog.setCancelable(true);
@@ -117,6 +124,14 @@ public class ModelFragment extends Fragment {
         model_list_recycler_view = view.findViewById(R.id.card_list);
         swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
         model_list_recycler_view.setHasFixedSize(true);
+        swipeRefreshLayout = view.findViewById(R.id.model_fragment_swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                InitUpdateDatabase.updateCardModelDatabase(getContext(), handler, OKHttpClientWrapper.Companion.getInstance(getContext()));
+            }
+        });
 
         mLayoutManager = new LinearLayoutManager(getContext());
         model_list_recycler_view.setLayoutManager(mLayoutManager);
