@@ -21,7 +21,6 @@ import java.util.List;
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHolder> {
 
     private List<CardWarehouseIntro> cardWarehouseIntros_list;
-    private Handler handler;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public View intro_view;
@@ -40,24 +39,14 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.ViewHo
         }
     }
 
-    public CardListAdapter(List<CardWarehouseIntro> list_val, Handler handler){
+    public CardListAdapter(List<CardWarehouseIntro> list_val){
         cardWarehouseIntros_list = list_val;
-        this.handler = handler;
     }
 
     @Override
     public CardListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.warehouse_intro_item, parent, false);
-        final ViewHolder holder = new ViewHolder(view);
-        holder.intro_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Message message = new Message();
-                message.what = WarehouseActivity.UPDATE_FRAGMENT;
-                message.arg1 = cardWarehouseIntros_list.get(holder.getAdapterPosition()).getWarehouse_id();
-                handler.sendMessage(message);
-            }
-        });
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 

@@ -12,8 +12,6 @@ import android.widget.TextView;
 import android.view.View;
 
 import com.ddrx.ddrxfront.Model.CardModel;
-import com.ddrx.ddrxfront.Model.CardModelIntro;
-import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Model.Model;
 
 import java.util.HashMap;

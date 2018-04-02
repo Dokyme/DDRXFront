@@ -44,10 +44,10 @@ public class InitUpdateDatabase {
     private static final String GET_USER_ALL_TRAINING_RECORD = HOST_NAME + "/training/down_record";
     private static final String GET_ALL_CARD = HOST_NAME + "/card/download";
 
-    public static final int NETWORK_ERROR = 1;
-    public static final int UPDATE_WAREHOUSE_SUCCESS = 2;
-    public static final int UPDATE_MODEL_SUCCESS = 3;
-    public static final int UPDATE_TRAINING_SUCCESS = 4;
+    public static final int NETWORK_ERROR = 101;
+    public static final int UPDATE_WAREHOUSE_SUCCESS = 102;
+    public static final int UPDATE_MODEL_SUCCESS = 103;
+    public static final int UPDATE_TRAINING_SUCCESS = 104;
 
     public InitUpdateDatabase() {
     }

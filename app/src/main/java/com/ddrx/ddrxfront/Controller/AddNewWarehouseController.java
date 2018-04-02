@@ -2,16 +2,13 @@ package com.ddrx.ddrxfront.Controller;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.ddrx.ddrxfront.AddNewModelActivity;
 import com.ddrx.ddrxfront.AddNewWarehouseActivity;
 import com.ddrx.ddrxfront.Model.Card;
 import com.ddrx.ddrxfront.Model.CardModel;
-import com.ddrx.ddrxfront.Model.CardModelIntro;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.MemoryCard;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;

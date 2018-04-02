@@ -33,7 +33,6 @@ import android.widget.Toast;
 import com.ddrx.ddrxfront.Controller.AddNewWarehouseController;
 import com.ddrx.ddrxfront.Model.Card;
 import com.ddrx.ddrxfront.Model.CardModel;
-import com.ddrx.ddrxfront.Model.CardModelIntro;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.Model;
 import com.ddrx.ddrxfront.Model.UserInfo;
