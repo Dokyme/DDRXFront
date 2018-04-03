@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                     InitUpdateDatabase.UPDATE_WAREHOUSE_SUCCESS -> {
                         progressDialog.dismiss()
-                        startActivity(Intent(this@LoginActivity, AddNewWarehouseActivity::class.java))
+                        startActivity(Intent(this@LoginActivity, WarehouseActivity::class.java))
                         finish()
                     }
                 }

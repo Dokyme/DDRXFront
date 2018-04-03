@@ -87,7 +87,7 @@ public class AddNewWarehouseController {
                     if (parser.getCode() == 0) {
                         long CW_id = 0;
                         try {
-                            CW_id = parser.getBody().getJSONObject(0).getLong("CT_id");
+                            CW_id = parser.getBody().getJSONObject(0).getLong("CW_id");
                         } catch (JSONException e) {
                             Log.e("JSON Format Error", "uploadWarehouse@AddNewWarehouseController92");
                             sendFailedMessage();
@@ -96,7 +96,7 @@ public class AddNewWarehouseController {
                         info.setCW_id(CW_id);
                         MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
                         info.setCT_name(db.getCardModelDAO().queryCardModelById(info.getCT_id()).getCT_name());
-                        db.getCardWarehouseDAO().insertSingleCardWarehouse(info);
+                        db.getCardWarehouseDAO().insertCardWarehouse(info);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
                         cover.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                         FileOutputStream out = null;
@@ -127,7 +127,7 @@ public class AddNewWarehouseController {
                                 .setType(MultipartBody.FORM)
                                 .addPart(Headers.of("Content-Disposition", "form-data; name=\"_MAC\""), RequestBody.create(null, mac.getMacAddr()))
                                 .addPart(Headers.of("Content-Disposition", "form-data; name=\"_WAREHOUSE_ID\""), RequestBody.create(null, String.valueOf(info.getCW_id())))
-                                .addPart(Headers.of("Content-Disposition", "form-data; name=\"cover\""), RequestBody.create(MediaType.parse("image/jpeg"), file))
+                                .addPart(Headers.of("Content-Disposition", "form-data; name=\"cover\"; filename=\"CW_" + info.getCW_id() + ".jpg\""), RequestBody.create(MediaType.parse("image/jpeg"), file))
                                 .build();
 //                                .add("_MAC", mac.getMacAddr())
 //                                .add("_WAREHOUSE_ID", String.valueOf(info.getCW_id()))

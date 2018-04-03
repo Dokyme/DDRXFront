@@ -32,7 +32,7 @@ public interface CardWarehouseDAO {
     void deleteCardWarehouseById(List<Long> CW_IDs);
 
     @Insert
-    void insertSingleCardWarehouse(CardWarehouse cardWarehouse);
+    void insertCardWarehouse(CardWarehouse... cardWarehouse);
 
     @Insert
     void insertMultipleCardWarehouse(List<CardWarehouse> mul_cardWarehouse);

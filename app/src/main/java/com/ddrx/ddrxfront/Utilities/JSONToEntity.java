@@ -64,9 +64,9 @@ public class JSONToEntity {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 CW_id = obj.getLong("CW_id");
                 CT_id = obj.getLong("CT_id");
-                U_id = obj.getLong("U_id");
+                U_id = obj.getLong("CW_creator_id");
                 CT_name = obj.getString("CT_name");
-                U_nick = obj.getString("U_nick");
+                U_nick = obj.getString("CW_creator_name");
                 CW_name = obj.getString("CW_name");
                 CW_abstract = obj.getString("CW_abstract");
                 UCW_time = obj.getString("UCW_time");

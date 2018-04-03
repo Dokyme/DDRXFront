@@ -242,12 +242,11 @@ public class InitUpdateDatabase {
             if (warehouse_ids.contains(warehouse.getCW_id()))
                 db.getCardWarehouseDAO().updateCardWarehouse(warehouse);
             else
-                db.getCardWarehouseDAO().insertSingleCardWarehouse(warehouse);
+                db.getCardWarehouseDAO().insertCardWarehouse(warehouse);
             now_warehouse_ids.add(warehouse.getCW_id());
         }
         List<Long> delete_warehouse_ids = db.getCardWarehouseDAO().queryAllNotExistCW_ID(now_warehouse_ids);
         db.getCardWarehouseDAO().deleteCardWarehouseById(delete_warehouse_ids);
-        db.close();
     }
 
     private static List<String> downloadCovers(Handler handler, OkHttpClient client, Context context, List<CardWarehouse> warehouse_list) {
@@ -307,7 +306,6 @@ public class InitUpdateDatabase {
         }
         List<Long> delete_model_ids = db.getCardModelDAO().queryAllNotExistCT_ID(now_model_ids);
         db.getCardModelDAO().deleteCardModelById(delete_model_ids);
-        db.close();
     }
 
     private static void updateTRDatabase(final Context context, List<TrainingRecord> trainingRecordList) {

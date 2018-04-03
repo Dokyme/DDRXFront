@@ -27,7 +27,7 @@ class OKHttpClientWrapper private constructor() {
     private object Inner {
         val instance = OkHttpClient.Builder()
                 .connectTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
                 .pingInterval(5, TimeUnit.SECONDS)
                 .cookieJar(PreferenceCookieJar(context))
                 .build()!!

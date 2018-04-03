@@ -1,5 +1,6 @@
 package com.ddrx.ddrxfront;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ public class WarehouseActivity extends AppCompatActivity {
     public final static int UPDATE_FRAGMENT = 1;
 
     private ViewPager viewPager;
+    private Toolbar toolbar;
     private MyHandler handler;
     private BottomNavigationView bottomNavigationView;
 
@@ -56,6 +58,23 @@ public class WarehouseActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new OnNavigationItemClicked());
 
+        toolbar = findViewById(R.id.warehouse_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.btn_add_warehouse:
+                        startActivity(new Intent(WarehouseActivity.this, AddNewWarehouseActivity.class));
+                        break;
+                    case R.id.btn_add_template:
+                        startActivity(new Intent(WarehouseActivity.this, AddNewModelActivity.class));
+                        break;
+                }
+                return true;
+            }
+        });
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -73,7 +92,7 @@ public class WarehouseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.warehouse_actionbar, menu);
+        getMenuInflater().inflate(R.menu.warehouse_toolbar, menu);
         return true;
     }
 
@@ -92,18 +111,18 @@ public class WarehouseActivity extends AppCompatActivity {
     class OnNavigationItemClicked implements BottomNavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            int id = 0;
-//            switch (item.getItemId()) {
-//                case R.id.training_module:
-//                    id = 0;
-//                    break;
-//                case R.id.warehouse_module:
-//                    id = 1;
-//                    break;
-//                case R.id.template_module:
-//                    id = 2;
-//                    break;
-//            }
+            int id;
+            switch (item.getItemId()) {
+                case R.id.training_module:
+                    Log.d("ddrx", "training_module");
+                    break;
+                case R.id.warehouse_module:
+                    Log.d("ddrx", "warehouse_module");
+                    break;
+                case R.id.template_module:
+                    Log.d("ddrx", "template_module");
+                    break;
+            }
             viewPager.setCurrentItem(item.getOrder());
             return true;
         }

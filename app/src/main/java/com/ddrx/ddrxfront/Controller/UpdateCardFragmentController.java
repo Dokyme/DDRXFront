@@ -48,6 +48,7 @@ public class UpdateCardFragmentController {
             public void run() {
             MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
             List<CardWarehouseIntro> db_warehouse_intro_list = db.getCardWarehouseDAO().queryAllCardWarehouseIntro();
+            List<Long> ids = db.getCardWarehouseDAO().queryAllCW_ID();
             if(!db_warehouse_intro_list.isEmpty()){
                 Message message = new Message();
                 message.what = CardFragment.UPDATE_UI;

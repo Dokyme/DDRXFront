@@ -50,7 +50,7 @@ class WelcomeActivity : AppCompatActivity() {
                         InitUpdateDatabase.updateCardWarehouseDatabase(this@WelcomeActivity, handler, OKHttpClientWrapper.getInstance(this@WelcomeActivity))
                     }
                     InitUpdateDatabase.UPDATE_WAREHOUSE_SUCCESS -> {
-                        startActivity(Intent(this, AddNewWarehouseActivity::class.java))
+                        startActivity(Intent(this, WarehouseActivity::class.java))
                         finish()
                     }
                 }
