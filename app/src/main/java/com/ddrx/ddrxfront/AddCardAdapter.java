@@ -98,7 +98,7 @@ public class AddCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemViewType(int position) {
         if(entryList.get(position).getType() != Model.PARAGRAPH){
-            if(entryList.get(position).getNum() != Model.ONLY_ONE){
+            if(entryList.get(position).isOnly()){
                 return SINGLE_ONLY;
             }
             else{
@@ -106,7 +106,7 @@ public class AddCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         else{
-            if(entryList.get(position).getNum() != Model.ONLY_ONE){
+            if(entryList.get(position).isOnly()){
                 return TWO_ONLY;
             }
             else{

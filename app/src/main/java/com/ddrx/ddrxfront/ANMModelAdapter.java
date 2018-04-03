@@ -21,19 +21,19 @@ import java.util.List;
  * Created by vincentshaw on 2018/3/30.
  */
 
-public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHolder>{
+public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHolder> {
 
     private List<CardModel> modelList;
     private AddNewWarehouseActivity activity;
     private int last_click_pos = -1;
-    private HashMap<Integer, ViewHolder> viewHolderHashMap;
+    private HashMap<Integer, ViewHolder> viewHolderHashMap = new HashMap<>();
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         View model_view;
         ImageView model_image;
         TextView model_name;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             model_image = view.findViewById(R.id.ANW_model_image);
             model_name = view.findViewById(R.id.ANW_model_name);
@@ -41,13 +41,13 @@ public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHo
         }
     }
 
-    public ANMModelAdapter(List<CardModel> introList,AddNewWarehouseActivity activity){
+    public ANMModelAdapter(List<CardModel> introList, AddNewWarehouseActivity activity) {
         modelList = introList;
         this.activity = activity;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_new_warehouse_model_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.model_view.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +56,7 @@ public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHo
                 int position = holder.getAdapterPosition();
                 final CardModel intro = modelList.get(position);
                 v.setBackgroundColor(Color.CYAN);
-                if(last_click_pos != -1){
+                if (last_click_pos != -1) {
                     viewHolderHashMap.get(last_click_pos).model_view.setBackgroundColor(Color.WHITE);
                 }
                 last_click_pos = position;
@@ -67,7 +67,7 @@ public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position){
+    public void onBindViewHolder(ViewHolder holder, int position) {
         CardModel model = modelList.get(position);
         holder.model_image.setImageResource(Model.TYPE[model.getCT_type()]);
         holder.model_name.setText(model.getCT_name());
@@ -75,7 +75,7 @@ public class ANMModelAdapter extends RecyclerView.Adapter<ANMModelAdapter.ViewHo
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return modelList.size();
     }
 }

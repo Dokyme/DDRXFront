@@ -9,17 +9,9 @@ import java.util.List;
 public class ModelInput {
     private String name;
     private int type;
-    private int num;
-
-
-    public ModelInput(String name, int type, int num) {
-        this.name = name;
-        this.type = type;
-        this.num = num;
-    }
+    private boolean only;
 
     public String getName() {
-
         return name;
     }
 
@@ -35,11 +27,18 @@ public class ModelInput {
         this.type = type;
     }
 
-    public int getNum() {
-        return num;
+    public boolean isOnly() {
+        return only;
     }
 
-    public void setNum(int num) {
-        this.num = num;
+    public void setOnly(boolean only) {
+        this.only = only;
+    }
+
+    public ModelInput(String name, int type, boolean only) {
+
+        this.name = name;
+        this.type = type;
+        this.only = only;
     }
 }

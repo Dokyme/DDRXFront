@@ -37,11 +37,18 @@ public class AddCardController {
             public void run() {
                 MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
                 String content = db.getCardModelDAO().queryCardModelContextById(CT_id);
-                Model model = new Model(content);
-
-                Message message = new Message();
-                message.what = AddCardActivity.GET_MODEL_INFO;
-                message.obj = model;
+                if(content.isEmpty()){
+                    Message message = new Message();
+                    message.what = AddCardActivity.NO_CONTENT;
+                    handler.sendMessage(message);
+                }
+                else{
+                    Model model = new Model(content);
+                    Message message = new Message();
+                    message.what = AddCardActivity.GET_MODEL_INFO;
+                    message.obj = model;
+                    handler.sendMessage(message);
+                }
             }
         }).start();
     }

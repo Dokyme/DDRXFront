@@ -34,7 +34,7 @@ public class AddCardActivity extends AppCompatActivity {
     private AddCardAdapter adapter = null;
     private Model model = null;
     public final static int GET_MODEL_INFO = 1;
-    public final static int DATA_ERROR = 2;
+    public final static int NO_CONTENT = 2;
 
     private static class MyHandler extends Handler {
 
@@ -45,21 +45,27 @@ public class AddCardActivity extends AppCompatActivity {
         }
 
         @Override
-        public void handleMessage(Message msg){
-            switch (msg.what){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case GET_MODEL_INFO:
                     mActivity.get().model = (Model) msg.obj;
                     List<ModelInput> inputs = null;
-                    try{
+                    try {
                         inputs = mActivity.get().model.getModelInputs();
-                    }catch(JSONException e){
+                    } catch (JSONException e) {
                         Log.e("JSON Format Error", "handleMessage@AddCardActivity");
                     }
-                    if(inputs != null){
+                    if (inputs != null) {
                         mActivity.get().adapter = new AddCardAdapter(inputs, mActivity.get());
                         mActivity.get().recyclerView.setAdapter(mActivity.get().adapter);
 //                        mActivity.get().recyclerView.invalidate();
                     }
+                    break;
+                case NO_CONTENT:
+                    Toast.makeText(mActivity.get(), "卡片模板无内容！", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mActivity.get(), AddNewWarehouseActivity.class);
+                    mActivity.get().setResult(RESULT_CANCELED, intent);
+                    mActivity.get().finish();
             }
         }
     }
@@ -80,16 +86,15 @@ public class AddCardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddCardActivity.this, AddNewWarehouseActivity.class);
-                if(adapter == null){
+                if (adapter == null) {
                     Toast.makeText(AddCardActivity.this, "未选择模型！", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     Map<Integer, View> entry_manager = adapter.getEntryManager();
                     intent.putExtra("num", entry_manager.values().size());
                     int count = 0;
-                    for(View view: entry_manager.values()){
-                        intent.putExtra("name" + String.valueOf(count), ((EditText)view.findViewById(R.id.AC_entry_name)).getText().toString());
-                        intent.putExtra("data" + String.valueOf(count), ((EditText)view.findViewById(R.id.AC_entry_data)).getText().toString());
+                    for (View view : entry_manager.values()) {
+                        intent.putExtra("name" + String.valueOf(count), ((TextView) view.findViewById(R.id.AC_entry_name)).getText().toString());
+                        intent.putExtra("data" + String.valueOf(count), ((EditText) view.findViewById(R.id.AC_entry_data)).getText().toString());
                         count++;
                     }
                     setResult(RESULT_OK, intent);

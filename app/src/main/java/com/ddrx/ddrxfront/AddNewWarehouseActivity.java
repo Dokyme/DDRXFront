@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -168,6 +169,7 @@ public class AddNewWarehouseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(AddNewWarehouseActivity.this, AddCardActivity.class);
                 intent.putExtra("CT_id", chosen_model_id);
+                Log.d("model_id", ""+chosen_model_id);
                 startActivityForResult(intent, ADD_CARD);
             }
         });
@@ -199,6 +201,7 @@ public class AddNewWarehouseActivity extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     handleImageOnKitKat(data);
                 }
+                break;
             case ADD_CARD:{
                 Model now_model = null;
                 for(CardModel model:models){

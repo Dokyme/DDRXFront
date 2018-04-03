@@ -64,7 +64,7 @@ public class Model {
     public List<ModelInput> getModelInputs() throws JSONException{
         List<ModelInput> result = new ArrayList<>();
         for(JSONObject obj: model_obj){
-            result.add(new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getInt("only")));
+            result.add(new ModelInput(obj.getString("name"), obj.getInt("type"), obj.getBoolean("only")));
         }
         return result;
     }
@@ -76,7 +76,7 @@ public class Model {
     public JSONObject getEntry(String entry_name){
         try{
             for(JSONObject obj: model_obj){
-                if(obj.getString("name") == entry_name)
+                if(obj.getString("name").equals(entry_name))
                     return obj;
             }
         }catch(JSONException e){
