@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
 
+import com.ddrx.ddrxfront.Controller.CardWarehouseDetailController;
 import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Utilities.GenericPair;
 
@@ -24,6 +25,7 @@ public class CardWarehouseDetailActivity extends AppCompatActivity {
     private int CW_id;
     public static final int UPDATE_DATA = 1;
     private CardWarehouseDetailActivity.MyHandler handler;
+    private CardWarehouseDetailController controller;
 
 
     @Override
@@ -33,6 +35,7 @@ public class CardWarehouseDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         CW_id = intent.getIntExtra("CW_id", 0);
         handler = new MyHandler(this);
+        controller = new CardWarehouseDetailController(handler, this, CW_id);
         Toolbar toolbar = findViewById(R.id.CWDetail_toolbar);
         setSupportActionBar(toolbar);
         ImageView show_cards = findViewById(R.id.CWDetail_showCards);
@@ -50,8 +53,6 @@ public class CardWarehouseDetailActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private static class MyHandler extends Handler {
@@ -89,7 +90,7 @@ public class CardWarehouseDetailActivity extends AppCompatActivity {
                     warehouse_card_num.setText("卡片预览    " + String.valueOf(warehouse.getCW_card_num()) + " 张卡片");
 
                     TextView training_schedule = mActivity.get().findViewById(R.id.CWDetail_schedule);
-                    training_schedule.setText("每张卡片目标训练次数：");
+                    training_schedule.setText("每张卡片目标训练次数：" + String.valueOf(warehouse.getCW_training()));
 
                     TextView lateset_time = mActivity.get().findViewById(R.id.CWDetail_last_training_time);
                     lateset_time.setText("上一次训练于  " + latest_training_time);

@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DEDEDE"
-    tools:context="com.ddrx.ddrxfront.CardWarehouseDetailActivity">
+    tools:context="com.ddrx.ddrxfront.CardModelDetailActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/CWDetail_toolbar"
+        android:id="@+id/CTDetail_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -26,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/CWDetail_cover"
+            android:id="@+id/CTDetail_cover"
             android:layout_width="100dp"
             android:layout_height="104dp"
             android:layout_marginBottom="16dp"
@@ -38,33 +37,33 @@
             app:srcCompat="@mipmap/model_academic" />
 
         <TextView
-            android:id="@+id/CWDetail_name"
+            android:id="@+id/CTDetail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:text="唐诗三百首"
             android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/CWDetail_cover"
-            app:layout_constraintTop_toTopOf="@+id/CWDetail_cover" />
+            app:layout_constraintStart_toEndOf="@+id/CTDetail_cover"
+            app:layout_constraintTop_toTopOf="@+id/CTDetail_cover" />
 
         <TextView
-            android:id="@+id/CWDetail_author"
+            android:id="@+id/CTDetail_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="上传人：肖君彦"
-            app:layout_constraintStart_toStartOf="@+id/CWDetail_name"
-            app:layout_constraintTop_toBottomOf="@+id/CWDetail_name" />
+            app:layout_constraintStart_toStartOf="@+id/CTDetail_name"
+            app:layout_constraintTop_toBottomOf="@+id/CTDetail_name" />
 
         <TextView
-            android:id="@+id/CWDetail_add_time"
+            android:id="@+id/CTDetail_add_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="添加时间：2018年3月2日"
-            app:layout_constraintStart_toStartOf="@+id/CWDetail_name"
-            app:layout_constraintTop_toBottomOf="@+id/CWDetail_author" />
+            app:layout_constraintStart_toStartOf="@+id/CTDetail_name"
+            app:layout_constraintTop_toBottomOf="@+id/CTDetail_author" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -85,13 +84,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="仓库介绍"
+            android:text="模版简介"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/CWDetail_description"
+            android:id="@+id/CTDetail_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -115,20 +114,20 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout3">
 
         <TextView
-            android:id="@+id/CWDetail_cardNum"
+            android:id="@+id/CTDetail_entryNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="卡片预览    143 张卡片"
+            android:text="模版内容    3 个字段"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/CWDetail_showCards"
+            android:id="@+id/CWDetail_showEntrys"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -142,81 +141,16 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
-        android:id="@+id/CWDetail_delete"
+        android:id="@+id/CTDetail_delete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="#C1FFC1"
-        android:text="删 除 仓 库"
+        android:text="删 除 模 版"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="16dp"
-        android:background="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/CWDetail_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="训练计划"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
-            app:srcCompat="@mipmap/training_schedule" />
-
-        <TextView
-            android:id="@+id/CWDetail_schedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="每张卡片目标训练次数：20次"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="@+id/imageView5" />
-
-        <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            app:srcCompat="@mipmap/finish_training" />
-
-        <TextView
-            android:id="@+id/CWDetail_last_training_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:text="上次训练时间："
-            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-            app:layout_constraintStart_toStartOf="@+id/CWDetail_schedule"
-            app:layout_constraintTop_toTopOf="@+id/imageView7" />
-    </android.support.constraint.ConstraintLayout>
-
+    
 </android.support.constraint.ConstraintLayout>
