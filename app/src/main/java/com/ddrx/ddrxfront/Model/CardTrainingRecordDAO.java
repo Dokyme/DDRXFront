@@ -25,7 +25,7 @@ public interface CardTrainingRecordDAO {
             "(Select max(tr.training_time) from TrainingRecord tr where tr.CW_id=cw.CW_id) as lastTrainingDate " +
             "from CardWarehouse cw " +
             "where exists (Select * from CardTranningRecord ctr where ctr.CW_id=cw.CW_id and ctr.training_count < cw.CW_training)")
-    List<NeedTrainingItem> queryNeedTrainingsByUserId();
+    List<NeedTrainingItem> queryNeedTrainings();
 
     /**
      * 选出cwId卡片仓库的还未完成训练次数的卡片

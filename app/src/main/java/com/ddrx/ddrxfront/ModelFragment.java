@@ -79,7 +79,7 @@ public class ModelFragment extends Fragment {
                             Intent intent = new Intent(mFragment.get().getActivity(), AddNewModelActivity.class);
                             mFragment.get().getActivity().startActivity(intent);
                         }
-                    });
+                    }).show();
                     break;
                 }
                 case UPDATE_UI:{
@@ -110,9 +110,9 @@ public class ModelFragment extends Fragment {
         progressDialog.setCancelable(true);
         progressDialog.show();
     }
-
+    
     @Override
-    public void onStart(){
+    public void onResume(){
         super.onStart();
         controller.getModelListFromDB();
         progressDialog.show();

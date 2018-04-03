@@ -1,7 +1,9 @@
 package com.ddrx.ddrxfront;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
@@ -37,7 +39,7 @@ public class NeedTrainingFragment extends Fragment {
                 case NeedTrainingController.EMPTY_LIST:
                     recyclerView.setVisibility(View.GONE);
                     textView.setVisibility(View.VISIBLE);
-                    textView.setText("训练场空空如也...");
+                    Snackbar.make(recyclerView, "空空如也的训练场", Snackbar.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
                     break;
                 case NeedTrainingController.UPDATE_UI:
@@ -47,7 +49,7 @@ public class NeedTrainingFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
                     break;
             }
-            view.invalidate();
+//            view.invalidate();
         }
     }
 
@@ -65,17 +67,16 @@ public class NeedTrainingFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        controller.updateNeedTrainingFromDB();
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         controller = new NeedTrainingController(new MyHandler(), getContext());
         needTrainingItemList = new ArrayList<>();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        controller.updateNeedTrainingFromDB();
     }
 
     @Override

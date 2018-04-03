@@ -55,7 +55,7 @@ public class JSONToEntity {
     public static List<CardWarehouse> getCardWarehouseList(JSONArray jsonArray) {
 
         long CW_id, CT_id, U_id;
-        String CT_name, U_nick, CW_name, CW_abstract, UCW_time, CW_detail;
+        String CT_name, U_nick, CW_name, CW_abstract, UCW_time, CW_detail, CW_cover_path;
         int CW_privilege, CW_card_num, CW_training;
 
         List<CardWarehouse> result = new ArrayList<>();
@@ -71,15 +71,18 @@ public class JSONToEntity {
                 CW_abstract = obj.getString("CW_abstract");
                 UCW_time = obj.getString("UCW_time");
                 CW_detail = obj.getString("CW_detail");
-                CW_training = obj.getInt("CW_training");
+                CW_training = obj.getInt("CW_total");
                 CW_privilege = obj.getInt("CW_privilege");
                 CW_card_num = obj.getInt("CW_card_num");
+                CW_cover_path = obj.getString("CW_cover_path");
             } catch (JSONException exception) {
                 Log.e("JSON_parsing_error", "getCardWarehouseList");
                 continue;
             }
-            result.add(new CardWarehouse(CW_id, CT_id, CT_name, U_id, U_nick, UCW_time, CW_name, CW_privilege, CW_card_num
-                    , CW_abstract, CW_detail, CW_training));
+            CardWarehouse warehouse = new CardWarehouse(CW_id, CT_id, CT_name, U_id, U_nick, UCW_time, CW_name, CW_privilege, CW_card_num
+                    , CW_abstract, CW_detail, CW_training);
+            warehouse.setCW_cover_url(CW_cover_path);
+            result.add(warehouse);
         }
         return result;
     }

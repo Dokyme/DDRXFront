@@ -69,7 +69,7 @@ public class CardFragment extends Fragment {
                             Intent intent = new Intent(mFragment.get().getActivity(), AddNewWarehouseActivity.class);
                             mFragment.get().getActivity().startActivity(intent);
                         }
-                    });
+                    }).show();
                     break;
                 }
                 case UPDATE_UI:{
