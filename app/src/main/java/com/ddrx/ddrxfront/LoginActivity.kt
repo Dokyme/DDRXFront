@@ -64,10 +64,6 @@ class LoginActivity : AppCompatActivity() {
     private fun initEvent() {
         btn_login?.setOnClickListener(LoginOnClickListener())
         btn_register?.setOnClickListener(RegisterOnClickListener())
-        //测试专用快捷按钮
-        btn_test_main_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, AddNewModelActivity::class.java)) })
-        btn_test_user_activity?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, UserActivity::class.java)) })
-        btn_test_page?.setOnClickListener({ v: View? -> startActivity(Intent(this@LoginActivity, TestActivity::class.java)) })
     }
 
     private fun loginFromRemote(username: String, password: String) {

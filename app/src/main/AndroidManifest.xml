@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".WelcomeActivity"
-            android:alwaysRetainTaskState="true">
+            android:alwaysRetainTaskState="true"
+            android:theme="@android:style/Theme.Light.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,6 +31,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
             android:launchMode="singleTask" />
         <activity
             android:name=".UserActivity"

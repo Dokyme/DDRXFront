@@ -35,6 +35,7 @@ public class AddCardActivity extends AppCompatActivity {
     private Model model = null;
     public final static int GET_MODEL_INFO = 1;
     public final static int NO_CONTENT = 2;
+    public final static int UPDATE_ENTRY_KEYWORD = 3;
 
     private static class MyHandler extends Handler {
 

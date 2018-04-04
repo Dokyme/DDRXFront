@@ -229,5 +229,4 @@ public class AddNewWarehouseController {
         handler.sendMessage(message);
     }
 
-
 }
