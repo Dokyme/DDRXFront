@@ -44,4 +44,10 @@ public class MemoryCard {
         this.CW_id = CW_id;
         this.CC_content = CC_content;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        MemoryCard card = (MemoryCard) obj;
+        return card.getCW_id() == CW_id && card.getCC_id() == CC_id;
+    }
 }

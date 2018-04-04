@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ddrx.ddrxfront.Controller.InitUpdateDatabase;
 import com.ddrx.ddrxfront.Controller.NeedTrainingController;
 import com.ddrx.ddrxfront.Model.NeedTrainingItem;
 
@@ -36,21 +37,18 @@ public class NeedTrainingFragment extends Fragment {
 
         @Override
         public void handleMessage(Message msg) {
+            swipeRefreshLayout.setRefreshing(false);
             switch (msg.what) {
                 case NeedTrainingController.EMPTY_LIST:
-                    recyclerView.setVisibility(View.GONE);
-                    textView.setVisibility(View.VISIBLE);
-//                    Snackbar.make(recyclerView, "空空如也的训练场", Snackbar.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
+                    Snackbar.make(recyclerView, "空空如也的训练场", Snackbar.LENGTH_SHORT).show();
                     break;
                 case NeedTrainingController.UPDATE_UI:
                     needTrainingItemList = (List<NeedTrainingItem>) msg.obj;
-                    recyclerView.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
+                    NeedTrainingAdapter adapter = new NeedTrainingAdapter((List<NeedTrainingItem>) msg.obj);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.getAdapter().notifyDataSetChanged();
                     break;
             }
-//            view.invalidate();
         }
     }
 
@@ -58,10 +56,7 @@ public class NeedTrainingFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressBar progressBar;
-    private TextView textView;
     private NeedTrainingController controller;
-    private View view;
 
     public NeedTrainingFragment() {
         // Required empty public constructor
@@ -92,17 +87,17 @@ public class NeedTrainingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_need_training, container, false);
         recyclerView = view.findViewById(R.id.need_training_list);
         swipeRefreshLayout = view.findViewById(R.id.need_trainning_fragment_swipe_refresh);
-        progressBar = view.findViewById(R.id.progressbar_need_training_updating);
-        textView = view.findViewById(R.id.text_need_training_hint);
 
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.setVisibility(View.GONE);
-        recyclerView.setAdapter(new NeedTrainingAdapter(needTrainingItemList));
-        progressBar.setVisibility(View.VISIBLE);
-
-        this.view = view;
+        swipeRefreshLayout.setColorSchemeColors(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                controller.updateNeedTrainingFromDB();
+            }
+        });
 
         return view;
     }

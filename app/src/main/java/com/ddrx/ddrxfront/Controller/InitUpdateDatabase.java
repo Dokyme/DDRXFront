@@ -25,10 +25,7 @@ import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -321,6 +318,9 @@ public class InitUpdateDatabase {
 
     private static void updateMCDatabase(final Context context, List<MemoryCard> memoryCardList) {
         MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
+        Set<MemoryCard> mcSet=new HashSet<>();
+        mcSet.addAll(db.getMemoryCardDAO().)
+                
         db.getMemoryCardDAO().deleteAllMemoryCard();
         db.getMemoryCardDAO().insetIntoMemoryCard(memoryCardList);
     }

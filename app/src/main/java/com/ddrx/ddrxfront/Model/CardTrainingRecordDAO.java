@@ -1,9 +1,6 @@
 package com.ddrx.ddrxfront.Model;
 
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Delete;
-import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
+import android.arch.persistence.room.*;
 
 import java.util.List;
 
@@ -45,6 +42,9 @@ public interface CardTrainingRecordDAO {
             "(Select training_count from CardTranningRecord ctr where ctr.CW_id=:cwId and ctr.CC_id=mc.CC_id)" +
             " < (Select cw.CW_training from CardWarehouse cw where cw.CW_id=:cwId)")
     List<MemoryCard> queryNeedTrainingMemoryCardByCWId(Long cwId);
+
+    @Insert
+    void insertNewCardTrainingRecords(CardTranningRecord... cardTranningRecords);
 
     @Update
     void updateCardsTrainingRecords(CardTranningRecord... cardTranningRecords);
