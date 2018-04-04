@@ -16,7 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ddrx.ddrxfront.Controller.UpdateCardFragmentController;
-import com.ddrx.ddrxfront.Model.CardWarehouseIntro;
+import com.ddrx.ddrxfront.Model.CardWarehouse;
+import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Controller.InitUpdateDatabase;
 import com.ddrx.ddrxfront.Utilities.OKHttpClientWrapper;
 
@@ -32,7 +33,7 @@ public class CardFragment extends Fragment {
 
     private RecyclerView card_list_recycler_view;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<CardWarehouseIntro> card_warehouses;
+    private List<CardWarehouse> card_warehouses;
     private UpdateCardFragmentController controller;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog progressDialog;
@@ -73,8 +74,8 @@ public class CardFragment extends Fragment {
                     break;
                 }
                 case UPDATE_UI:{
-                    mFragment.get().card_warehouses = (List<CardWarehouseIntro>)msg.obj;
-                    RecyclerView.Adapter mAdapter = new CardListAdapter(mFragment.get().card_warehouses);
+                    mFragment.get().card_warehouses = (List<CardWarehouse>)msg.obj;
+                    RecyclerView.Adapter mAdapter = new CardListAdapter(mFragment.get().card_warehouses, mFragment.get().getContext());
                     mFragment.get().card_list_recycler_view.setAdapter(mAdapter);
                     mFragment.get().progressDialog.dismiss();
                 }

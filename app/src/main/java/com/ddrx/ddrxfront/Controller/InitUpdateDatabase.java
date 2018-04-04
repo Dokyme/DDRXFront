@@ -85,40 +85,38 @@ public class InitUpdateDatabase {
                                             .add("_MAC", mac.getMacAddr())
                                             .add("_WAREHOUSE_ID", String.valueOf(warehouse.getCW_id())).build();
                                     Request request = new Request.Builder()
-                                                                    .url(GET_ALL_CARD)
-                                                                    .post(requestBody)
-                                                                    .build();
+                                            .url(GET_ALL_CARD)
+                                            .post(requestBody)
+                                            .build();
                                     Response response1 = null;
                                     ParseBackDataPack parser2 = null;
-                                    try{
+                                    try {
                                         response1 = client.newCall(request).execute();
                                         parser2 = new ParseBackDataPack(response1.body().string());
-                                    }catch(IOException e){
+                                    } catch (IOException e) {
                                         Log.e("Network Error", "updateCardWarehouseDatabase@InitUpdateDatabase");
                                         sendMessageToUI(handler, NETWORK_ERROR);
                                         return;
                                     }
-                                    if(response1.isSuccessful()){
-                                        if(parser2.getCode() == 0){
+                                    if (response1.isSuccessful()) {
+                                        if (parser2.getCode() == 0) {
                                             JSONArray cards = parser2.getBody();
                                             List<MemoryCard> memoryCardList = new ArrayList<>();
-                                            for(int j = 0; j < cards.length(); j++){
-                                                try{
+                                            for (int j = 0; j < cards.length(); j++) {
+                                                try {
                                                     JSONObject obj = cards.getJSONObject(j);
                                                     MemoryCard card = new MemoryCard(obj.getLong("CC_id"), obj.getLong("CW_id"), obj.getString("CC_context"));
-                                                }catch(JSONException e){
+                                                } catch (JSONException e) {
                                                     Log.e("JSON Format Error", "updateCardWarehouseDatabase104@InitUpdateDatabase");
                                                 }
                                             }
                                             updateMCDatabase(context, memoryCardList);
-                                        }
-                                        else{
+                                        } else {
                                             Log.e("Network Error", "updataCardWarehouseDatabase@InitUpdateDatabase");
                                             sendMessageToUI(handler, NETWORK_ERROR);
                                             return;
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         Log.e("Network Error", "updataCardWarehouseDatabase@InitUpdateDatabase");
                                         sendMessageToUI(handler, NETWORK_ERROR);
                                     }
@@ -264,19 +262,26 @@ public class InitUpdateDatabase {
             }
             if (response.isSuccessful()) {
                 FileOutputStream out = null;
-                BufferedWriter writer = null;
+//                BufferedWriter writer = null;
                 try {
-                    out = context.openFileOutput(String.valueOf(CW_id) + "_cover.png", Context.MODE_PRIVATE);
-                    writer = new BufferedWriter(new OutputStreamWriter(out));
-                    writer.write(response.body().string());
+                    String path = String.valueOf(CW_id) + "_cover.jpg";
+                    out = context.openFileOutput(path, Context.MODE_PRIVATE);
+                    out.write(response.body().bytes());
+//                    writer = new BufferedWriter(new OutputStreamWriter(out));
+//                    writer.write(response.body().bytes());
+                    coverLists.add(path);
+
                 } catch (IOException e) {
                     Log.e("File Error", "downloadCovers@InitUpdateDatabase");
                     sendMessageToUI(handler, NETWORK_ERROR);
                     return null;
                 } finally {
                     try {
-                        if (writer != null) {
-                            writer.close();
+//                        if (writer != null) {
+//                            writer.close();
+//                        }
+                        if (out != null) {
+                            out.close();
                         }
                     } catch (IOException e) {
                         Log.e("File Error", "downloadCovers@InitUpdateDatabase");

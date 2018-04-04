@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Dao
 public interface CardWarehouseDAO {
-    @Query("Select CW_id as warehouse_id, CW_cover_url as image_url, CW_name as warehouse_name, CW_abstract as introduction, UCW_time as save_date From CardWarehouse")
-    List<CardWarehouseIntro> queryAllCardWarehouseIntro();
+    @Query("Select * From CardWarehouse")
+    List<CardWarehouse> queryAllCardWarehouse();
 
     @Query("Select * From CardWarehouse Where CW_id = (:CW_id)")
     CardWarehouse queryCardWarehouseById(Long CW_id);
