@@ -148,19 +148,18 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="#C1FFC1"
-        android:text="删 除 仓 库"
+        android:background="@color/colorPrimaryLight"
+        android:text="删除仓库"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/CWDetail_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
@@ -202,7 +201,9 @@
             android:id="@+id/imageView7"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@+id/imageView5"
             app:srcCompat="@mipmap/finish_training" />
