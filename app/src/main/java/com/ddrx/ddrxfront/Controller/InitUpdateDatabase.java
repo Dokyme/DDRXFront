@@ -318,9 +318,6 @@ public class InitUpdateDatabase {
 
     private static void updateMCDatabase(final Context context, List<MemoryCard> memoryCardList) {
         MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
-        Set<MemoryCard> mcSet=new HashSet<>();
-        mcSet.addAll(db.getMemoryCardDAO().)
-                
         db.getMemoryCardDAO().deleteAllMemoryCard();
         db.getMemoryCardDAO().insetIntoMemoryCard(memoryCardList);
     }
