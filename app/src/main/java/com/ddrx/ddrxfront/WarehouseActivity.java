@@ -59,7 +59,7 @@ public class WarehouseActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new OnNavigationItemClicked());
 
         toolbar = findViewById(R.id.warehouse_toolbar);
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -75,9 +75,9 @@ public class WarehouseActivity extends AppCompatActivity {
             }
         });
 
-//        ActionBar actionBar = getSupportActionBar();
-//        if (actionBar != null)
-//            actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
         viewPager = findViewById(R.id.warehouse_viewpager);
 

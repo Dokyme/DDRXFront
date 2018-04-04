@@ -45,7 +45,6 @@ public class ModelFragment extends Fragment {
     private List<CardModel> model_list;
     private UpdateModelFragmentController controller;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressDialog progressDialog;
     ModelFragment.MyHandler handler;
 
     public static final int EMPTY_LIST = 2;
@@ -63,7 +62,6 @@ public class ModelFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case InitUpdateDatabase.NETWORK_ERROR: {
-                    mFragment.get().progressDialog.dismiss();
                     Toast.makeText(mFragment.get().getActivity(), "网络错误！", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -72,7 +70,6 @@ public class ModelFragment extends Fragment {
                     break;
                 }
                 case EMPTY_LIST: {
-                    mFragment.get().progressDialog.dismiss();
                     Snackbar.make(mFragment.get().model_list_recycler_view, "空空如也", Snackbar.LENGTH_SHORT).setAction("创建新模版", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -89,7 +86,8 @@ public class ModelFragment extends Fragment {
 //                    modelListAdapter.getModel_list().clear();
 //                    modelListAdapter.getModel_list().addAll((List<CardModel>) msg.obj);
 //                    modelListAdapter.notifyDataSetChanged();
-                    mFragment.get().progressDialog.dismiss();
+                    mFragment.get().model_list_recycler_view.getAdapter().notifyDataSetChanged();
+                    mFragment.get().swipeRefreshLayout.setRefreshing(false);
                 }
             }
         }
@@ -104,7 +102,6 @@ public class ModelFragment extends Fragment {
         super.onHiddenChanged(hidden);
         Log.d("ddrx", "onHiddenChangedModelFragment");
         controller.getModelListFromDB();
-        progressDialog.show();
     }
 
     @Override
@@ -114,11 +111,6 @@ public class ModelFragment extends Fragment {
         handler = new ModelFragment.MyHandler(this);
         controller = new UpdateModelFragmentController(handler, getContext());
         controller.getModelListFromDB();
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("获取模版信息中");
-        progressDialog.setMessage("等待中...");
-        progressDialog.setCancelable(true);
-        progressDialog.show();
     }
 
     @Override
@@ -129,6 +121,15 @@ public class ModelFragment extends Fragment {
 
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         model_list_recycler_view.setLayoutManager(mLayoutManager);
+
+        swipeRefreshLayout = view.findViewById(R.id.model_fragment_swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                InitUpdateDatabase.updateCardModelDatabase(getContext(), handler, OKHttpClientWrapper.Companion.getInstance(getActivity()));
+            }
+        });
 
         return view;
     }
