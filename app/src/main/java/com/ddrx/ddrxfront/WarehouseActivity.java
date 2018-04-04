@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,13 +18,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WarehouseActivity extends AppCompatActivity {
+public class WarehouseActivity extends FragmentActivity {
 
     public final static int UPDATE_FRAGMENT = 1;
 
@@ -59,7 +61,7 @@ public class WarehouseActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new OnNavigationItemClicked());
 
         toolbar = findViewById(R.id.warehouse_toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -75,12 +77,14 @@ public class WarehouseActivity extends AppCompatActivity {
             }
         });
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null)
+//            actionBar.setDisplayHomeAsUpEnabled(true);
 
         viewPager = findViewById(R.id.warehouse_viewpager);
+
         setupViewPager(viewPager);
+        viewPager.setCurrentItem(0);
 
         handler = new MyHandler(this);
     }
@@ -111,19 +115,22 @@ public class WarehouseActivity extends AppCompatActivity {
     class OnNavigationItemClicked implements BottomNavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            int id;
+            int id=0;
             switch (item.getItemId()) {
                 case R.id.training_module:
                     Log.d("ddrx", "training_module");
+                    id = 0;
                     break;
                 case R.id.warehouse_module:
                     Log.d("ddrx", "warehouse_module");
+                    id = 1;
                     break;
                 case R.id.template_module:
                     Log.d("ddrx", "template_module");
+                    id = 2;
                     break;
             }
-            viewPager.setCurrentItem(item.getOrder());
+            viewPager.setCurrentItem(id);
             return true;
         }
     }
@@ -134,6 +141,12 @@ public class WarehouseActivity extends AppCompatActivity {
 
         public ViewPagerAdapter(FragmentManager manager) {
             super(manager);
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            Log.d("ddrx", "setPrimaryItem" + position);
         }
 
         @Override

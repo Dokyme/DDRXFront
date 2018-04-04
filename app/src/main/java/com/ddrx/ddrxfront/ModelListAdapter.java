@@ -17,18 +17,18 @@ import java.util.List;
  * Created by vincentshaw on 2018/4/1.
  */
 
-public class ModelListAdapter extends RecyclerView.Adapter<ModelListAdapter.ViewHolder>{
+public class ModelListAdapter extends RecyclerView.Adapter<ModelListAdapter.ViewHolder> {
 
     private List<CardModel> model_list;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public View intro_view;
         public ImageView front_page;
         public TextView warehouse_name;
         public TextView add_time;
         public TextView intro;
 
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             super(view);
             intro_view = view;
             front_page = view.findViewById(R.id.cardmodel_front_page);
@@ -38,19 +38,28 @@ public class ModelListAdapter extends RecyclerView.Adapter<ModelListAdapter.View
         }
     }
 
-    public ModelListAdapter(List<CardModel> list_val){
+    public ModelListAdapter(List<CardModel> list_val) {
+        super();
         model_list = list_val;
     }
 
+    public void setModel_list(List<CardModel> model_list) {
+        this.model_list = model_list;
+    }
+
+    public List<CardModel> getModel_list() {
+        return model_list;
+    }
+
     @Override
-    public ModelListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ModelListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardmodel_intro_item, parent, false);
         ModelListAdapter.ViewHolder holder = new ModelListAdapter.ViewHolder(view);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(ModelListAdapter.ViewHolder holder, int position){
+    public void onBindViewHolder(ModelListAdapter.ViewHolder holder, int position) {
         CardModel cardModelIntro = model_list.get(position);
         holder.front_page.setImageResource(Model.TYPE[cardModelIntro.getCT_type()]);
         holder.warehouse_name.setText(cardModelIntro.getCT_name());
@@ -59,7 +68,7 @@ public class ModelListAdapter extends RecyclerView.Adapter<ModelListAdapter.View
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return model_list.size();
     }
 }

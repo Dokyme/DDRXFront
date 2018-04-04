@@ -51,27 +51,27 @@ public class ModelFragment extends Fragment {
     public static final int EMPTY_LIST = 2;
     public static final int UPDATE_UI = 3;
 
-    private static class MyHandler extends Handler{
+    private static class MyHandler extends Handler {
 
         private final WeakReference<ModelFragment> mFragment;
 
-        public MyHandler(ModelFragment fragment){
+        public MyHandler(ModelFragment fragment) {
             mFragment = new WeakReference<>(fragment);
         }
 
         @Override
-        public void handleMessage(Message msg){
-            switch (msg.what){
-                case InitUpdateDatabase.NETWORK_ERROR:{
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case InitUpdateDatabase.NETWORK_ERROR: {
                     mFragment.get().progressDialog.dismiss();
                     Toast.makeText(mFragment.get().getActivity(), "网络错误！", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                case InitUpdateDatabase.UPDATE_MODEL_SUCCESS:{
+                case InitUpdateDatabase.UPDATE_MODEL_SUCCESS: {
                     mFragment.get().controller.getModelListFromDB();
                     break;
                 }
-                case EMPTY_LIST:{
+                case EMPTY_LIST: {
                     mFragment.get().progressDialog.dismiss();
                     Snackbar.make(mFragment.get().model_list_recycler_view, "空空如也", Snackbar.LENGTH_SHORT).setAction("创建新模版", new View.OnClickListener() {
                         @Override
@@ -82,23 +82,33 @@ public class ModelFragment extends Fragment {
                     }).show();
                     break;
                 }
-                case UPDATE_UI:{
-                    mFragment.get().model_list = (List<CardModel>)msg.obj;
-                    RecyclerView.Adapter mAdapter = new ModelListAdapter(mFragment.get().model_list);
-                    mFragment.get().model_list_recycler_view.setAdapter(mAdapter);
+                case UPDATE_UI: {
+                    mFragment.get().model_list = (List<CardModel>) msg.obj;
+                    ModelListAdapter modelListAdapter = new ModelListAdapter((List<CardModel>) msg.obj);
+                    mFragment.get().model_list_recycler_view.setAdapter(modelListAdapter);
+//                    modelListAdapter.getModel_list().clear();
+//                    modelListAdapter.getModel_list().addAll((List<CardModel>) msg.obj);
+//                    modelListAdapter.notifyDataSetChanged();
                     mFragment.get().progressDialog.dismiss();
                 }
             }
         }
     }
 
-
     public ModelFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.d("ddrx", "onHiddenChangedModelFragment");
+        controller.getModelListFromDB();
+        progressDialog.show();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         model_list = new ArrayList<>();
         handler = new ModelFragment.MyHandler(this);
@@ -110,31 +120,16 @@ public class ModelFragment extends Fragment {
         progressDialog.setCancelable(true);
         progressDialog.show();
     }
-    
-    @Override
-    public void onResume(){
-        super.onStart();
-        controller.getModelListFromDB();
-        progressDialog.show();
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_card, container, false);
-        model_list_recycler_view = view.findViewById(R.id.card_list);
-        swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_model, container, false);
+        model_list_recycler_view = view.findViewById(R.id.model_list);
         model_list_recycler_view.setHasFixedSize(true);
-        swipeRefreshLayout = view.findViewById(R.id.model_fragment_swipe_refresh);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                InitUpdateDatabase.updateCardModelDatabase(getContext(), handler, OKHttpClientWrapper.Companion.getInstance(getContext()));
-            }
-        });
 
-        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         model_list_recycler_view.setLayoutManager(mLayoutManager);
+
         return view;
     }
 

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class NeedTrainingFragment extends Fragment {
                 case NeedTrainingController.EMPTY_LIST:
                     recyclerView.setVisibility(View.GONE);
                     textView.setVisibility(View.VISIBLE);
-                    Snackbar.make(recyclerView, "空空如也的训练场", Snackbar.LENGTH_SHORT).show();
+//                    Snackbar.make(recyclerView, "空空如也的训练场", Snackbar.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
                     break;
                 case NeedTrainingController.UPDATE_UI:
@@ -64,6 +65,12 @@ public class NeedTrainingFragment extends Fragment {
 
     public NeedTrainingFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.d("ddrx", "onHiddenChangedNeedTrainingFragment");
     }
 
     @Override
