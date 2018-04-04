@@ -73,22 +73,4 @@
             android:text="注册" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_test_user_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="用户页面" />
-
-    <Button
-        android:id="@+id/btn_test_main_activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="主页" />
-
-    <Button
-        android:id="@+id/btn_test_page"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="测试页" />
-
 </LinearLayout>
