@@ -50,4 +50,9 @@ public class MemoryCard {
         MemoryCard card = (MemoryCard) obj;
         return card.getCW_id() == CW_id && card.getCC_id() == CC_id;
     }
+
+    @Override
+    public int hashCode() {
+        return (int) CW_id << 8 + CC_id;
+    }
 }

@@ -49,6 +49,7 @@
         <activity android:name=".CardWarehouseDetailActivity" />
         <activity android:name=".ShowCardActivity" />
         <activity android:name=".TrainingActivity" />
+        <activity android:name=".TestingActivity" />
         <activity
             android:name=".AddNewWarehouseActivity"
             android:launchMode="singleTop" />

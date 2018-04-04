@@ -17,6 +17,9 @@ public interface MemoryCardDAO {
     @Query("Select * From MemoryCard Where CW_id = :CW_id")
     List<MemoryCard> queryMemoryCardByCW_id(long CW_id);
 
+    @Query("Select * from MemoryCard")
+    List<MemoryCard> queryAllMemoryCard();
+
     @Insert
     void insertIntoMemoryCard(MemoryCard... card);
 

@@ -2,10 +2,14 @@ package com.ddrx.ddrxfront
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
+import com.ddrx.ddrxfront.Controller.TrainingController
 import com.ddrx.ddrxfront.Model.Card
 import com.ddrx.ddrxfront.Model.MemoryCard
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase
@@ -18,17 +22,28 @@ class TrainingActivity : AppCompatActivity() {
 
     private var currentPage: Int = 0
     private var cwId: Long? = null
-    private lateinit var trainingCardList: MutableList<MemoryCard>
+    private lateinit var trainingCardList: List<MemoryCard>
+    private val handler = object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            when (msg?.what) {
+                TrainingController.GET_MEMORY_CARDS -> {
+                    trainingCardList = msg?.obj as List<MemoryCard>
+                    viewpager_training.adapter = TrainingFragmentPagerAdapter()
+                    viewpager_training.currentItem = 0
+                }
+            }
+        }
+    }
+    private lateinit var controller: TrainingController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("ddrx", "TrainingActivity")
         setContentView(R.layout.activity_training)
 
         cwId = intent.getLongExtra("CW_id", -1)
-        trainingCardList = MemoryMasterDatabase.getInstance(this)
-                .cardTrainingRecordDAO
-                .queryNeedTrainingMemoryCardByCWId(cwId)
-        viewpager_training.adapter = TrainingFragmentPagerAdapter()
+        controller = TrainingController(handler, this)
+        controller.getNeedTrainingMemoryCard(cwId!!)
 
         initEvent()
     }
@@ -67,8 +82,8 @@ class TrainingActivity : AppCompatActivity() {
 
     inner class TrainingFragmentPagerAdapter : FragmentStatePagerAdapter(supportFragmentManager) {
         override fun getItem(position: Int): Fragment {
-            val fragment = MemoryCard_Fragment()
-            fragment.setCard(Card(trainingCardList[position].cC_content))
+            val fragment = TrainingPageFragment()
+            fragment.card = Card(trainingCardList[position].cC_content)
             return fragment
         }
 

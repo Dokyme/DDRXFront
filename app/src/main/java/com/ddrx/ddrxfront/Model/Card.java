@@ -50,6 +50,7 @@ public class Card {
         for(CardItem card_item: items){
             if(card_item.trainable){
                 CardFieldTrainingItem temp = new CardFieldTrainingItem(card_item.name, card_item.type, card_item.data, card_item.name_visible, card_item.text_size, card_item.text_align, card_item.keyword.split("\\s+"));
+                trainingItems.add(temp);
             }
         }
         return trainingItems;
@@ -71,8 +72,8 @@ public class Card {
                 type = obj.getInt("type");
                 data = obj.getString("data");
                 name_visible = obj.getBoolean("name_visible");
-                text_size = obj.getInt("size");
-                text_align = obj.getInt("align");
+                text_size = obj.getInt("text_size");
+                text_align = obj.getInt("text_align");
                 trainable = obj.getBoolean("trainable");
                 keyword = obj.getString("keyword");
             }catch(JSONException e){

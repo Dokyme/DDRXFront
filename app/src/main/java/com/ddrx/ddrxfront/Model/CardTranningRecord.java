@@ -44,4 +44,15 @@ public class CardTranningRecord {
     public void setTraining_count(int training_count) {
         this.training_count = training_count;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        CardTranningRecord another = (CardTranningRecord) obj;
+        return another.CW_id == CW_id && another.CC_id == CC_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) CW_id << 8 + CC_id;
+    }
 }

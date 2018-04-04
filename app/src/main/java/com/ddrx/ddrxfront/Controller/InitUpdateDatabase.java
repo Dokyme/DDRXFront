@@ -5,13 +5,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.ddrx.ddrxfront.Model.CardModel;
+import com.ddrx.ddrxfront.Model.*;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
-import com.ddrx.ddrxfront.Model.CardWarehouse;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
-import com.ddrx.ddrxfront.Model.MemoryCard;
-import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
-import com.ddrx.ddrxfront.Model.TrainingRecord;
 import com.ddrx.ddrxfront.Model.MemoryMasterDatabase;
 import com.ddrx.ddrxfront.Utilities.JSONToEntity;
 import com.ddrx.ddrxfront.Utilities.MacAddressUtil;
@@ -103,6 +99,7 @@ public class InitUpdateDatabase {
                                                 try {
                                                     JSONObject obj = cards.getJSONObject(j);
                                                     MemoryCard card = new MemoryCard(obj.getLong("CC_id"), obj.getLong("CW_id"), obj.getString("CC_context"));
+                                                    memoryCardList.add(card);
                                                 } catch (JSONException e) {
                                                     Log.e("JSON Format Error", "updateCardWarehouseDatabase104@InitUpdateDatabase");
                                                 }
@@ -318,9 +315,18 @@ public class InitUpdateDatabase {
 
     private static void updateMCDatabase(final Context context, List<MemoryCard> memoryCardList) {
         MemoryMasterDatabase db = MemoryMasterDatabase.getInstance(context);
-        Set<MemoryCard> mcSet=new HashSet<>();
-        mcSet.addAll(db.getMemoryCardDAO().)
-                
+        Set<MemoryCard> mcSet = new HashSet<>();
+        Set<CardTranningRecord> cardTranningRecordSet = new HashSet<>();
+        cardTranningRecordSet.addAll(db.getCardTrainingRecordDAO().queryAllCardTrainingRecord());
+        mcSet.addAll(db.getMemoryCardDAO().queryAllMemoryCard());
+        for (MemoryCard card : memoryCardList) {
+            if (!mcSet.contains(card)) {
+                CardTranningRecord cardTranningRecord = new CardTranningRecord(card.getCW_id(), card.getCC_id(), 0);
+                if (!cardTranningRecordSet.contains(cardTranningRecord)) {
+                    db.getCardTrainingRecordDAO().insertNewCardTrainingRecord(cardTranningRecord);
+                }
+            }
+        }
         db.getMemoryCardDAO().deleteAllMemoryCard();
         db.getMemoryCardDAO().insetIntoMemoryCard(memoryCardList);
     }

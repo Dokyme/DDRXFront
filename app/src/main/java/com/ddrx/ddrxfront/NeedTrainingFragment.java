@@ -15,10 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.ddrx.ddrxfront.Controller.InitUpdateDatabase;
 import com.ddrx.ddrxfront.Controller.NeedTrainingController;
 import com.ddrx.ddrxfront.Model.NeedTrainingItem;
 
@@ -45,6 +42,15 @@ public class NeedTrainingFragment extends Fragment {
                 case NeedTrainingController.UPDATE_UI:
                     needTrainingItemList = (List<NeedTrainingItem>) msg.obj;
                     NeedTrainingAdapter adapter = new NeedTrainingAdapter((List<NeedTrainingItem>) msg.obj);
+                    adapter.setmListener(new NeedTrainingAdapter.StartTrainingClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            NeedTrainingItem item = needTrainingItemList.get(position);
+                            Intent intent = new Intent(getContext(), TrainingActivity.class);
+                            intent.putExtra("CW_id", item.getWarehouseId());
+                            startActivity(intent);
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                     recyclerView.getAdapter().notifyDataSetChanged();
                     break;

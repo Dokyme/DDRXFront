@@ -28,35 +28,35 @@ class TestingPageFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_testing, container, false)
-        val layout: LinearLayout = view.findViewById(R.id.linear_fragment_testing)
+        val linearLayout: LinearLayout = view.findViewById(R.id.linear_fragment_testing)
         var params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
 
         if (item.isName_visible) {
-            val nameTextView = TextView(context)
+            val nameTextView = TextView(linearLayout.context)
             nameTextView.text = item.name
-            layout.addView(nameTextView, params)
+            linearLayout.addView(nameTextView, params)
         }
 
-        val keywordsTextview = TextView(context)
-        for (keyword in item.keywords)
-            keywordsTextview.append(keyword)
+        val keywordsTextview = TextView(linearLayout.context)
+        if (item.keywords != null || item.keywords.size != 0)
+            keywordsTextview.text = item.keywords[0]
         when (item.align) {
             Model.RIGHT_ALIGN -> keywordsTextview.gravity = Gravity.END
             Model.MID_ALIGN -> keywordsTextview.gravity = Gravity.CENTER
             Model.LEFT_ALIGN -> keywordsTextview.gravity = Gravity.START
         }
-        keywordsTextview.textSize = item.text_size * 1.0f
-        layout.addView(keywordsTextview, params)
+        keywordsTextview.textSize = item.text_size * 10.0f
+        linearLayout.addView(keywordsTextview, params)
 
-        val input = EditText(context)
+        val input = EditText(linearLayout.context)
         input.gravity = Gravity.CENTER
-        layout.addView(input, params)
+        linearLayout.addView(input, params)
 
-        answerTextview = EditText(context)
+        answerTextview = TextView(linearLayout.context)
         answerTextview.visibility = View.INVISIBLE
         answerTextview.text = item.data
         answerTextview.gravity = Gravity.CENTER
-        layout.addView(answerTextview, params)
+        linearLayout.addView(answerTextview, params)
 
         return view
     }

@@ -22,29 +22,33 @@ class TrainingPageFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_training, container, false)
+        val linearlayout = view.findViewById<LinearLayout>(R.id.linearout_training_fragment)
         for (item in card!!.cardDisplayItem) {
-            val newLine = LinearLayout(context)
+            val linearLayout = LinearLayout(linearlayout.context)
 
             if (item.isName_visible) {
-                val itemName = TextView(context)
+                val itemName = TextView(linearlayout.context)
                 itemName.text = item.name
                 itemName.gravity = Gravity.START
-                newLine.addView(itemName)
+                linearLayout.addView(itemName)
             }
 
-            val itemData = TextView(context)
-            itemData.textSize = item.text_size * 1.0f
+            val textView = TextView(linearlayout.context)
+            textView.text = item.data
+            textView.textSize = item.text_size * 15.0f
+            val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
             when (item.align) {
                 Model.LEFT_ALIGN -> {
-                    val margins = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                    margins.setMargins(4, 4, 4, 4)
-                    itemData.layoutParams = margins
+                    linearLayout.gravity = Gravity.START
+                    layoutParams.gravity = Gravity.START
+                    layoutParams.setMargins(4, 4, 4, 4)
                 }
-                Model.MID_ALIGN -> itemData.gravity = Gravity.CENTER
-                Model.RIGHT_ALIGN -> itemData.gravity = Gravity.END
+                Model.MID_ALIGN -> linearLayout.gravity = Gravity.CENTER
+                Model.RIGHT_ALIGN -> linearLayout.gravity = Gravity.END
             }
-            newLine.addView(itemData)
-            linearout_training_fragment.addView(newLine)
+            textView.layoutParams = layoutParams
+            linearLayout.addView(textView)
+            linearlayout.addView(linearLayout)
         }
 
         return view

@@ -1,18 +1,16 @@
 package com.ddrx.ddrxfront.Model;
 
-import android.arch.persistence.room.Entity;
-
 /**
  * Created by dokym on 2018/3/28.
  */
 
 public class NeedTrainingItem {
     private String imageUrl;
-    private int warehouseId;
+    private long warehouseId;
     private String warehouseName;
     private String lastTrainingDate;
 
-    public NeedTrainingItem(String imageUrl, int warehouseId, String warehouseName, String lastTrainingDate) {
+    public NeedTrainingItem(String imageUrl, long warehouseId, String warehouseName, String lastTrainingDate) {
         this.imageUrl = imageUrl;
         this.warehouseId = warehouseId;
         this.warehouseName = warehouseName;
@@ -27,11 +25,11 @@ public class NeedTrainingItem {
         this.imageUrl = imageUrl;
     }
 
-    public int getWarehouseId() {
+    public long getWarehouseId() {
         return warehouseId;
     }
 
-    public void setWarehouseId(int warehouseId) {
+    public void setWarehouseId(long warehouseId) {
         this.warehouseId = warehouseId;
     }
 

@@ -43,8 +43,11 @@ public interface CardTrainingRecordDAO {
             " < (Select cw.CW_training from CardWarehouse cw where cw.CW_id=:cwId)")
     List<MemoryCard> queryNeedTrainingMemoryCardByCWId(Long cwId);
 
+    @Query("Select * from CardTranningRecord")
+    List<CardTranningRecord> queryAllCardTrainingRecord();
+
     @Insert
-    void insertNewCardTrainingRecords(CardTranningRecord... cardTranningRecords);
+    void insertNewCardTrainingRecord(CardTranningRecord cardTranningRecord);
 
     @Update
     void updateCardsTrainingRecords(CardTranningRecord... cardTranningRecords);
