@@ -112,16 +112,15 @@ public class CardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_card, container, false);
         card_list_recycler_view = view.findViewById(R.id.card_list);
-        swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
         card_list_recycler_view.setHasFixedSize(true);
-        swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                InitUpdateDatabase.updateCardWarehouseDatabase(getContext(), handler, OKHttpClientWrapper.Companion.getInstance(getActivity()));
-            }
-        });
+//        swipeRefreshLayout = view.findViewById(R.id.card_fragment_swipe_refresh);
+//        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                InitUpdateDatabase.updateCardWarehouseDatabase(getContext(), handler, OKHttpClientWrapper.Companion.getInstance(getActivity()));
+//            }
+//        });
 
         mLayoutManager = new LinearLayoutManager(getContext());
         card_list_recycler_view.setLayoutManager(mLayoutManager);
