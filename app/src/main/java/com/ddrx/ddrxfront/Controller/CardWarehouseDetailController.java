@@ -22,14 +22,11 @@ public class CardWarehouseDetailController {
     private Handler handler;
     private Context context;
     private long CW_id;
-    private OkHttpClient okHttpClient;
-    private final String GET_LAST_TRAINING_TIME_URL = "localhost:3000/abc";
 
     public CardWarehouseDetailController(Handler handler, Context context, long CW_id){
         this.handler = handler;
         this.context = context;
         this.CW_id = CW_id;
-        okHttpClient = OKHttpClientWrapper.Companion.getInstance(context);
     }
 
     public void updateInfo(){
@@ -50,6 +47,7 @@ public class CardWarehouseDetailController {
                 send_obj.setFirst(latest_time);
                 send_obj.setSecond(warehouse);
                 message.obj = send_obj;
+                handler.sendMessage(message);
             }
         }).start();
     }
